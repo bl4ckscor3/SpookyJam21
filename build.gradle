@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'eclipse'
+
+version = '1.0'
+group = 'suszombification'
+archivesBaseName = 'suszombification'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+
+minecraft {
+    mappings channel: 'parchment', version: '2021.09.05-1.17.1'
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                suszombification {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                suszombification {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.74'
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "Suspicious Zombification",
+                "Specification-Vendor"    : "Redstone_Dubstep, bl4ckscor3",
+                "Specification-Version"   : "${version}",
+                "Implementation-Title"    : "Suspicious Zombification",
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "Redstone_Dubstep, bl4ckscor3",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
