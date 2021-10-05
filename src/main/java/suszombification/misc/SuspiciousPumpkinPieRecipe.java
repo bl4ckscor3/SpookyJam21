@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ObjectHolder;
 import suszombification.Content;
 import suszombification.SuspiciousZombification;
-import suszombification.items.CandyItem;
+import suszombification.item.CandyItem;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie_recipe")

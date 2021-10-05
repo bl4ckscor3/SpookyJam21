@@ -1,4 +1,4 @@
-package suszombification.items;
+package suszombification.item;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
