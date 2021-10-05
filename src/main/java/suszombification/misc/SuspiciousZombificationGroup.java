@@ -6,7 +6,6 @@ import suszombification.Content;
 import suszombification.SuspiciousZombification;
 
 public class SuspiciousZombificationGroup extends CreativeModeTab {
-
 	public SuspiciousZombificationGroup() {
 		super(SuspiciousZombification.MODID);
 	}

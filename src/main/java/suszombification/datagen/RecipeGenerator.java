@@ -9,7 +9,6 @@ import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 public class RecipeGenerator extends RecipeProvider {
-
 	public RecipeGenerator(DataGenerator generator) {
 		super(generator);
 	}

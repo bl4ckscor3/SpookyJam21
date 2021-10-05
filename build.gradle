@@ -61,7 +61,7 @@ minecraft {
             args '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/')
 
             mods {
-                securitycraft {
+                suszombification {
                     source sourceSets.main
                 }
             }
@@ -74,7 +74,7 @@ dependencies {
 }
 
 jar {
-    exclude('net/geforcemods/securitycraft/datagen/**') //exclude files from the built jar that are only used to generate the assets
+    exclude('net/geforcemods/suszombification/datagen/**') //exclude files from the built jar that are only used to generate the assets
 
     manifest {
         attributes([

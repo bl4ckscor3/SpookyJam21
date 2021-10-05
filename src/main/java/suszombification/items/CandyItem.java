@@ -4,7 +4,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 
 public class CandyItem extends Item {
-
 	private final MobEffect suspiciousPumpkinPieEffect;
 	private final int effectDuration;
 

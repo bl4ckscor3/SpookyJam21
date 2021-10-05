@@ -10,7 +10,6 @@ import suszombification.items.CandyItem;
 import suszombification.misc.SuspiciousFoods;
 
 public class Content {
-
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SuspiciousZombification.MODID);
 
 	//items

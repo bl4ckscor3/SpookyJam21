@@ -17,7 +17,6 @@ import suszombification.SuspiciousZombification;
 import suszombification.items.CandyItem;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
-
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie_recipe")
 	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
 
@@ -58,16 +57,17 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
 		ItemStack candyStack = ItemStack.EMPTY;
+		ItemStack suspiciousPumpkinPie = new ItemStack(Content.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
+
 			if (!stack.isEmpty() && stack.getItem() instanceof CandyItem) {
 				candyStack = stack;
 				break;
 			}
 		}
 
-		ItemStack suspiciousPumpkinPie = new ItemStack(Content.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 		if (candyStack.getItem() instanceof CandyItem candy) {
 			MobEffect effect = candy.getEffect();
 
@@ -86,6 +86,4 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	public RecipeSerializer<?> getSerializer() {
 		return serializer;
 	}
-
-
 }

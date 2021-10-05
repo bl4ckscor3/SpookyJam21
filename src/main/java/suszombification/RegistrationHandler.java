@@ -14,7 +14,6 @@ import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
-
 	@SubscribeEvent
 	public static void registerRecipeSerializer(RegistryEvent.Register<RecipeSerializer<?>> event) {
 		event.getRegistry().register(new SimpleRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new).setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie_recipe")));
