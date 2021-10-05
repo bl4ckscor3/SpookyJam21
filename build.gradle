@@ -74,7 +74,7 @@ dependencies {
 }
 
 jar {
-    exclude('net/geforcemods/suszombification/datagen/**') //exclude files from the built jar that are only used to generate the assets
+    exclude('suszombification/datagen/**') //exclude files from the built jar that are only used to generate the assets
 
     manifest {
         attributes([
