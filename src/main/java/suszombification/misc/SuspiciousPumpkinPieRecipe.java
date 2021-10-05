@@ -17,7 +17,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.item.CandyItem;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
-	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie_recipe")
+	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
 	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
 
 	public SuspiciousPumpkinPieRecipe(ResourceLocation id) {
