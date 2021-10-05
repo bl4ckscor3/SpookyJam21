@@ -1,5 +1,11 @@
 {
 	"item.suszombification.suspicious_pumpkin_pie": "Suspicious Pumpkin Pie",
+	"item.suszombification.caramel_candy": "Caramel Candy",
+	"item.suszombification.chamomile_candy": "Chamomile Candy",
+	"item.suszombification.chocolate_candy": "Chocolate Candy",
+	"item.suszombification.cinnamon_candy": "Cinnamon Candy",
+	"item.suszombification.pumpkin_candy": "Pumpkin Candy",
+	"item.suszombification.vanilla_candy": "Vanilla Candy",
 
 	"itemGroup.suszombification": "Suspicious Zombification"
 }
