@@ -21,6 +21,15 @@ archivesBaseName = 'suszombification'
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
+processResources {
+    exclude ".cache"
+    duplicatesStrategy = 'include'
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources' //include generated files
+}
+
 minecraft {
     mappings channel: 'parchment', version: '2021.09.05-1.17.1'
     runs {
@@ -45,6 +54,18 @@ minecraft {
                 }
             }
         }
+
+        data {
+            workingDirectory project.file('run/data')
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                securitycraft {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
 
@@ -53,6 +74,8 @@ dependencies {
 }
 
 jar {
+    exclude('net/geforcemods/securitycraft/datagen/**') //exclude files from the built jar that are only used to generate the assets
+
     manifest {
         attributes([
                 "Specification-Title"     : "Suspicious Zombification",

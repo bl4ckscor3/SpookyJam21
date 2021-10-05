@@ -18,4 +18,12 @@ public class CandyItem extends Item {
 			this.effectDuration = effectDuration * 20;
 		}
 	}
+
+	public MobEffect getEffect() {
+		return suspiciousPumpkinPieEffect;
+	}
+
+	public int getEffectDuration() {
+		return effectDuration;
+	}
 }
