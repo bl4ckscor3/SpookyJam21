@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ObjectHolder;
-import suszombification.Content;
+import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 import suszombification.item.CandyItem;
 
@@ -57,7 +57,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
 		ItemStack candyStack = ItemStack.EMPTY;
-		ItemStack suspiciousPumpkinPie = new ItemStack(Content.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
+		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
