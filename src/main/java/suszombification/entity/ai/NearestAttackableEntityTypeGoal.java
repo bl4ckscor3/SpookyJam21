@@ -1,4 +1,4 @@
-package suszombification.misc;
+package suszombification.entity.ai;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

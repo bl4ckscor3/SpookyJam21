@@ -40,9 +40,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import suszombification.SZEntityTypes;
-import suszombification.misc.NearestAttackableEntityTypeGoal;
+import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 
-public class ZombifiedChicken extends Animal implements NeutralMob { //can't extend Chicken because of LivingEntity#aiStep
+public class ZombifiedChicken extends Animal implements NeutralMob { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);  //TODO: switch to SPPs with these ingredients
 	public float flap;
 	public float flapSpeed;
@@ -144,7 +144,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pPos, BlockState pBlock) {
+	protected void playStepSound(BlockPos pos, BlockState block) {
 		playSound(SoundEvents.CHICKEN_STEP, 0.15F, 1.0F);
 	}
 
@@ -181,10 +181,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag pCompound) {
-		super.addAdditionalSaveData(pCompound);
-		pCompound.putBoolean("IsChickenJockey", isChickenJockey);
-		pCompound.putInt("EggLayTime", eggTime);
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("IsChickenJockey", isChickenJockey);
+		tag.putInt("EggLayTime", eggTime);
 	}
 
 	@Override

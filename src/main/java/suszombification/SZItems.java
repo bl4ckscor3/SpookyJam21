@@ -21,5 +21,5 @@ public class SZItems {
 	public static final RegistryObject<Item> PUMPKIN_CANDY = ITEMS.register("pumpkin_candy", () -> new CandyItem(MobEffects.GLOWING, 5, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> VANILLA_CANDY = ITEMS.register("vanilla_candy", () -> new CandyItem(MobEffects.GLOWING, 5, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: MOAR CANDY
-	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 10592673,7969893, new Item.Properties().tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 }
