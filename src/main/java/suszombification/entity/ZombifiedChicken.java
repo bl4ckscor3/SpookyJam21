@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -32,6 +34,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,6 +42,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 
@@ -110,6 +114,26 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(Items.EGG); //TODO: let the zombified chicken lay a rotten/zombified egg
 			eggTime = random.nextInt(6000) + 6000;
+		}
+	}
+
+	@Override
+	public void killed(ServerLevel level, LivingEntity killedEntity) {
+		super.killed(level, killedEntity);
+
+		if ((level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killedEntity instanceof Chicken chicken && ForgeEventFactory.canLivingConvert(killedEntity, SZEntityTypes.ZOMBIFIED_CHICKEN.get(), timer -> {})) {
+			if (level.getDifficulty() != Difficulty.HARD && random.nextBoolean()) {
+				return;
+			}
+
+			ZombifiedChicken zombifiedChicken = chicken.convertTo(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), false);
+			zombifiedChicken.finalizeSpawn(level, level.getCurrentDifficultyAt(zombifiedChicken.blockPosition()), MobSpawnType.CONVERSION, null, null);
+			zombifiedChicken.setChickenJockey(chicken.isChickenJockey());
+			ForgeEventFactory.onLivingConvert(killedEntity, zombifiedChicken);
+
+			if (!isSilent()) {
+				level.levelEvent(null, 1026, blockPosition(), 0);
+			}
 		}
 	}
 

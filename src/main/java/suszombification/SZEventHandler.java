@@ -5,10 +5,9 @@ import net.minecraft.world.entity.animal.Chicken;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import suszombification.entity.ZombifiedChicken;
 
-@EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.FORGE)
+@EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
