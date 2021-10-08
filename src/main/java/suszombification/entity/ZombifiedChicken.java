@@ -156,7 +156,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 
 	@Override
 	public ZombifiedChicken getBreedOffspring(ServerLevel level, AgeableMob parent) {
-		return SZEntityTypes.ZOMBIFIED_CHICKEN.create(level);
+		return SZEntityTypes.ZOMBIFIED_CHICKEN.get().create(level);
 	}
 
 	@Override
