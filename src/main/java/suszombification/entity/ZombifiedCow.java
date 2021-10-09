@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -53,7 +52,6 @@ public class ZombifiedCow extends Cow implements NeutralMob {
 	protected void registerGoals() {
 		goalSelector.addGoal(0, new FloatGoal(this));
 		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(1, new PanicGoal(this, 2.0D));
 		goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
 		goalSelector.addGoal(3, new TemptGoal(this, 1.25D, FOOD_ITEMS, false));
 		goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
