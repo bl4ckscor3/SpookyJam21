@@ -36,6 +36,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 
 public class ZombifiedCow extends Cow implements NeutralMob {
@@ -97,9 +98,9 @@ public class ZombifiedCow extends Cow implements NeutralMob {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (stack.is(Items.BUCKET) && !isBaby()) {
-			ItemStack filledBucket = ItemUtils.createFilledResult(stack, player, Items.MILK_BUCKET.getDefaultInstance()); //TODO: Rotten/Zombified Milk
+			ItemStack filledBucket = ItemUtils.createFilledResult(stack, player, SZItems.ROTTEN_MILK_BUCKET.get().getDefaultInstance());
 
-			player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
+			player.playSound(SoundEvents.COW_MILK, 1.0F, 0.8F);
 			player.setItemInHand(hand, filledBucket);
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		} else {

@@ -10,6 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.item.CandyItem;
 import suszombification.item.RottenEggItem;
+import suszombification.item.RottenMilkBucketItem;
 
 public class SZItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SuspiciousZombification.MODID);
@@ -22,6 +23,7 @@ public class SZItems {
 	public static final RegistryObject<Item> PUMPKIN_CANDY = ITEMS.register("pumpkin_candy", () -> new CandyItem(MobEffects.GLOWING, 5, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> VANILLA_CANDY = ITEMS.register("vanilla_candy", () -> new CandyItem(MobEffects.GLOWING, 5, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: MOAR CANDY
+	public static final RegistryObject<Item> ROTTEN_MILK_BUCKET = ITEMS.register("rotten_milk_bucket", () -> new RottenMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.register("zombified_cow_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_COW, 0x443626, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
