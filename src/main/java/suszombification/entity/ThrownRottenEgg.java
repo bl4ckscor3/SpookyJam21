@@ -17,7 +17,7 @@ import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 
 public class ThrownRottenEgg extends ThrowableItemProjectile {
-	private ThrownRottenEgg(EntityType<? extends ThrownRottenEgg> type, Level level) {
+	public ThrownRottenEgg(EntityType<? extends ThrownRottenEgg> type, Level level) {
 		super(type, level);
 	}
 
@@ -27,11 +27,6 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 
 	public ThrownRottenEgg(Level level, double x, double y, double z) {
 		super(SZEntityTypes.ROTTEN_EGG.get(), x, y, z, level);
-	}
-
-	//constructor reference in SZEntityTypes was unable to find the correct constructor for the entity factory, so here we go
-	public static ThrownRottenEgg factory(EntityType<? extends ThrownRottenEgg> type, Level level) {
-		return new ThrownRottenEgg(type, level);
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class SZEntityTypes {
 			.sized(0.9F, 1.4F)
 			.clientTrackingRange(10)
 			.build(SuspiciousZombification.MODID + ":zombified_cow"));
-	public static final RegistryObject<EntityType<ThrownRottenEgg>> ROTTEN_EGG = ENTITY_TYPES.register("rotten_egg", () -> EntityType.Builder.of(ThrownRottenEgg::factory, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ThrownRottenEgg>> ROTTEN_EGG = ENTITY_TYPES.register("rotten_egg", () -> EntityType.Builder.<ThrownRottenEgg>of(ThrownRottenEgg::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F)
 			.clientTrackingRange(4)
 			.updateInterval(10)
