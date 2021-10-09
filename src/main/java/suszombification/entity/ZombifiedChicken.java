@@ -127,6 +127,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 			}
 
 			ZombifiedChicken zombifiedChicken = chicken.convertTo(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), false);
+
 			zombifiedChicken.finalizeSpawn(level, level.getCurrentDifficultyAt(zombifiedChicken.blockPosition()), MobSpawnType.CONVERSION, null, null);
 			zombifiedChicken.setChickenJockey(chicken.isChickenJockey());
 			ForgeEventFactory.onLivingConvert(killedEntity, zombifiedChicken);
@@ -190,7 +191,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 
 	@Override
 	protected int getExperienceReward(Player player) {
-		return isChickenJockey() ? 10 : super.getExperienceReward(player);
+		return (isChickenJockey() ? 10 : super.getExperienceReward(player)) + 5;
 	}
 
 	@Override
