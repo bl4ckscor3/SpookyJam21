@@ -6,11 +6,13 @@
 	"item.suszombification.cinnamon_candy": "Cinnamon Candy",
 	"item.suszombification.pumpkin_candy": "Pumpkin Candy",
 	"item.suszombification.vanilla_candy": "Vanilla Candy",
+	"item.suszombification.rotten_egg": "Rotten Egg",
 	"item.suszombification.zombified_chicken_spawn_egg": "Zombified Chicken Spawn Egg",
 	"item.suszombification.zombified_cow_spawn_egg": "Zombified Cow Spawn Egg",
 
 	"entity.suszombification.zombified_chicken": "Zombified Chicken",
 	"entity.suszombification.zombified_cow": "Zombified Cow",
+	"entity.suszombification.rotten_egg": "Thrown Rotten Egg",
 
 	"itemGroup.suszombification": "Suspicious Zombification"
 }

@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 
 public class ZombifiedChicken extends Animal implements NeutralMob { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
@@ -112,7 +113,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 
 		if (!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-			spawnAtLocation(Items.EGG); //TODO: let the zombified chicken lay a rotten/zombified egg
+			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
 		}
 	}
