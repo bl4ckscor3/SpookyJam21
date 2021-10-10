@@ -18,6 +18,7 @@ public class SPPTemptGoal extends TemptGoal {
 	public SPPTemptGoal(PathfinderMob mob, double speedModifier, Ingredient ingredients, boolean canScare) {
 		this(mob, speedModifier, ingredients, canScare, stack -> true);
 	}
+
 	public SPPTemptGoal(PathfinderMob mob, double speedModifier, Ingredient ingredients, boolean canScare, Predicate<ItemStack> ingredientPredicate) {
 		super(mob, speedModifier, Ingredient.of(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()), canScare);
 		this.ingredients = ingredients;

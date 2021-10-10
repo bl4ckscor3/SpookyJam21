@@ -50,13 +50,14 @@ public class SZEventHandler {
 	@SubscribeEvent
 	public static void onLivingDeath(LivingDeathEvent event) {
 		LivingEntity livingEntity = event.getEntityLiving();
-		Entity entity = event.getSource().getEntity();
+		Entity killer = event.getSource().getEntity();
 		Level level = livingEntity.level;
 
-		if (!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && entity instanceof ZombifiedAnimal killer) {
-			EntityType<? extends Animal> conversionType = killer.getCastedType();
+		if (!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
+			EntityType<? extends Animal> conversionType = zombifiedAnimal.getCastedType();
 
-			if (livingEntity instanceof Animal killedEntity &&  killedEntity.getType() == killer.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
+			if (livingEntity instanceof Animal killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {
+			})) {
 				if (level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean()) {
 					return;
 				}
@@ -67,8 +68,8 @@ public class SZEventHandler {
 				((ZombifiedAnimal)convertedAnimal).readFrom(killedEntity);
 				ForgeEventFactory.onLivingConvert(livingEntity, convertedAnimal);
 
-				if (!((LivingEntity)killer).isSilent()) {
-					level.levelEvent(null, 1026, ((LivingEntity)killer).blockPosition(), 0);
+				if (!killer.isSilent()) {
+					level.levelEvent(null, 1026, killer.blockPosition(), 0);
 				}
 			}
 		}

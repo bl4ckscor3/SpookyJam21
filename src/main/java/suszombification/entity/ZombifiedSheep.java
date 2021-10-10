@@ -96,7 +96,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.ATTACK_DAMAGE, 2.0F);
 	}
-	
+
 	@Override
 	public ResourceLocation getDefaultLootTable() {
 		if (isSheared()) {
