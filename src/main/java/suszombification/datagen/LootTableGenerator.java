@@ -30,22 +30,22 @@ import suszombification.SuspiciousZombification;
 public class LootTableGenerator implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	private final DataGenerator generator;
-	public static final ResourceLocation ZOMBIFIED_SHEEP_WHITE = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/white");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_ORANGE = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/orange");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_MAGENTA = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/magenta");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/light_blue");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_YELLOW = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/yellow");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIME = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/lime");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_PINK = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/pink");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/gray");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/light_gray");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_CYAN = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/cyan");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_PURPLE = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/purple");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/blue");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BROWN = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/brown");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_GREEN = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/green");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_RED = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/red");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BLACK = new ResourceLocation(SuspiciousZombification.MODID, "entities/sheep/black");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_WHITE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/white");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_ORANGE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/orange");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_MAGENTA = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/magenta");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/light_blue");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_YELLOW = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/yellow");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_LIME = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/lime");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_PINK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/pink");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/gray");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/light_gray");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_CYAN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/cyan");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_PURPLE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/purple");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/blue");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_BROWN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/brown");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_GREEN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/green");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_RED = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/red");
+	public static final ResourceLocation ZOMBIFIED_SHEEP_BLACK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/black");
 
 	public LootTableGenerator(DataGenerator generator) {
 		this.generator = generator;
