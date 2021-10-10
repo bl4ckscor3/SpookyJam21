@@ -17,12 +17,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -36,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -45,14 +43,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.datagen.LootTableGenerator;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 
-public class ZombifiedSheep extends Sheep implements NeutralMob {
+public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
 		map.put(DyeColor.WHITE, Blocks.WHITE_WOOL); //TODO: Rotten Wools
 		map.put(DyeColor.ORANGE, Blocks.ORANGE_WOOL);
@@ -123,28 +120,6 @@ public class ZombifiedSheep extends Sheep implements NeutralMob {
 				case RED -> LootTableGenerator.ZOMBIFIED_SHEEP_RED;
 				case BLACK -> LootTableGenerator.ZOMBIFIED_SHEEP_BLACK;
 			};
-		}
-	}
-
-	@Override
-	public void killed(ServerLevel level, LivingEntity killedEntity) {
-		super.killed(level, killedEntity);
-
-		if ((level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killedEntity instanceof Sheep sheep && ForgeEventFactory.canLivingConvert(killedEntity, SZEntityTypes.ZOMBIFIED_SHEEP.get(), timer -> {})) {
-			if (level.getDifficulty() != Difficulty.HARD && random.nextBoolean()) {
-				return;
-			}
-
-			ZombifiedSheep zombifiedSheep = sheep.convertTo(SZEntityTypes.ZOMBIFIED_SHEEP.get(), false);
-
-			zombifiedSheep.finalizeSpawn(level, level.getCurrentDifficultyAt(zombifiedSheep.blockPosition()), MobSpawnType.CONVERSION, null, null);
-			zombifiedSheep.setColor(sheep.getColor());
-			zombifiedSheep.setSheared(sheep.isSheared());
-			ForgeEventFactory.onLivingConvert(killedEntity, zombifiedSheep);
-
-			if (!isSilent()) {
-				level.levelEvent(null, 1026, blockPosition(), 0);
-			}
 		}
 	}
 
@@ -227,5 +202,23 @@ public class ZombifiedSheep extends Sheep implements NeutralMob {
 	@Override
 	public void startPersistentAngerTimer() {
 		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+	}
+
+	@Override
+	public EntityType<? extends Animal> getCastedType() {
+		return SZEntityTypes.ZOMBIFIED_SHEEP.get();
+	}
+
+	@Override
+	public EntityType<?> getNormalVariant() {
+		return EntityType.SHEEP;
+	}
+
+	@Override
+	public void readFrom(Animal animal) {
+		if (animal instanceof Sheep sheep) {
+			setColor(sheep.getColor());
+			setSheared(sheep.isSheared());
+		}
 	}
 }

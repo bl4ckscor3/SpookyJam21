@@ -47,7 +47,7 @@ import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 
-public class ZombifiedChicken extends Animal implements NeutralMob { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
+public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
 	public float flap;
 	public float flapSpeed;
@@ -114,27 +114,6 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
-		}
-	}
-
-	@Override
-	public void killed(ServerLevel level, LivingEntity killedEntity) {
-		super.killed(level, killedEntity);
-
-		if ((level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killedEntity instanceof Chicken chicken && ForgeEventFactory.canLivingConvert(killedEntity, SZEntityTypes.ZOMBIFIED_CHICKEN.get(), timer -> {})) {
-			if (level.getDifficulty() != Difficulty.HARD && random.nextBoolean()) {
-				return;
-			}
-
-			ZombifiedChicken zombifiedChicken = chicken.convertTo(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), false);
-
-			zombifiedChicken.finalizeSpawn(level, level.getCurrentDifficultyAt(zombifiedChicken.blockPosition()), MobSpawnType.CONVERSION, null, null);
-			zombifiedChicken.setChickenJockey(chicken.isChickenJockey());
-			ForgeEventFactory.onLivingConvert(killedEntity, zombifiedChicken);
-
-			if (!isSilent()) {
-				level.levelEvent(null, 1026, blockPosition(), 0);
-			}
 		}
 	}
 
@@ -274,5 +253,22 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 	@Override
 	public void startPersistentAngerTimer() {
 		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+	}
+
+	@Override
+	public EntityType<? extends Animal> getCastedType() {
+		return SZEntityTypes.ZOMBIFIED_CHICKEN.get();
+	}
+
+	@Override
+	public EntityType<?> getNormalVariant() {
+		return EntityType.CHICKEN;
+	}
+
+	@Override
+	public void readFrom(Animal animal) {
+		if (animal instanceof Chicken chicken) {
+			setChickenJockey(chicken.isChickenJockey());
+		}
 	}
 }
