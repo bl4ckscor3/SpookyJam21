@@ -17,7 +17,6 @@ import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -48,7 +47,6 @@ public class ZombifiedPig extends Pig implements NeutralMob {
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(0, new FloatGoal(this));
 		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0F, false));
 		goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
 		goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.of(Items.PORKCHOP), false)); //TODO: Porkchop on a Stick
