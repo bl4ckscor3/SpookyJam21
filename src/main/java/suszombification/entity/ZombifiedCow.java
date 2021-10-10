@@ -113,6 +113,11 @@ public class ZombifiedCow extends Cow implements NeutralMob {
 	}
 
 	@Override
+	protected int getExperienceReward(Player player) {
+		return super.getExperienceReward(player) + 5;
+	}
+
+	@Override
 	public boolean isFood(ItemStack stack) {
 		return FOOD_ITEMS.test(stack);
 	}

@@ -185,13 +185,13 @@ public class ZombifiedChicken extends Animal implements NeutralMob { //can't ext
 	}
 
 	@Override
-	public boolean isFood(ItemStack stack) {
-		return FOOD_ITEMS.test(stack);
+	protected int getExperienceReward(Player player) {
+		return (isChickenJockey() ? 10 : super.getExperienceReward(player)) + 5;
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
-		return (isChickenJockey() ? 10 : super.getExperienceReward(player)) + 5;
+	public boolean isFood(ItemStack stack) {
+		return FOOD_ITEMS.test(stack);
 	}
 
 	@Override
