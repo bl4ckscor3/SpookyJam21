@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
+import suszombification.entity.ZombifiedSheep;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
@@ -25,6 +26,8 @@ public class SZEventHandler {
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedCow.class, 4.0F, 1.0F, 1.2F));
 			else if (mob.getType() == EntityType.PIG)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedPig.class, 4.0F, 1.0F, 1.2F));
+			else if (mob.getType() == EntityType.SHEEP)
+				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
 		}
 	}
 

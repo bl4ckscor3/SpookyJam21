@@ -15,9 +15,11 @@ import suszombification.entity.ThrownRottenEgg;
 import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
+import suszombification.entity.ZombifiedSheep;
 import suszombification.renderer.ZombifiedChickenRenderer;
 import suszombification.renderer.ZombifiedCowRenderer;
 import suszombification.renderer.ZombifiedPigRenderer;
+import suszombification.renderer.ZombifiedSheepRenderer;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class SZEntityTypes {
@@ -35,6 +37,10 @@ public class SZEntityTypes {
 			.sized(0.9F, 0.9F)
 			.clientTrackingRange(10)
 			.build(SuspiciousZombification.MODID + ":zombified_pig"));
+	public static final RegistryObject<EntityType<ZombifiedSheep>> ZOMBIFIED_SHEEP = ENTITY_TYPES.register("zombified_sheep", () -> EntityType.Builder.of(ZombifiedSheep::new, MobCategory.CREATURE)
+			.sized(0.9F, 1.3F)
+			.clientTrackingRange(10)
+			.build(SuspiciousZombification.MODID + ":zombified_sheep"));
 	public static final RegistryObject<EntityType<ThrownRottenEgg>> ROTTEN_EGG = ENTITY_TYPES.register("rotten_egg", () -> EntityType.Builder.<ThrownRottenEgg>of(ThrownRottenEgg::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F)
 			.clientTrackingRange(4)
@@ -46,6 +52,7 @@ public class SZEntityTypes {
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChickenRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCowRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);
+		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_SHEEP.get(), ZombifiedSheepRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ROTTEN_EGG.get(), ThrownItemRenderer::new);
 	}
 
@@ -54,5 +61,6 @@ public class SZEntityTypes {
 		event.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChicken.createAttributes().build());
 		event.put(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCow.createAttributes().build());
 		event.put(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPig.createAttributes().build());
+		event.put(SZEntityTypes.ZOMBIFIED_SHEEP.get(), ZombifiedSheep.createAttributes().build());
 	}
 }
