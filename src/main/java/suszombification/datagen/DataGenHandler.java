@@ -13,6 +13,7 @@ public class DataGenHandler {
 	public static void onGatherData(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 
+		generator.addProvider(new LootTableGenerator(generator));
 		generator.addProvider(new RecipeGenerator(generator));
 	}
 }
