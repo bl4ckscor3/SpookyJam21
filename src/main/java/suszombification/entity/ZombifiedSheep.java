@@ -9,10 +9,12 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
@@ -31,7 +33,6 @@ import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -46,8 +47,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.datagen.LootTableGenerator;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
+import suszombification.entity.ai.SPPTemptGoal;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
@@ -68,7 +71,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob {
 		map.put(DyeColor.RED, Blocks.RED_WOOL);
 		map.put(DyeColor.BLACK, Blocks.BLACK_WOOL);
 	});
-	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON, Items.WHITE_WOOL); //TODO: SPP with these ingredients (all wool colours)
+	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
@@ -82,7 +85,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob {
 		this.eatBlockGoal = new EatBlockGoal(this);
 		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0F, false));
 		goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(4, new TemptGoal(this, 1.2D, FOOD_ITEMS, false));
+		goalSelector.addGoal(4, new SPPTemptGoal(this, 1.2D, FOOD_ITEMS, false, stack -> stack.is(ItemTags.WOOL)));
 		goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(5, eatBlockGoal);
 		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
@@ -186,7 +189,14 @@ public class ZombifiedSheep extends Sheep implements NeutralMob {
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		return FOOD_ITEMS.test(stack);
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
+			ItemStack ingredient = ItemStack.of(ingredientTag);
+
+			return FOOD_ITEMS.test(ingredient) || ingredient.is(ItemTags.WOOL);
+		}
+
+		return false;
 	}
 
 	@Override

@@ -1,12 +1,15 @@
 package suszombification.misc;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -19,6 +22,7 @@ import suszombification.item.CandyItem;
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
 	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
+	private static final Ingredient INGREDIENTS = Ingredient.of(Items.GOLDEN_APPLE, Items.ROTTEN_FLESH, Items.CHICKEN, Items.FEATHER, Items.BEEF, Items.LEATHER, Items.PORKCHOP, Items.MUTTON);
 
 	public SuspiciousPumpkinPieRecipe(ResourceLocation id) {
 		super(id);
@@ -39,7 +43,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 					hasSugar = true;
 				} else if (stack.is(Items.EGG) && !hasEgg) {
 					hasEgg = true;
-				} else if (stack.getItem() instanceof CandyItem && !hasSpecialIngredient) {
+				} else if (isIngredient(stack) && !hasSpecialIngredient) {
 					hasSpecialIngredient = true;
 				} else {
 					if (!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin) {
@@ -56,25 +60,34 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
-		ItemStack candyStack = ItemStack.EMPTY;
+		ItemStack ingredient = ItemStack.EMPTY;
+		CompoundTag ingredientTag = new CompoundTag();
 		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
-			if (!stack.isEmpty() && stack.getItem() instanceof CandyItem) {
-				candyStack = stack;
+			if (!stack.isEmpty() && isIngredient(stack)) {
+				ingredient = stack.copy();
 				break;
 			}
 		}
 
-		if (candyStack.getItem() instanceof CandyItem candy) {
+		if (ingredient.getItem() instanceof CandyItem candy) {
 			MobEffect effect = candy.getEffect();
 
 			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, effect, candy.getEffectDuration());
 		}
 
+		ingredient.setCount(1);
+		ingredient.save(ingredientTag);
+		suspiciousPumpkinPie.getOrCreateTag().put("Ingredient", ingredientTag);
+
 		return suspiciousPumpkinPie;
+	}
+
+	private boolean isIngredient(ItemStack stack) {
+		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || ItemTags.WOOL.contains(stack.getItem());
 	}
 
 	@Override

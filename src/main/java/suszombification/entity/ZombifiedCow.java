@@ -2,6 +2,7 @@ package suszombification.entity;
 
 import java.util.UUID;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.TimeUtil;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -38,9 +38,10 @@ import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
+import suszombification.entity.ai.SPPTemptGoal;
 
 public class ZombifiedCow extends Cow implements NeutralMob {
-	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.BEEF, Items.LEATHER);  //TODO: switch to SPPs with these ingredients
+	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.BEEF, Items.LEATHER);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
@@ -53,7 +54,7 @@ public class ZombifiedCow extends Cow implements NeutralMob {
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
 		goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(3, new TemptGoal(this, 1.25D, FOOD_ITEMS, false));
+		goalSelector.addGoal(3, new SPPTemptGoal(this, 1.25D, FOOD_ITEMS, false));
 		goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
 		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -119,7 +120,14 @@ public class ZombifiedCow extends Cow implements NeutralMob {
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		return FOOD_ITEMS.test(stack);
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
+			ItemStack ingredient = ItemStack.of(ingredientTag);
+
+			return FOOD_ITEMS.test(ingredient);
+		}
+
+		return false;
 	}
 
 	@Override

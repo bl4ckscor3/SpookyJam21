@@ -2,6 +2,7 @@ package suszombification.entity;
 
 import java.util.UUID;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -33,10 +34,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
+import suszombification.entity.ai.SPPTemptGoal;
 
 public class ZombifiedPig extends Pig implements NeutralMob {
-	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.PORKCHOP); //TODO: SPP with this ingredient
+	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.PORKCHOP);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
@@ -50,7 +53,7 @@ public class ZombifiedPig extends Pig implements NeutralMob {
 		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0F, false));
 		goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
 		goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.of(Items.PORKCHOP), false)); //TODO: Porkchop on a Stick
-		goalSelector.addGoal(4, new TemptGoal(this, 1.2D, FOOD_ITEMS, false));
+		goalSelector.addGoal(4, new SPPTemptGoal(this, 1.2D, FOOD_ITEMS, false));
 		goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -111,7 +114,14 @@ public class ZombifiedPig extends Pig implements NeutralMob {
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		return FOOD_ITEMS.test(stack);
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
+			ItemStack ingredient = ItemStack.of(ingredientTag);
+
+			return FOOD_ITEMS.test(ingredient);
+		}
+
+		return false;
 	}
 
 	@Override
