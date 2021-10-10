@@ -52,8 +52,8 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult pResult) {
-		super.onHit(pResult);
+	protected void onHit(HitResult result) {
+		super.onHit(result);
 
 		if (!level.isClientSide) {
 			level.broadcastEntityEvent(this, (byte)3);
