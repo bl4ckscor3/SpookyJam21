@@ -1,13 +1,10 @@
 package suszombification.misc;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -18,11 +15,12 @@ import net.minecraftforge.registries.ObjectHolder;
 import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 import suszombification.item.CandyItem;
+import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
 	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
-	private static final Ingredient INGREDIENTS = Ingredient.of(Items.GOLDEN_APPLE, Items.ROTTEN_FLESH, Items.CHICKEN, Items.FEATHER, Items.BEEF, Items.LEATHER, Items.PORKCHOP, Items.MUTTON);
+	private static final Ingredient INGREDIENTS = Ingredient.of(Items.GOLDEN_APPLE, Items.ROTTEN_FLESH, Items.CHICKEN, Items.FEATHER, Items.BEEF, Items.LEATHER, Items.PORKCHOP, Items.MUTTON); //TODO: add rotten items
 
 	public SuspiciousPumpkinPieRecipe(ResourceLocation id) {
 		super(id);
@@ -61,7 +59,6 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
 		ItemStack ingredient = ItemStack.EMPTY;
-		CompoundTag ingredientTag = new CompoundTag();
 		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
@@ -73,16 +70,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 			}
 		}
 
-		if (ingredient.getItem() instanceof CandyItem candy) {
-			MobEffect effect = candy.getEffect();
-
-			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, effect, candy.getEffectDuration());
-		}
-
-		ingredient.setCount(1);
-		ingredient.save(ingredientTag);
-		suspiciousPumpkinPie.getOrCreateTag().put("Ingredient", ingredientTag);
-
+		SuspiciousPumpkinPieItem.saveIngredient(suspiciousPumpkinPie, ingredient);
 		return suspiciousPumpkinPie;
 	}
 

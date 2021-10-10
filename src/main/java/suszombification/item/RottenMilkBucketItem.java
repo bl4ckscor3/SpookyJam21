@@ -19,8 +19,8 @@ public class RottenMilkBucketItem extends MilkBucketItem {
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
-		entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 600));
-		entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600));
+		entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
+		entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2));
 
 		if (entity instanceof ServerPlayer player) {
 			CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
