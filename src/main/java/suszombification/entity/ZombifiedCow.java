@@ -74,7 +74,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (stack.is(Items.BUCKET) && !isBaby()) {
-			ItemStack filledBucket = ItemUtils.createFilledResult(stack, player, SZItems.ROTTEN_MILK_BUCKET.get().getDefaultInstance());
+			ItemStack filledBucket = ItemUtils.createFilledResult(stack, player, SZItems.SPOILED_MILK_BUCKET.get().getDefaultInstance());
 
 			player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 			player.setItemInHand(hand, filledBucket);

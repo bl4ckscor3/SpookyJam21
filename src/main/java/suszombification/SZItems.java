@@ -9,7 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.item.CandyItem;
 import suszombification.item.RottenEggItem;
-import suszombification.item.RottenMilkBucketItem;
+import suszombification.item.SpoiledMilkBucketItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class SZItems {
@@ -26,7 +26,7 @@ public class SZItems {
 	public static final RegistryObject<Item> VANILLA_CANDY = ITEMS.register("vanilla_candy", () -> new CandyItem(MobEffects.DIG_SPEED, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: maybe more candy flavours?
 	//TODO: short monolougle-like texts in chat when eating a SPP? Like "The taste of this pie makes you wanna go mine diamonds" for Vanilla-Candy-SSP or "Urgh, this pie probably wasn't meant to be eaten by a human" for a mob-drop SPP
-	public static final RegistryObject<Item> ROTTEN_MILK_BUCKET = ITEMS.register("rotten_milk_bucket", () -> new RottenMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.register("zombified_cow_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_COW, 0x443626, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));

@@ -12,8 +12,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.level.Level;
 
-public class RottenMilkBucketItem extends MilkBucketItem {
-	public RottenMilkBucketItem(Properties properties) {
+public class SpoiledMilkBucketItem extends MilkBucketItem {
+	public SpoiledMilkBucketItem(Properties properties) {
 		super(properties);
 	}
 
