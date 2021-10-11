@@ -205,11 +205,6 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public EntityType<? extends Animal> getCastedType() {
-		return SZEntityTypes.ZOMBIFIED_SHEEP.get();
-	}
-
-	@Override
 	public EntityType<?> getNormalVariant() {
 		return EntityType.SHEEP;
 	}

@@ -24,7 +24,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -135,11 +134,6 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 	@Override
 	public void startPersistentAngerTimer() {
 		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
-	}
-
-	@Override
-	public EntityType<? extends Animal> getCastedType() {
-		return SZEntityTypes.ZOMBIFIED_COW.get();
 	}
 
 	@Override

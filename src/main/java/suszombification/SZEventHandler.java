@@ -5,11 +5,13 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
@@ -54,22 +56,21 @@ public class SZEventHandler {
 		Level level = livingEntity.level;
 
 		if (!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
-			EntityType<? extends Animal> conversionType = zombifiedAnimal.getCastedType();
+			EntityType<? extends Mob> conversionType = (EntityType<? extends Mob>)killer.getType();
 
-			if (livingEntity instanceof Animal killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {
-			})) {
+			if (livingEntity instanceof Animal killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
 				if (level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean()) {
 					return;
 				}
 
-				Animal convertedAnimal = killedEntity.convertTo(conversionType, false);
+				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
 				convertedAnimal.finalizeSpawn((ServerLevel)level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
 				((ZombifiedAnimal)convertedAnimal).readFrom(killedEntity);
 				ForgeEventFactory.onLivingConvert(livingEntity, convertedAnimal);
 
 				if (!killer.isSilent()) {
-					level.levelEvent(null, 1026, killer.blockPosition(), 0);
+					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
 				}
 			}
 		}
