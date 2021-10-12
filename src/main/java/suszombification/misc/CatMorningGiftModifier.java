@@ -7,9 +7,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -27,12 +25,7 @@ public class CatMorningGiftModifier extends LootModifier {
 
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		if (context.getQueriedLootTableId().equals(BuiltInLootTables.CAT_MORNING_GIFT) && context.getRandom().nextInt(3) == 0) {
-			LootTable candyLootTable = context.getLootTable(LootTableGenerator.ZOMBIFIED_CAT_MORNING_GIFT);
-			return Lists.newArrayList(candyLootTable.getRandomItems(context));
-		}
-
-		return generatedLoot;
+		return Lists.newArrayList(context.getLootTable(LootTableGenerator.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context));
 	}
 
 	public static class Serializer extends GlobalLootModifierSerializer<CatMorningGiftModifier> {
