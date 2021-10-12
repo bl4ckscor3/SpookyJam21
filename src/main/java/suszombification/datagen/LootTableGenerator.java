@@ -113,7 +113,7 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.PINEAPPLE_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.VANILLA_CANDY.get()).setWeight(10))));
 
