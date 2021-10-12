@@ -13,11 +13,6 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "suszombification:chamomile_candy"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
           "name": "suszombification:chocolate_candy"
         },
         {
@@ -34,6 +29,11 @@
           "type": "minecraft:item",
           "weight": 10,
           "name": "suszombification:melon_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:peppermint_candy"
         },
         {
           "type": "minecraft:item",
