@@ -25,6 +25,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 
 public class LootTableGenerator implements DataProvider {
@@ -46,6 +47,7 @@ public class LootTableGenerator implements DataProvider {
 	public static final ResourceLocation ZOMBIFIED_SHEEP_GREEN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/green");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_RED = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/red");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BLACK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/black");
+	public static final ResourceLocation ZOMBIFIED_CAT_MORNING_GIFT = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/zombified_cat_morning_gift");
 
 	public LootTableGenerator(DataGenerator generator) {
 		this.generator = generator;
@@ -103,6 +105,17 @@ public class LootTableGenerator implements DataProvider {
 		lootTables.put(ZOMBIFIED_SHEEP_RED, createSheepTable(Blocks.RED_WOOL));
 		lootTables.put(ZOMBIFIED_SHEEP_WHITE, createSheepTable(Blocks.WHITE_WOOL));
 		lootTables.put(ZOMBIFIED_SHEEP_YELLOW, createSheepTable(Blocks.YELLOW_WOOL));
+		lootTables.put(ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.CHAMOMILE_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.PINEAPPLE_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.VANILLA_CANDY.get()).setWeight(10))));
 
 		return lootTables;
 	}

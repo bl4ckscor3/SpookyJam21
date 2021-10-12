@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:caramel_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:chamomile_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:chocolate_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:cinnamon_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:honey_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:pineapple_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:pumpkin_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "suszombification:vanilla_candy"
+        }
+      ]
+    }
+  ]
+}

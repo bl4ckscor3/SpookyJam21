@@ -17,6 +17,7 @@ public class DataGenHandler {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper existingFileHelper = new ExistingFileHelper(Collections.EMPTY_LIST, Collections.EMPTY_SET, false, null, null);
 
+		generator.addProvider(new GlobalLootModifierGenerator(generator));
 		generator.addProvider(new ItemModelGenerator(generator, existingFileHelper));
 		generator.addProvider(new LootTableGenerator(generator));
 		generator.addProvider(new RecipeGenerator(generator));
