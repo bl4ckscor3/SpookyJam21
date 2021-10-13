@@ -1,5 +1,8 @@
 package suszombification.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -13,6 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public interface ZombifiedAnimal {
+	Map<EntityType<?>, EntityType<? extends Animal>> VANILLA_TO_ZOMBIFIED = new HashMap<>();
+
 	EntityType<? extends Animal> getNormalVariant();
 
 	default void readFromVanilla(Animal animal) {}
