@@ -51,7 +51,7 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 					int j = DyeColor.values().length;
 					int k = i % j;
 					int l = (i + 1) % j;
-					float f3 = ((float)(sheep.tickCount % 25) + partialTicks) / 25.0F;
+					float f3 = (sheep.tickCount % 25 + partialTicks) / 25.0F;
 					float[] afloat1 = Sheep.getColorArray(DyeColor.byId(k));
 					float[] afloat2 = Sheep.getColorArray(DyeColor.byId(l));
 
