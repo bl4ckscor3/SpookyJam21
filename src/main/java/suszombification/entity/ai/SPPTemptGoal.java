@@ -16,7 +16,7 @@ public class SPPTemptGoal extends TemptGoal {
 	private final Predicate<ItemStack> ingredientPredicate;
 
 	public SPPTemptGoal(PathfinderMob mob, double speedModifier, Ingredient ingredients, boolean canScare) {
-		this(mob, speedModifier, ingredients, canScare, stack -> true);
+		this(mob, speedModifier, ingredients, canScare, stack -> false);
 	}
 
 	public SPPTemptGoal(PathfinderMob mob, double speedModifier, Ingredient ingredients, boolean canScare, Predicate<ItemStack> ingredientPredicate) {
