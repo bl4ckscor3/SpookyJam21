@@ -129,22 +129,22 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 			return getType().getDefaultLootTable();
 		} else {
 			return switch (getColor()) {
-				case WHITE -> LootTableGenerator.ZOMBIFIED_SHEEP_WHITE;
-				case ORANGE -> LootTableGenerator.ZOMBIFIED_SHEEP_ORANGE;
-				case MAGENTA -> LootTableGenerator.ZOMBIFIED_SHEEP_MAGENTA;
-				case LIGHT_BLUE -> LootTableGenerator.ZOMBIFIED_SHEEP_LIGHT_BLUE;
-				case YELLOW -> LootTableGenerator.ZOMBIFIED_SHEEP_YELLOW;
-				case LIME -> LootTableGenerator.ZOMBIFIED_SHEEP_LIME;
-				case PINK -> LootTableGenerator.ZOMBIFIED_SHEEP_PINK;
-				case GRAY -> LootTableGenerator.ZOMBIFIED_SHEEP_GRAY;
-				case LIGHT_GRAY -> LootTableGenerator.ZOMBIFIED_SHEEP_LIGHT_GRAY;
-				case CYAN -> LootTableGenerator.ZOMBIFIED_SHEEP_CYAN;
-				case PURPLE -> LootTableGenerator.ZOMBIFIED_SHEEP_PURPLE;
-				case BLUE -> LootTableGenerator.ZOMBIFIED_SHEEP_BLUE;
-				case BROWN -> LootTableGenerator.ZOMBIFIED_SHEEP_BROWN;
-				case GREEN -> LootTableGenerator.ZOMBIFIED_SHEEP_GREEN;
-				case RED -> LootTableGenerator.ZOMBIFIED_SHEEP_RED;
-				case BLACK -> LootTableGenerator.ZOMBIFIED_SHEEP_BLACK;
+				case WHITE -> SZLootTables.ZOMBIFIED_SHEEP_WHITE;
+				case ORANGE -> SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
+				case MAGENTA -> SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
+				case LIGHT_BLUE -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE;
+				case YELLOW -> SZLootTables.ZOMBIFIED_SHEEP_YELLOW;
+				case LIME -> SZLootTables.ZOMBIFIED_SHEEP_LIME;
+				case PINK -> SZLootTables.ZOMBIFIED_SHEEP_PINK;
+				case GRAY -> SZLootTables.ZOMBIFIED_SHEEP_GRAY;
+				case LIGHT_GRAY -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY;
+				case CYAN -> SZLootTables.ZOMBIFIED_SHEEP_CYAN;
+				case PURPLE -> SZLootTables.ZOMBIFIED_SHEEP_PURPLE;
+				case BLUE -> SZLootTables.ZOMBIFIED_SHEEP_BLUE;
+				case BROWN -> SZLootTables.ZOMBIFIED_SHEEP_BROWN;
+				case GREEN -> SZLootTables.ZOMBIFIED_SHEEP_GREEN;
+				case RED -> SZLootTables.ZOMBIFIED_SHEEP_RED;
+				case BLACK -> SZLootTables.ZOMBIFIED_SHEEP_BLACK;
 			};
 		}
 	}

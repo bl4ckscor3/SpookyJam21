@@ -26,28 +26,11 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
-import suszombification.SuspiciousZombification;
+import suszombification.SZLootTables;
 
 public class LootTableGenerator implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	private final DataGenerator generator;
-	public static final ResourceLocation ZOMBIFIED_SHEEP_WHITE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/white");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_ORANGE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/orange");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_MAGENTA = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/magenta");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/light_blue");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_YELLOW = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/yellow");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIME = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/lime");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_PINK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/pink");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/gray");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_LIGHT_GRAY = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/light_gray");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_CYAN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/cyan");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_PURPLE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/purple");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/blue");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BROWN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/brown");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_GREEN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/green");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_RED = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/red");
-	public static final ResourceLocation ZOMBIFIED_SHEEP_BLACK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/black");
-	public static final ResourceLocation ZOMBIFIED_CAT_MORNING_GIFT = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/zombified_cat_morning_gift");
 
 	public LootTableGenerator(DataGenerator generator) {
 		this.generator = generator;
@@ -89,23 +72,23 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
 								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
-		lootTables.put(ZOMBIFIED_SHEEP_BLACK, createSheepTable(Blocks.BLACK_WOOL)); //TODO: Rotten Wools
-		lootTables.put(ZOMBIFIED_SHEEP_BLUE, createSheepTable(Blocks.BLUE_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_BROWN, createSheepTable(Blocks.BROWN_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_CYAN, createSheepTable(Blocks.CYAN_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_GRAY, createSheepTable(Blocks.GRAY_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_GREEN, createSheepTable(Blocks.GREEN_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_LIGHT_BLUE, createSheepTable(Blocks.LIGHT_BLUE_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_LIGHT_GRAY, createSheepTable(Blocks.LIGHT_GRAY_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_LIME, createSheepTable(Blocks.LIME_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_MAGENTA, createSheepTable(Blocks.MAGENTA_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_ORANGE, createSheepTable(Blocks.ORANGE_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_PINK, createSheepTable(Blocks.PINK_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_PURPLE, createSheepTable(Blocks.PURPLE_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_RED, createSheepTable(Blocks.RED_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_WHITE, createSheepTable(Blocks.WHITE_WOOL));
-		lootTables.put(ZOMBIFIED_SHEEP_YELLOW, createSheepTable(Blocks.YELLOW_WOOL));
-		lootTables.put(ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BLACK, createSheepTable(Blocks.BLACK_WOOL)); //TODO: Rotten Wools
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BLUE, createSheepTable(Blocks.BLUE_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BROWN, createSheepTable(Blocks.BROWN_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_CYAN, createSheepTable(Blocks.CYAN_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_GRAY, createSheepTable(Blocks.GRAY_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_GREEN, createSheepTable(Blocks.GREEN_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE, createSheepTable(Blocks.LIGHT_BLUE_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY, createSheepTable(Blocks.LIGHT_GRAY_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_LIME, createSheepTable(Blocks.LIME_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_MAGENTA, createSheepTable(Blocks.MAGENTA_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_ORANGE, createSheepTable(Blocks.ORANGE_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_PINK, createSheepTable(Blocks.PINK_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_PURPLE, createSheepTable(Blocks.PURPLE_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_RED, createSheepTable(Blocks.RED_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_WHITE, createSheepTable(Blocks.WHITE_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_YELLOW, createSheepTable(Blocks.YELLOW_WOOL));
+		lootTables.put(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))

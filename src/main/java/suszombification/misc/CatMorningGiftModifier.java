@@ -12,8 +12,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ObjectHolder;
+import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
-import suszombification.datagen.LootTableGenerator;
 
 public class CatMorningGiftModifier extends LootModifier {
 	@ObjectHolder(SuspiciousZombification.MODID + ":cat_morning_gift")
@@ -25,7 +25,7 @@ public class CatMorningGiftModifier extends LootModifier {
 
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		return Lists.newArrayList(context.getLootTable(LootTableGenerator.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context));
+		return Lists.newArrayList(context.getLootTable(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context));
 	}
 
 	public static class Serializer extends GlobalLootModifierSerializer<CatMorningGiftModifier> {
