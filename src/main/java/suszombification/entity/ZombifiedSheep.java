@@ -10,6 +10,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -17,6 +20,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -43,11 +49,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.datagen.LootTableGenerator;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 import suszombification.entity.ai.SPPTemptGoal;
+import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
@@ -69,12 +78,15 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 		map.put(DyeColor.BLACK, Blocks.BLACK_WOOL);
 	});
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
+	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedSheep.class, EntityDataSerializers.BOOLEAN);
+	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
 	public ZombifiedSheep(EntityType<? extends Sheep> type, Level level) {
 		super(type, level);
+		entityData.define(DATA_CONVERTING_ID, false);
 	}
 
 	@Override
@@ -95,6 +107,20 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.ATTACK_DAMAGE, 2.0F);
+	}
+
+	@Override
+	public void tick() {
+		if (!level.isClientSide && isAlive() && isConverting()) {
+			int i = getConversionProgress();
+
+			conversionTime -= i;
+			if (conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.SHEEP, this::setConversionTime)) {
+				finishConversion((ServerLevel)level);
+			}
+		}
+
+		super.tick();
 	}
 
 	@Override
@@ -126,6 +152,41 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	@Override
 	public float getVoicePitch() {
 		return isBaby() ? (random.nextFloat() - random.nextFloat()) * 0.2F + 0.5F : (random.nextFloat() - random.nextFloat()) * 0.2F;
+	}
+
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
+
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if (hasEffect(MobEffects.WEAKNESS)) {
+				if (!player.getAbilities().instabuild) {
+					stack.shrink(1);
+				}
+
+				if (!level.isClientSide) {
+					startConverting(random.nextInt(2401) + 3600);
+				}
+
+				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
+				return InteractionResult.SUCCESS;
+			}
+
+			return InteractionResult.CONSUME;
+		}
+
+		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	public void handleEntityEvent(byte pId) {
+		if (pId == 16) {
+			if (!isSilent()) {
+				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
+			}
+		} else {
+			super.handleEntityEvent(pId);
+		}
 	}
 
 	@Override
@@ -175,6 +236,21 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+
+		if (tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1) {
+			startConverting(tag.getInt("ConversionTime"));
+		}
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putInt("ConversionTime", isConverting() ? conversionTime : -1);
+	}
+
+	@Override
 	public MobType getMobType() {
 		return MobType.UNDEAD;
 	}
@@ -205,15 +281,38 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public EntityType<?> getNormalVariant() {
+	public EntityType<? extends Animal> getNormalVariant() {
 		return EntityType.SHEEP;
 	}
 
 	@Override
-	public void readFrom(Animal animal) {
+	public void readFromVanilla(Animal animal) {
 		if (animal instanceof Sheep sheep) {
 			setColor(sheep.getColor());
 			setSheared(sheep.isSheared());
 		}
+	}
+
+	@Override
+	public void writeToVanilla(Animal animal) {
+		if (animal instanceof Sheep sheep) {
+			sheep.setColor(getColor());
+			sheep.setSheared(isSheared());
+		}
+	}
+
+	@Override
+	public boolean isConverting() {
+		return getEntityData().get(DATA_CONVERTING_ID);
+	}
+
+	@Override
+	public void setConverting() {
+		getEntityData().set(DATA_CONVERTING_ID, true);
+	}
+
+	@Override
+	public void setConversionTime(int conversionTime) {
+		this.conversionTime = conversionTime;
 	}
 }

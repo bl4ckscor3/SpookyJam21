@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Sheep;
 import suszombification.SuspiciousZombification;
+import suszombification.entity.ZombifiedSheep;
 import suszombification.renderer.layers.ZombifiedSheepFurLayer;
 
 public class ZombifiedSheepRenderer extends MobRenderer<Sheep, SheepModel<Sheep>> {
@@ -20,5 +21,10 @@ public class ZombifiedSheepRenderer extends MobRenderer<Sheep, SheepModel<Sheep>
 	@Override
 	public ResourceLocation getTextureLocation(Sheep entity) {
 		return SHEEP_LOCATION;
+	}
+
+	@Override
+	protected boolean isShaking(Sheep sheep) {
+		return super.isShaking(sheep) || ((ZombifiedSheep)sheep).isConverting();
 	}
 }

@@ -31,6 +31,15 @@ public class SuspiciousPumpkinPieItem extends Item {
 		suspiciousPumpkinPie.getOrCreateTag().put("Ingredient", ingredientTag);
 	}
 
+	public static boolean hasIngredient(ItemStack pie, Item test) {
+		if (pie.hasTag() && pie.getTag().contains("Ingredient")) {
+			ItemStack ingredient = ItemStack.of(pie.getTag().getCompound("Ingredient"));
+			return ingredient.getItem() == test;
+		}
+
+		return false;
+	}
+
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 		ItemStack newStack = super.finishUsingItem(stack, level, entity);

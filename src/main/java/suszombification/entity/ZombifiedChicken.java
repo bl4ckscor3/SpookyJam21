@@ -4,13 +4,19 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -38,14 +44,19 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
 import suszombification.entity.ai.SPPTemptGoal;
+import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
+	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedChicken.class, EntityDataSerializers.BOOLEAN);
+	private int conversionTime;
 	public float flap;
 	public float flapSpeed;
 	public float oFlapSpeed;
@@ -60,6 +71,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	public ZombifiedChicken(EntityType<? extends ZombifiedChicken> type, Level level) {
 		super(type, level);
+		entityData.define(DATA_CONVERTING_ID, false);
 	}
 
 	@Override
@@ -83,6 +95,20 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.ATTACK_DAMAGE, 1.0D);
+	}
+
+	@Override
+	public void tick() {
+		if (!level.isClientSide && isAlive() && isConverting()) {
+			int i = getConversionProgress();
+
+			conversionTime -= i;
+			if (conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.CHICKEN, this::setConversionTime)) {
+				finishConversion((ServerLevel)level);
+			}
+		}
+
+		super.tick();
 	}
 
 	@Override
@@ -111,6 +137,41 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
+		}
+	}
+
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
+
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if (hasEffect(MobEffects.WEAKNESS)) {
+				if (!player.getAbilities().instabuild) {
+					stack.shrink(1);
+				}
+
+				if (!level.isClientSide) {
+					startConverting(random.nextInt(2401) + 3600);
+				}
+
+				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
+				return InteractionResult.SUCCESS;
+			}
+
+			return InteractionResult.CONSUME;
+		}
+
+		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	public void handleEntityEvent(byte pId) {
+		if (pId == 16) {
+			if (!isSilent()) {
+				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
+			}
+		} else {
+			super.handleEntityEvent(pId);
 		}
 	}
 
@@ -185,6 +246,9 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 			this.eggTime = tag.getInt("EggLayTime");
 		}
 
+		if (tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1) {
+			startConverting(tag.getInt("ConversionTime"));
+		}
 	}
 
 	@Override
@@ -192,6 +256,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		super.addAdditionalSaveData(tag);
 		tag.putBoolean("IsChickenJockey", isChickenJockey);
 		tag.putInt("EggLayTime", eggTime);
+		tag.putInt("ConversionTime", isConverting() ? conversionTime : -1);
 	}
 
 	@Override
@@ -253,14 +318,36 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public EntityType<?> getNormalVariant() {
+	public EntityType<? extends Animal> getNormalVariant() {
 		return EntityType.CHICKEN;
 	}
 
 	@Override
-	public void readFrom(Animal animal) {
+	public void readFromVanilla(Animal animal) {
 		if (animal instanceof Chicken chicken) {
 			setChickenJockey(chicken.isChickenJockey());
 		}
+	}
+
+	@Override
+	public void writeToVanilla(Animal animal) {
+		if (animal instanceof Chicken chicken) {
+			chicken.setChickenJockey(isChickenJockey());
+		}
+	}
+
+	@Override
+	public boolean isConverting() {
+		return getEntityData().get(DATA_CONVERTING_ID);
+	}
+
+	@Override
+	public void setConverting() {
+		getEntityData().set(DATA_CONVERTING_ID, true);
+	}
+
+	@Override
+	public void setConversionTime(int conversionTime) {
+		this.conversionTime = conversionTime;
 	}
 }

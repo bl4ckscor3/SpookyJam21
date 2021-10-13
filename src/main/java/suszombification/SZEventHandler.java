@@ -66,7 +66,7 @@ public class SZEventHandler {
 				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
 				convertedAnimal.finalizeSpawn((ServerLevel)level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
-				((ZombifiedAnimal)convertedAnimal).readFrom(killedEntity);
+				((ZombifiedAnimal)convertedAnimal).readFromVanilla(killedEntity);
 				ForgeEventFactory.onLivingConvert(livingEntity, convertedAnimal);
 
 				if (!killer.isSilent()) {

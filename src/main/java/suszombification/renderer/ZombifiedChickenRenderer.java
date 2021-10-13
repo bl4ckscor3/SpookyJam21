@@ -28,4 +28,9 @@ public class ZombifiedChickenRenderer extends MobRenderer<ZombifiedChicken, Chic
 
 		return (Mth.sin(f) + 1.0F) * f1;
 	}
+
+	@Override
+	protected boolean isShaking(ZombifiedChicken chicken) {
+		return super.isShaking(chicken) || chicken.isConverting();
+	}
 }
