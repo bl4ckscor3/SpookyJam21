@@ -41,7 +41,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
-import suszombification.entity.ai.NearestAttackableEntityTypeGoal;
+import suszombification.entity.ai.ZombifiedAnimalAttackGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 
@@ -69,7 +69,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		targetSelector.addGoal(2, new NearestAttackableEntityTypeGoal<>(this, EntityType.PIG, true, false));
+		targetSelector.addGoal(2, new ZombifiedAnimalAttackGoal(this, true, false));
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
