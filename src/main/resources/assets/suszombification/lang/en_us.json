@@ -38,6 +38,9 @@
 	"entity.suszombification.zombified_sheep": "Zombified Sheep",
 	"entity.suszombification.rotten_egg": "Thrown Rotten Egg",
 
+	"death.attack.suszombification.decomposing": "%s decomposed to a small pile of Rotten Flesh",
+	"death.attack.suszombification.decomposing.player": "%1$s decomposed to a small pile of Rotten Flesh whilst fighting %2$s",
+
 	"effect.suszombification.decomposing": "Decomposing",
 
 	"itemGroup.suszombification": "Suspicious Zombification"

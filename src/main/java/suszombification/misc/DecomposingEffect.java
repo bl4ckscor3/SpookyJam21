@@ -8,6 +8,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.entity.ZombifiedAnimal;
@@ -19,22 +23,35 @@ public class DecomposingEffect extends MobEffect {
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		if (!entity.level.isClientSide && entity instanceof Animal animal) {
-			EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
+		ItemStack rottenFlesh = new ItemStack(Items.ROTTEN_FLESH);
 
-			if (conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
-				Mob convertedAnimal = animal.convertTo(conversionType, false);
+		if (!entity.level.isClientSide) {
+			if (entity instanceof Animal animal) {
+				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
-				convertedAnimal.finalizeSpawn((ServerLevel)animal.level, animal.level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
-				((ZombifiedAnimal)convertedAnimal).readFromVanilla(animal);
-				ForgeEventFactory.onLivingConvert(animal, convertedAnimal);
+				if (conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
+					Mob convertedAnimal = animal.convertTo(conversionType, false);
 
-				if (!animal.isSilent()) {
-					animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
+					convertedAnimal.finalizeSpawn((ServerLevel)animal.level, animal.level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+					((ZombifiedAnimal)convertedAnimal).readFromVanilla(animal);
+					ForgeEventFactory.onLivingConvert(animal, convertedAnimal);
+
+					if (!animal.isSilent()) {
+						animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
+					}
+				}
+				else {
+					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
+
+					if (entity.isDeadOrDying())
+						entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), rottenFlesh));
 				}
 			}
-			else {
-				entity.kill();
+			else if (entity instanceof Player player) {
+				if (!player.getAbilities().instabuild) {
+					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
+					entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), rottenFlesh));
+				}
 			}
 		}
 

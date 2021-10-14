@@ -8,6 +8,7 @@ import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import suszombification.SuspiciousZombification;
 import suszombification.misc.CatMorningGiftModifier;
+import suszombification.misc.NoDecomposingDropsModifier;
 
 public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 	public GlobalLootModifierGenerator(DataGenerator gen) {
@@ -20,5 +21,6 @@ public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 				LootTableIdCondition.builder(BuiltInLootTables.CAT_MORNING_GIFT).build(),
 				LootItemRandomChanceCondition.randomChance(0.5F).build()
 		}));
+		add("no_decomposing_drops", NoDecomposingDropsModifier.serializer, new NoDecomposingDropsModifier(new LootItemCondition[]{}));
 	}
 }

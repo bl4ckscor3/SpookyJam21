@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.misc.CatMorningGiftModifier;
+import suszombification.misc.NoDecomposingDropsModifier;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
@@ -35,5 +36,6 @@ public class RegistrationHandler {
 	@SubscribeEvent
 	public static void registerGlobalLootModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
 		event.getRegistry().register(new CatMorningGiftModifier.Serializer().setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "cat_morning_gift")));
+		event.getRegistry().register(new NoDecomposingDropsModifier.Serializer().setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "no_decomposing_drops")));
 	}
 }
