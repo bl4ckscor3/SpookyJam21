@@ -25,7 +25,6 @@ public class SZItems {
 	public static final RegistryObject<Item> PUMPKIN_CANDY = ITEMS.register("pumpkin_candy", () -> new CandyItem(MobEffects.INVISIBILITY, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> VANILLA_CANDY = ITEMS.register("vanilla_candy", () -> new CandyItem(MobEffects.DIG_SPEED, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: maybe more candy flavours?
-	//TODO: short monolougle-like texts in chat when eating a SPP? Like "The taste of this pie makes you wanna go mine diamonds" for Vanilla-Candy-SSP or "Urgh, this pie probably wasn't meant to be eaten by a human" for a mob-drop SPP
 	public static final RegistryObject<Item> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));

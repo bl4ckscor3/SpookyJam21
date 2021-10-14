@@ -1,11 +1,18 @@
 package suszombification.item;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,8 +20,15 @@ import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
 
 public class SuspiciousPumpkinPieItem extends Item {
+	private final Map<Item, Consumer<LivingEntity>> EFFECTS_MAP = new HashMap<>();
+
 	public SuspiciousPumpkinPieItem(Properties properties) {
 		super(properties);
+		EFFECTS_MAP.put(Items.GOLDEN_APPLE, entity -> {
+			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
+			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
+		});
+		EFFECTS_MAP.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
 	}
 
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
@@ -63,18 +77,24 @@ public class SuspiciousPumpkinPieItem extends Item {
 				}
 			}
 		}
-		else if (tag != null && tag.contains("Ingredient")) {
-			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
 
-			if (ingredient.is(Items.GOLDEN_APPLE)) {
-				entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
-				entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
+		if (tag != null && tag.contains("Ingredient")) {
+			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
+			String itemId = ingredient.getItem().getRegistryName().getPath();
+			ChatFormatting color = ChatFormatting.GOLD;
+
+			if (EFFECTS_MAP.containsKey(ingredient.getItem())) {
+				EFFECTS_MAP.get(ingredient.getItem()).accept(entity);
+				color = ChatFormatting.AQUA;
 			}
-			else if (ingredient.is(Items.ROTTEN_FLESH)) {
-				entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600));
-			}
-			else { //Vanilla Mob Drop
+			else if (!(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
+				itemId = "mob_drop";
+				color = ChatFormatting.DARK_GREEN;
+			}
+
+			if (entity instanceof Player player) {
+				player.displayClientMessage(new TranslatableComponent("messages.suszombification.suspiciousPumpkinPie." + itemId).withStyle(color), true);
 			}
 		}
 
