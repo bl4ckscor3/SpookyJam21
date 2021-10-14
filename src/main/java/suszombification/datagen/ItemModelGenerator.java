@@ -2,12 +2,15 @@ package suszombification.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fmllegacy.RegistryObject;
+import suszombification.SZBlocks;
 import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 
@@ -18,6 +21,15 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
+		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+			Block block = ro.get();
+			Item item = block.asItem();
+
+			if (item instanceof BlockItem) {
+				simpleParent(block);
+			}
+		}
+
 		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
 			Item item = ro.get();
 
@@ -36,6 +48,12 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	private void spawnEgg(Item item) {
 		getBuilder(item.getRegistryName().getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
+	}
+
+	public void simpleParent(Block block) {
+		String name = block.getRegistryName().getPath();
+
+		getBuilder(name).parent(new UncheckedModelFile(modLoc(BLOCK_FOLDER + "/" + name)));
 	}
 
 	@Override

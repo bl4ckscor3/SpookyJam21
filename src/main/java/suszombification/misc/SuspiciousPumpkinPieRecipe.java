@@ -75,7 +75,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	private boolean isIngredient(ItemStack stack) {
-		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || ItemTags.WOOL.contains(stack.getItem());
+		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.is(ItemTags.WOOL); //TODO: rotten wool
 	}
 
 	@Override

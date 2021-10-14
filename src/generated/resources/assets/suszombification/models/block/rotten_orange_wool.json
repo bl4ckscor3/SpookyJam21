@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "suszombification:block/rotten_orange_wool"
+  }
+}

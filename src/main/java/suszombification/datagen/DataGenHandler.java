@@ -16,9 +16,13 @@ public class DataGenHandler {
 	public static void onGatherData(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper existingFileHelper = new ExistingFileHelper(Collections.EMPTY_LIST, Collections.EMPTY_SET, false, null, null);
+		BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existingFileHelper);
 
+		generator.addProvider(new BlockModelAndStateGenerator(generator, existingFileHelper));
+		generator.addProvider(blockTagGenerator);
 		generator.addProvider(new GlobalLootModifierGenerator(generator));
 		generator.addProvider(new ItemModelGenerator(generator, existingFileHelper));
+		generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator, existingFileHelper));
 		generator.addProvider(new LootTableGenerator(generator));
 		generator.addProvider(new RecipeGenerator(generator));
 	}
