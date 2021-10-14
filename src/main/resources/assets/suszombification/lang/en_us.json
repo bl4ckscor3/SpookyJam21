@@ -41,17 +41,17 @@
 	"death.attack.suszombification.decomposing": "%s decomposed to a small pile of rotten flesh",
 	"death.attack.suszombification.decomposing.player": "%1$s decomposed to a small pile of rotten flesh whilst fighting %2$s",
 
-	"messages.suszombification.suspiciousPumpkinPie.caramel_candy": "Sweet! Suddenly you feel so light ... light as a feather in the wind...",
+	"messages.suszombification.suspiciousPumpkinPie.caramel_candy": "Sweet! Suddenly you feel so light... light as a feather in the wind...",
 	"messages.suszombification.suspiciousPumpkinPie.chocolate_candy": "So sugary! You're feeling tired and slow, trying to digest all these nutrients...",
 	"messages.suszombification.suspiciousPumpkinPie.cinnamon_candy": "Brings back Christmas memories! But you get the feeling that some players might be watching you right now...",
 	"messages.suszombification.suspiciousPumpkinPie.honey_candy": "Sticks to your teeth! A warmth in your stomach makes you feel like you could go out and beat up everything!",
 	"messages.suszombification.suspiciousPumpkinPie.melon_candy": "Tastes watery, but that doesn't seem to bother you - you have a hunch that water isn't such a deadly element after all!",
 	"messages.suszombification.suspiciousPumpkinPie.peppermint_candy": "Refreshing, but also a bit sour - and you can't seem to feel the ground under your feet! Did they fall asleep?",
-	"messages.suszombification.suspiciousPumpkinPie.pumpkin_candy": "Tastes a bit odd - and it seemed like your shadow suddenly disappeared ... very strange...",
+	"messages.suszombification.suspiciousPumpkinPie.pumpkin_candy": "Tastes a bit odd - and it seemed like your shadow suddenly disappeared... very strange...",
 	"messages.suszombification.suspiciousPumpkinPie.vanilla_candy": "A fresh and optimistic flavour - you're feeling like you're gonna dig up some ores beneath you in no time!",
 	"messages.suszombification.suspiciousPumpkinPie.mob_drop": "Tastes awful - no living creature would ever want to eat this! But maybe certain animals do like it...",
 	"messages.suszombification.suspiciousPumpkinPie.rotten_flesh": "Tastes incredibly bad, but also nostalgic - reminds you of times of need and starvation...",
-	"messages.suszombification.suspiciousPumpkinPie.golden_apple": "A healthy and a bit metallic flavour that seems to accelerate your healing! Reminds you of past desert pyramid looting times ...",
+	"messages.suszombification.suspiciousPumpkinPie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
 
 	"effect.suszombification.decomposing": "Decomposing",
 
