@@ -1,4 +1,4 @@
-package suszombification.misc;
+package suszombification;
 
 import net.minecraft.world.damagesource.DamageSource;
 

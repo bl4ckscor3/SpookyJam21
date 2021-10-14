@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraftforge.event.ForgeEventFactory;
+import suszombification.SZDamageSources;
 import suszombification.entity.ZombifiedAnimal;
 
 public class DecomposingEffect extends MobEffect {

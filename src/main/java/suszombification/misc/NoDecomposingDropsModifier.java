@@ -13,6 +13,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ObjectHolder;
+import suszombification.SZDamageSources;
 import suszombification.SuspiciousZombification;
 
 public class NoDecomposingDropsModifier extends LootModifier {
