@@ -3,6 +3,7 @@ package suszombification;
 import net.minecraft.resources.ResourceLocation;
 
 public class SZLootTables {
+	public static final ResourceLocation DEATH_BY_DECOMPOSING = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/death_by_decomposing");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BROWN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/brown");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/blue");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_PURPLE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/purple");

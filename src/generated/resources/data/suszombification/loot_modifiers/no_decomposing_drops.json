@@ -1,4 +1,12 @@
 {
-  "conditions": [],
+  "conditions": [
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "forge:loot_table_id",
+        "loot_table_id": "suszombification:gameplay/death_by_decomposing"
+      }
+    }
+  ],
   "type": "suszombification:no_decomposing_drops"
 }

@@ -8,13 +8,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZDamageSources;
+import suszombification.SZLootTables;
 import suszombification.entity.ZombifiedAnimal;
 
 public class DecomposingEffect extends MobEffect {
@@ -42,15 +44,29 @@ public class DecomposingEffect extends MobEffect {
 				else {
 					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
 
-					if (entity.isDeadOrDying())
-						entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.ROTTEN_FLESH)));
+					if (entity.isDeadOrDying()) {
+						spawnDecomposingDrops(entity);
+					}
 				}
 			}
 			else if (entity instanceof Player player && !player.getAbilities().instabuild) {
 				entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
-				entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.ROTTEN_FLESH)));
+				spawnDecomposingDrops(entity);
 			}
 		}
+	}
+
+	private void spawnDecomposingDrops(LivingEntity entity) {
+		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLootTables.DEATH_BY_DECOMPOSING);
+		System.out.println(lootTable);
+		LootContext.Builder builder = new LootContext.Builder((ServerLevel)entity.level)
+				.withRandom(entity.getRandom())
+				.withParameter(LootContextParams.THIS_ENTITY, entity)
+				.withParameter(LootContextParams.ORIGIN, entity.position())
+				.withParameter(LootContextParams.DAMAGE_SOURCE, SZDamageSources.DECOMPOSING);
+		LootContext ctx = builder.create(LootContextParamSets.ENTITY);
+
+		lootTable.getRandomItems(ctx).forEach(entity::spawnAtLocation);
 	}
 
 	@Override

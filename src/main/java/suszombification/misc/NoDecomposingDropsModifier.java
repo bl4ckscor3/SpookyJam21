@@ -20,8 +20,8 @@ public class NoDecomposingDropsModifier extends LootModifier {
 	@ObjectHolder(SuspiciousZombification.MODID + ":no_decomposing_drops")
 	public static GlobalLootModifierSerializer<NoDecomposingDropsModifier> serializer = null;
 
-	public NoDecomposingDropsModifier(LootItemCondition[] conditionsIn) {
-		super(conditionsIn);
+	public NoDecomposingDropsModifier(LootItemCondition[] conditions) {
+		super(conditions);
 	}
 
 	@Override
