@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "suszombification:rotten_wool",
+  "ingredients": [
+    {
+      "tag": "forge:dyes/blue"
+    },
+    {
+      "item": "suszombification:white_rotten_wool"
+    }
+  ],
+  "result": {
+    "item": "suszombification:blue_rotten_wool"
+  }
+}
