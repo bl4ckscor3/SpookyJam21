@@ -60,14 +60,14 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0F, false));
-		goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.of(Items.PORKCHOP), false)); //TODO: Porkchop on a Stick
-		goalSelector.addGoal(4, new SPPTemptGoal(this, 1.2D, FOOD_ITEMS, false));
-		goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
+		goalSelector.addGoal(2, new TemptGoal(this, 1.2D, Ingredient.of(Items.PORKCHOP), false)); //TODO: Porkchop on a Stick
+		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
+		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
+		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
+		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));

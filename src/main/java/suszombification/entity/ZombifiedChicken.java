@@ -76,10 +76,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(3, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
-		goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
+		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
+		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
+		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
+		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
 		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
