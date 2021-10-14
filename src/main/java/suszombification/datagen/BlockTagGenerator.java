@@ -15,22 +15,22 @@ public class BlockTagGenerator extends BlockTagsProvider {
 	@Override
 	protected void addTags() {
 		tag(SZTags.Blocks.ROTTEN_WOOL).add(
-				SZBlocks.ROTTEN_WHITE_WOOL.get(), 
-				SZBlocks.ROTTEN_ORANGE_WOOL.get(), 
-				SZBlocks.ROTTEN_MAGENTA_WOOL.get(), 
-				SZBlocks.ROTTEN_LIGHT_BLUE_WOOL.get(), 
-				SZBlocks.ROTTEN_YELLOW_WOOL.get(), 
-				SZBlocks.ROTTEN_LIME_WOOL.get(), 
-				SZBlocks.ROTTEN_PINK_WOOL.get(), 
-				SZBlocks.ROTTEN_GRAY_WOOL.get(),
-				SZBlocks.ROTTEN_LIGHT_GRAY_WOOL.get(),
-				SZBlocks.ROTTEN_CYAN_WOOL.get(),
-				SZBlocks.ROTTEN_PURPLE_WOOL.get(),
-				SZBlocks.ROTTEN_BLUE_WOOL.get(), 
-				SZBlocks.ROTTEN_BROWN_WOOL.get(), 
-				SZBlocks.ROTTEN_GREEN_WOOL.get(), 
-				SZBlocks.ROTTEN_RED_WOOL.get(),
-				SZBlocks.ROTTEN_BLACK_WOOL.get());
+				SZBlocks.WHITE_ROTTEN_WOOl.get(),
+				SZBlocks.ORANGE_ROTTEN_WOOL.get(),
+				SZBlocks.MAGENTA_ROTTEN_WOOL.get(),
+				SZBlocks.LIGHT_BLUE_ROTTEN_WOOL.get(),
+				SZBlocks.YELLOW_ROTTEN_WOOL.get(),
+				SZBlocks.LIME_ROTTEN_WOOL.get(),
+				SZBlocks.PINK_ROTTEN_WOOL.get(),
+				SZBlocks.GRAY_ROTTEN_WOOL.get(),
+				SZBlocks.LIGHT_GRAY_ROTTEN_WOOL.get(),
+				SZBlocks.CYAN_ROTTEN_WOOL.get(),
+				SZBlocks.PURPLE_ROTTEN_WOOL.get(),
+				SZBlocks.BLUE_ROTTEN_WOOL.get(),
+				SZBlocks.BROWN_ROTTEN_WOOL.get(),
+				SZBlocks.GREEN_ROTTEN_WOOL.get(),
+				SZBlocks.RED_ROTTEN_WOOL.get(),
+				SZBlocks.BLACK_ROTTEN_WOOL.get());
 	}
 
 	@Override

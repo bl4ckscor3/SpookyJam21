@@ -33,6 +33,9 @@ public class DecomposingEffect extends MobEffect {
 					animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
 				}
 			}
+			else {
+				entity.kill();
+			}
 		}
 
 	}

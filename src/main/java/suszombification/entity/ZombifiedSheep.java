@@ -60,22 +60,22 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
-		map.put(DyeColor.WHITE, SZBlocks.ROTTEN_WHITE_WOOL.get());
-		map.put(DyeColor.ORANGE, SZBlocks.ROTTEN_ORANGE_WOOL.get());
-		map.put(DyeColor.MAGENTA, SZBlocks.ROTTEN_MAGENTA_WOOL.get());
-		map.put(DyeColor.LIGHT_BLUE, SZBlocks.ROTTEN_LIGHT_BLUE_WOOL.get());
-		map.put(DyeColor.YELLOW, SZBlocks.ROTTEN_YELLOW_WOOL.get());
-		map.put(DyeColor.LIME, SZBlocks.ROTTEN_LIME_WOOL.get());
-		map.put(DyeColor.PINK, SZBlocks.ROTTEN_PINK_WOOL.get());
-		map.put(DyeColor.GRAY, SZBlocks.ROTTEN_GRAY_WOOL.get());
-		map.put(DyeColor.LIGHT_GRAY, SZBlocks.ROTTEN_LIGHT_GRAY_WOOL.get());
-		map.put(DyeColor.CYAN, SZBlocks.ROTTEN_CYAN_WOOL.get());
-		map.put(DyeColor.PURPLE, SZBlocks.ROTTEN_PURPLE_WOOL.get());
-		map.put(DyeColor.BLUE, SZBlocks.ROTTEN_BLUE_WOOL.get());
-		map.put(DyeColor.BROWN, SZBlocks.ROTTEN_BROWN_WOOL.get());
-		map.put(DyeColor.GREEN, SZBlocks.ROTTEN_GREEN_WOOL.get());
-		map.put(DyeColor.RED, SZBlocks.ROTTEN_RED_WOOL.get());
-		map.put(DyeColor.BLACK, SZBlocks.ROTTEN_BLACK_WOOL.get());
+		map.put(DyeColor.WHITE, SZBlocks.WHITE_ROTTEN_WOOl.get());
+		map.put(DyeColor.ORANGE, SZBlocks.ORANGE_ROTTEN_WOOL.get());
+		map.put(DyeColor.MAGENTA, SZBlocks.MAGENTA_ROTTEN_WOOL.get());
+		map.put(DyeColor.LIGHT_BLUE, SZBlocks.LIGHT_BLUE_ROTTEN_WOOL.get());
+		map.put(DyeColor.YELLOW, SZBlocks.YELLOW_ROTTEN_WOOL.get());
+		map.put(DyeColor.LIME, SZBlocks.LIME_ROTTEN_WOOL.get());
+		map.put(DyeColor.PINK, SZBlocks.PINK_ROTTEN_WOOL.get());
+		map.put(DyeColor.GRAY, SZBlocks.GRAY_ROTTEN_WOOL.get());
+		map.put(DyeColor.LIGHT_GRAY, SZBlocks.LIGHT_GRAY_ROTTEN_WOOL.get());
+		map.put(DyeColor.CYAN, SZBlocks.CYAN_ROTTEN_WOOL.get());
+		map.put(DyeColor.PURPLE, SZBlocks.PURPLE_ROTTEN_WOOL.get());
+		map.put(DyeColor.BLUE, SZBlocks.BLUE_ROTTEN_WOOL.get());
+		map.put(DyeColor.BROWN, SZBlocks.BROWN_ROTTEN_WOOL.get());
+		map.put(DyeColor.GREEN, SZBlocks.GREEN_ROTTEN_WOOL.get());
+		map.put(DyeColor.RED, SZBlocks.RED_ROTTEN_WOOL.get());
+		map.put(DyeColor.BLACK, SZBlocks.BLACK_ROTTEN_WOOL.get());
 	});
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedSheep.class, EntityDataSerializers.BOOLEAN);
