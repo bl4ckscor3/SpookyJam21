@@ -21,5 +21,7 @@
 	"entity.suszombification.zombified_sheep": "Zombified Sheep",
 	"entity.suszombification.rotten_egg": "Thrown Rotten Egg",
 
+	"effect.suszombification.decomposing": "Decomposing",
+
 	"itemGroup.suszombification": "Suspicious Zombification"
 }
