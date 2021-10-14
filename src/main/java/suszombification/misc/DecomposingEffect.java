@@ -24,8 +24,6 @@ public class DecomposingEffect extends MobEffect {
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		ItemStack rottenFlesh = new ItemStack(Items.ROTTEN_FLESH);
-
 		if (!entity.level.isClientSide) {
 			if (entity instanceof Animal animal) {
 				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
@@ -45,17 +43,14 @@ public class DecomposingEffect extends MobEffect {
 					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
 
 					if (entity.isDeadOrDying())
-						entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), rottenFlesh));
+						entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.ROTTEN_FLESH)));
 				}
 			}
-			else if (entity instanceof Player player) {
-				if (!player.getAbilities().instabuild) {
-					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
-					entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), rottenFlesh));
-				}
+			else if (entity instanceof Player player && !player.getAbilities().instabuild) {
+				entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
+				entity.level.addFreshEntity(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.ROTTEN_FLESH)));
 			}
 		}
-
 	}
 
 	@Override
