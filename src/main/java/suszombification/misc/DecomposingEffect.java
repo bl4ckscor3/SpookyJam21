@@ -19,10 +19,10 @@ public class DecomposingEffect extends MobEffect {
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		if (!entity.level.isClientSide && entity instanceof Animal animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
+		if (!entity.level.isClientSide && entity instanceof Animal animal) {
 			EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
-			if (ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
+			if (conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
 				Mob convertedAnimal = animal.convertTo(conversionType, false);
 
 				convertedAnimal.finalizeSpawn((ServerLevel)animal.level, animal.level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
