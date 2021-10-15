@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "suszombification:item/vanilla_candy"
+    "layer0": "suszombification:item/vanilla_cream_candy"
   }
 }

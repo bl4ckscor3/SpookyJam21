@@ -13,7 +13,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "suszombification:chocolate_candy"
+          "name": "suszombification:chocolate_cream_candy"
         },
         {
           "type": "minecraft:item",
@@ -43,7 +43,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "suszombification:vanilla_candy"
+          "name": "suszombification:vanilla_cream_candy"
         }
       ]
     }

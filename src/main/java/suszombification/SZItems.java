@@ -17,13 +17,13 @@ public class SZItems {
 
 	public static final RegistryObject<Item> SUSPICIOUS_PUMPKIN_PIE = ITEMS.register("suspicious_pumpkin_pie", () -> new SuspiciousPumpkinPieItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.3F).alwaysEat().build()).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> CARAMEL_CANDY = ITEMS.register("caramel_candy", () -> new CandyItem(MobEffects.SLOW_FALLING, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
-	public static final RegistryObject<Item> CHOCOLATE_CANDY = ITEMS.register("chocolate_candy", () -> new CandyItem(MobEffects.DIG_SLOWDOWN, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> CHOCOLATE_CREAM_CANDY = ITEMS.register("chocolate_cream_candy", () -> new CandyItem(MobEffects.DIG_SLOWDOWN, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> CINNAMON_CANDY = ITEMS.register("cinnamon_candy", () -> new CandyItem(MobEffects.GLOWING, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> HONEY_CANDY = ITEMS.register("honey_candy", () -> new CandyItem(MobEffects.DAMAGE_BOOST, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> MELON_CANDY = ITEMS.register("melon_candy", () -> new CandyItem(MobEffects.WATER_BREATHING, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> PEPPERMINT_CANDY = ITEMS.register("peppermint_candy", () -> new CandyItem(MobEffects.LEVITATION, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> PUMPKIN_CANDY = ITEMS.register("pumpkin_candy", () -> new CandyItem(MobEffects.INVISIBILITY, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
-	public static final RegistryObject<Item> VANILLA_CANDY = ITEMS.register("vanilla_candy", () -> new CandyItem(MobEffects.DIG_SPEED, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> VANILLA_CREAM_CANDY = ITEMS.register("vanilla_cream_candy", () -> new CandyItem(MobEffects.DIG_SPEED, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: maybe more candy flavours?
 	public static final RegistryObject<Item> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16).tab(SuspiciousZombification.TAB)));

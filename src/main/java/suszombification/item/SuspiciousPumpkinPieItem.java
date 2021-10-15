@@ -20,10 +20,11 @@ import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
 
 public class SuspiciousPumpkinPieItem extends Item {
-	private final Map<Item, Consumer<LivingEntity>> EFFECTS_MAP = new HashMap<>();
+	private static final Map<Item, Consumer<LivingEntity>> EFFECTS_MAP = new HashMap<>();
 
 	public SuspiciousPumpkinPieItem(Properties properties) {
 		super(properties);
+
 		EFFECTS_MAP.put(Items.GOLDEN_APPLE, entity -> {
 			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
 			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
@@ -56,7 +57,6 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
-		ItemStack newStack = super.finishUsingItem(stack, level, entity);
 		CompoundTag tag = stack.getTag();
 
 		if (tag != null && tag.contains("Effects", 9)) {
@@ -94,10 +94,10 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			if (entity instanceof Player player) {
-				player.displayClientMessage(new TranslatableComponent("messages.suszombification.suspiciousPumpkinPie." + itemId).withStyle(color), true);
+				player.displayClientMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), true);
 			}
 		}
 
-		return newStack;
+		return super.finishUsingItem(stack, level, entity);
 	}
 }
