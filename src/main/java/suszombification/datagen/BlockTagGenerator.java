@@ -35,6 +35,6 @@ public class BlockTagGenerator extends BlockTagsProvider {
 
 	@Override
 	public String getName() {
-		return "Suspicious Zombification Block Tags";
+		return "Block Tags: " + SuspiciousZombification.MODID;
 	}
 }

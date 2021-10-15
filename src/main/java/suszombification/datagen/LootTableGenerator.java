@@ -27,6 +27,7 @@ import suszombification.SZBlocks;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.SZLootTables;
+import suszombification.SuspiciousZombification;
 
 public class LootTableGenerator implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -123,7 +124,6 @@ public class LootTableGenerator implements DataProvider {
 		Map<ResourceLocation, LootTable> tables = new HashMap<>();
 
 		generateEntityLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.ENTITY).build()));
-
 		tables.forEach((key, lootTable) -> {
 			try {
 				DataProvider.save(GSON, cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
@@ -136,6 +136,6 @@ public class LootTableGenerator implements DataProvider {
 
 	@Override
 	public String getName() {
-		return "Suspicious Zombification Loot Tables";
+		return "Loot Tables: " + SuspiciousZombification.MODID;
 	}
 }

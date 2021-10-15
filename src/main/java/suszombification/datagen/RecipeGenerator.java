@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import suszombification.SZBlocks;
+import suszombification.SuspiciousZombification;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 public class RecipeGenerator extends RecipeProvider {
@@ -39,12 +40,18 @@ public class RecipeGenerator extends RecipeProvider {
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_RED, SZBlocks.RED_ROTTEN_WOOL.get());
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_YELLOW, SZBlocks.YELLOW_ROTTEN_WOOL.get());
 	}
+
 	protected final void addColoredWoolRecipe(Consumer<FinishedRecipe> consumer, Tag<Item> dye, ItemLike result) {
 		ShapelessRecipeBuilder.shapeless(result)
-				.group("suszombification:rotten_wool")
-				.requires(dye)
-				.requires(SZBlocks.WHITE_ROTTEN_WOOl.get())
-				.unlockedBy("has_wool", has(SZBlocks.WHITE_ROTTEN_WOOl.get()))
-				.save(consumer);
+		.group("suszombification:rotten_wool")
+		.requires(dye)
+		.requires(SZBlocks.WHITE_ROTTEN_WOOl.get())
+		.unlockedBy("has_wool", has(SZBlocks.WHITE_ROTTEN_WOOl.get()))
+		.save(consumer);
+	}
+
+	@Override
+	public String getName() {
+		return "Recipes: " + SuspiciousZombification.MODID;
 	}
 }

@@ -19,6 +19,6 @@ public class ItemTagGenerator extends ItemTagsProvider {
 
 	@Override
 	public String getName() {
-		return "Suspicious Zombification Item Tags";
+		return "Item Tags: " + SuspiciousZombification.MODID;
 	}
 }

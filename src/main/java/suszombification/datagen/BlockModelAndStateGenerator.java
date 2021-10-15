@@ -22,9 +22,4 @@ public class BlockModelAndStateGenerator extends BlockStateProvider {
 			simpleBlock(block);
 		}
 	}
-
-	@Override
-	public String getName() {
-		return "Suspicious Zombification Block States/Models";
-	}
 }
