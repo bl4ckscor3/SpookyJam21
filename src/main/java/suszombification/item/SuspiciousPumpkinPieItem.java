@@ -97,6 +97,9 @@ public class SuspiciousPumpkinPieItem extends Item {
 				player.displayClientMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), true);
 			}
 		}
+		else if (entity instanceof Player player) {
+			player.displayClientMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie.air").withStyle(ChatFormatting.AQUA), true);
+		}
 
 		return super.finishUsingItem(stack, level, entity);
 	}

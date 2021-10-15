@@ -41,6 +41,7 @@
 	"death.attack.suszombification.decomposing": "%s decomposed to a small pile of rotten flesh",
 	"death.attack.suszombification.decomposing.player": "%1$s decomposed to a small pile of rotten flesh whilst fighting %2$s",
 
+	"message.suszombification.suspicious_pumpkin_pie.air": "Tastes like a normal pumpkin pie... someone must have confused the recipes!",
 	"message.suszombification.suspicious_pumpkin_pie.caramel_candy": "Sweet! Suddenly you feel so light... light as a feather in the wind...",
 	"message.suszombification.suspicious_pumpkin_pie.chocolate_cream_candy": "So sugary! You're feeling tired and slow, trying to digest all these nutrients...",
 	"message.suszombification.suspicious_pumpkin_pie.cinnamon_candy": "Brings back Christmas memories! But you get the feeling that some players might be watching you right now...",
