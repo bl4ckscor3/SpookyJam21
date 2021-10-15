@@ -1,5 +1,7 @@
 package suszombification.datagen;
 
+import java.util.Set;
+
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -15,6 +17,8 @@ import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 
 public class ItemModelGenerator extends ItemModelProvider {
+	private static final Set<Item> HANDHELD_ITEMS = Set.of(SZItems.HONEY_CANDY.get());
+
 	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 		super(generator, SuspiciousZombification.MODID, existingFileHelper);
 	}
@@ -36,6 +40,9 @@ public class ItemModelGenerator extends ItemModelProvider {
 			if (item instanceof SpawnEggItem) {
 				spawnEgg(item);
 			}
+			else if (HANDHELD_ITEMS.contains(item)){
+				handheldItem(item);
+			}
 			else {
 				flatItem(item);
 			}
@@ -44,6 +51,10 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	private void flatItem(Item item) {
 		getBuilder(item.getRegistryName().getPath()).parent(new UncheckedModelFile("item/generated")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + item.getRegistryName().getPath()));
+	}
+
+	private void handheldItem(Item item) {
+		getBuilder(item.getRegistryName().getPath()).parent(new UncheckedModelFile("item/handheld")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + item.getRegistryName().getPath()));
 	}
 
 	private void spawnEgg(Item item) {
