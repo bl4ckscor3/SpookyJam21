@@ -3,6 +3,7 @@ package suszombification;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,7 +26,7 @@ public class SZItems {
 	public static final RegistryObject<Item> PUMPKIN_CANDY = ITEMS.register("pumpkin_candy", () -> new CandyItem(MobEffects.INVISIBILITY, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> VANILLA_CREAM_CANDY = ITEMS.register("vanilla_cream_candy", () -> new CandyItem(MobEffects.DIG_SPEED, 20, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	//TODO: maybe more candy flavours?
-	public static final RegistryObject<Item> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16).tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.register("zombified_cow_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_COW, 0x443626, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));

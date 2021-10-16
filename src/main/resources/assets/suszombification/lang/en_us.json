@@ -51,9 +51,11 @@
 	"message.suszombification.suspicious_pumpkin_pie.pumpkin_candy": "Tastes a bit odd - and it seemed like your shadow suddenly disappeared... very strange...",
 	"message.suszombification.suspicious_pumpkin_pie.vanilla_cream_candy": "A fresh and optimistic flavour - you're feeling like you're gonna dig up some ores beneath you in no time!",
 	"message.suszombification.suspicious_pumpkin_pie.mob_drop": "Tastes awful - no living creature would ever want to eat this! But maybe certain animals do like it...",
+	"message.suszombification.suspicious_pumpkin_pie.spoiled_milk_bucket": "Very sour, but you get the feeling that this flavor fits really well with other flavors - like the ones from Potions...",
 	"message.suszombification.suspicious_pumpkin_pie.rotten_flesh": "Tastes incredibly bad, but also nostalgic - reminds you of times of need and starvation...",
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
 
+	"effect.suszombification.amplifying": "Amplifying",
 	"effect.suszombification.decomposing": "Decomposing",
 
 	"itemGroup.suszombification": "Suspicious Zombification"

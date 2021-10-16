@@ -1,4 +1,4 @@
-package suszombification.misc;
+package suszombification.effect;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;

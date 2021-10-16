@@ -3,6 +3,7 @@ package suszombification.item;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -18,18 +19,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import suszombification.SZEffects;
+import suszombification.SZItems;
 
 public class SuspiciousPumpkinPieItem extends Item {
-	private static final Map<Item, Consumer<LivingEntity>> EFFECTS_MAP = new HashMap<>();
+	private static final Map<RegistryObject<Item>, Supplier<MobEffectInstance>> CUSTOM_EFFECTS = new HashMap<>();
+	private static final Map<Item, Consumer<LivingEntity>> MISC_ITEMS = new HashMap<>();
 
 	public SuspiciousPumpkinPieItem(Properties properties) {
 		super(properties);
-
-		EFFECTS_MAP.put(Items.GOLDEN_APPLE, entity -> {
-			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
-			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
-		});
-		EFFECTS_MAP.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
 	}
 
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
@@ -83,8 +82,15 @@ public class SuspiciousPumpkinPieItem extends Item {
 			String itemId = ingredient.getItem().getRegistryName().getPath();
 			ChatFormatting color = ChatFormatting.GOLD;
 
-			if (EFFECTS_MAP.containsKey(ingredient.getItem())) {
-				EFFECTS_MAP.get(ingredient.getItem()).accept(entity);
+			if (CUSTOM_EFFECTS.keySet().stream().anyMatch(ro -> ingredient.getItem() == ro.get())) {
+				RegistryObject<Item> ingredientSupplier = SZItems.ITEMS.getEntries().stream().filter(ro -> ingredient.getItem() == ro.get()).findFirst().orElse(null);
+
+				entity.addEffect(CUSTOM_EFFECTS.get(ingredientSupplier).get());
+				entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100));
+				color = ChatFormatting.DARK_PURPLE;
+			}
+			else if (MISC_ITEMS.containsKey(ingredient.getItem())) {
+				MISC_ITEMS.get(ingredient.getItem()).accept(entity);
 				color = ChatFormatting.AQUA;
 			}
 			else if (!(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
@@ -102,5 +108,15 @@ public class SuspiciousPumpkinPieItem extends Item {
 		}
 
 		return super.finishUsingItem(stack, level, entity);
+	}
+
+	static {
+		CUSTOM_EFFECTS.put(SZItems.SPOILED_MILK_BUCKET, () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1));
+
+		MISC_ITEMS.put(Items.GOLDEN_APPLE, entity -> {
+			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
+			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
+		});
+		MISC_ITEMS.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
 	}
 }
