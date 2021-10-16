@@ -20,7 +20,7 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
 	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
-	private static final Ingredient INGREDIENTS = Ingredient.of(Items.GOLDEN_APPLE, Items.ROTTEN_FLESH, Items.CHICKEN, Items.FEATHER, Items.BEEF, Items.LEATHER, Items.PORKCHOP, Items.MUTTON, SZItems.SPOILED_MILK_BUCKET.get()); //TODO: add rotten items
+	private static final Ingredient INGREDIENTS = Ingredient.of(Items.GOLDEN_APPLE, Items.ROTTEN_FLESH, Items.CHICKEN, Items.FEATHER, Items.BEEF, Items.LEATHER, Items.PORKCHOP, Items.MUTTON, SZItems.SPOILED_MILK_BUCKET.get(), SZItems.ROTTEN_EGG.get()); //TODO: add rotten items
 
 	public SuspiciousPumpkinPieRecipe(ResourceLocation id) {
 		super(id);

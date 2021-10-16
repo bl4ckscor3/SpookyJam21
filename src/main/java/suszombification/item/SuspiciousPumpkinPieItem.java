@@ -29,6 +29,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 	static {
 		CUSTOM_EFFECTS.put(SZItems.SPOILED_MILK_BUCKET, () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1));
+		CUSTOM_EFFECTS.put(SZItems.ROTTEN_EGG, () -> new MobEffectInstance(SZEffects.STENCH.get(), 2400));
 
 		MISC_ITEMS.put(Items.GOLDEN_APPLE, entity -> {
 			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
