@@ -27,6 +27,16 @@ public class SuspiciousPumpkinPieItem extends Item {
 	private static final Map<RegistryObject<Item>, Supplier<MobEffectInstance>> CUSTOM_EFFECTS = new HashMap<>();
 	private static final Map<Item, Consumer<LivingEntity>> MISC_ITEMS = new HashMap<>();
 
+	static {
+		CUSTOM_EFFECTS.put(SZItems.SPOILED_MILK_BUCKET, () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1));
+
+		MISC_ITEMS.put(Items.GOLDEN_APPLE, entity -> {
+			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
+			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
+		});
+		MISC_ITEMS.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
+	}
+
 	public SuspiciousPumpkinPieItem(Properties properties) {
 		super(properties);
 	}
@@ -108,15 +118,5 @@ public class SuspiciousPumpkinPieItem extends Item {
 		}
 
 		return super.finishUsingItem(stack, level, entity);
-	}
-
-	static {
-		CUSTOM_EFFECTS.put(SZItems.SPOILED_MILK_BUCKET, () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1));
-
-		MISC_ITEMS.put(Items.GOLDEN_APPLE, entity -> {
-			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
-			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
-		});
-		MISC_ITEMS.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
 	}
 }
