@@ -41,6 +41,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -186,6 +187,22 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 			}
 		} else {
 			super.handleEntityEvent(pId);
+		}
+	}
+
+	@Override
+	public void shear(SoundSource category) {
+		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
+		setSheared(true);
+
+		int i = 1 + random.nextInt(3);
+
+		for(int j = 0; j < i; ++j) {
+			ItemEntity item = spawnAtLocation(ITEM_BY_DYE.get(getColor()), 1);
+
+			if (item != null) {
+				item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
+			}
 		}
 	}
 
