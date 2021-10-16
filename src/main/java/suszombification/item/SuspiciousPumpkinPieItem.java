@@ -13,7 +13,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -21,6 +20,7 @@ import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.SZEffects;
+import suszombification.SZEventHandler;
 import suszombification.SZItems;
 
 public class SuspiciousPumpkinPieItem extends Item {
@@ -110,12 +110,12 @@ public class SuspiciousPumpkinPieItem extends Item {
 				color = ChatFormatting.DARK_GREEN;
 			}
 
-			if (entity instanceof Player player) {
-				player.displayClientMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), true);
+			if (level.isClientSide) {
+				SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), 80);
 			}
 		}
-		else if (entity instanceof Player player) {
-			player.displayClientMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie.air").withStyle(ChatFormatting.AQUA), true);
+		else if (level.isClientSide) {
+			SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie.air").withStyle(ChatFormatting.AQUA), 80);
 		}
 
 		return super.finishUsingItem(stack, level, entity);
