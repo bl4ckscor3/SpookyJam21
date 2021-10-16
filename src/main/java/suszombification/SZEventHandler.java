@@ -1,6 +1,6 @@
 package suszombification;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
@@ -40,7 +40,7 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
-	public static final Map<Component, Integer> ACTIONBAR_TEXTS = new HashMap<>();
+	public static final Map<Component, Integer> ACTIONBAR_TEXTS = new LinkedHashMap<>();
 
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
