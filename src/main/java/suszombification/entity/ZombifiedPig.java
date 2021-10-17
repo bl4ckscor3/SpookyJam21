@@ -55,6 +55,11 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	public ZombifiedPig(EntityType<? extends ZombifiedPig> type, Level level) {
 		super(type, level);
+	}
+
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
 		entityData.define(DATA_CONVERTING_ID, false);
 	}
 
