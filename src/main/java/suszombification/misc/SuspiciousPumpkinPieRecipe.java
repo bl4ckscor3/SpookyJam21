@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ObjectHolder;
 import suszombification.SZItems;
+import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
 import suszombification.item.CandyItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
@@ -75,7 +76,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	private boolean isIngredient(ItemStack stack) {
-		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.is(ItemTags.WOOL); //TODO: rotten wool
+		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.is(ItemTags.WOOL) || stack.is(SZTags.Items.ROTTEN_WOOL);
 	}
 
 	@Override

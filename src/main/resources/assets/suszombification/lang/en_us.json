@@ -53,10 +53,12 @@
 	"message.suszombification.suspicious_pumpkin_pie.mob_drop": "Tastes awful - no living creature would ever want to eat this! But maybe certain animals do like it...",
 	"message.suszombification.suspicious_pumpkin_pie.spoiled_milk_bucket": "Very sour, but you get the feeling that this flavor fits really well with other flavors - like the ones from potions...",
 	"message.suszombification.suspicious_pumpkin_pie.rotten_egg": "That stench - disgusting! But you seem to get used to it quickly - unlike the poor creatures around you...",
+	"message.suszombification.suspicious_pumpkin_pie.rotten_wool": "Very hard to chew, but after some time you feel like your whole body is getting softer and squishier - maybe you're gonna have an easier time resisting punches?",
 	"message.suszombification.suspicious_pumpkin_pie.rotten_flesh": "Tastes incredibly bad, but also nostalgic - reminds you of times of need and starvation...",
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
 
 	"effect.suszombification.amplifying": "Amplifying",
+	"effect.suszombification.cushion": "Cushion",
 	"effect.suszombification.decomposing": "Decomposing",
 	"effect.suszombification.stench": "Stench",
 
