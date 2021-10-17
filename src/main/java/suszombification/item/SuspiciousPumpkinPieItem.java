@@ -1,12 +1,9 @@
 package suszombification.item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -27,22 +24,15 @@ import suszombification.SZItems;
 import suszombification.SZTags;
 
 public class SuspiciousPumpkinPieItem extends Item {
-	private static final List<Function<ItemStack, MobEffectInstance>> CUSTOM_EFFECTS = new ArrayList<>();
-	private static final List<Function<ItemStack, String>> CUSTOM_TRANSLATION_KEYS = new ArrayList<>();
-	private static final Map<Item, Consumer<LivingEntity>> MISC_ITEMS = new HashMap<>();
+	private record PieEffect(Function<ItemStack, Boolean> check, Supplier<MobEffectInstance> mainEffect, Supplier<MobEffectInstance> extraEffect, ChatFormatting displayColor) {}
+	private static final List<PieEffect> PIE_EFFECTS = new ArrayList<>();
 
 	static {
-		CUSTOM_EFFECTS.add(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()) ? new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1) : null);
-		CUSTOM_EFFECTS.add(stack -> stack.is(SZItems.ROTTEN_EGG.get()) ? new MobEffectInstance(SZEffects.STENCH.get(), 2400) : null);
-		CUSTOM_EFFECTS.add(stack -> stack.is(SZTags.Items.ROTTEN_WOOL) ? new MobEffectInstance(SZEffects.CUSHION.get(), 2400) : null);
-
-		CUSTOM_TRANSLATION_KEYS.add(stack -> stack.is(SZTags.Items.ROTTEN_WOOL) ? "rotten_wool" : "");
-
-		MISC_ITEMS.put(Items.GOLDEN_APPLE, entity -> {
-			entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
-			entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400));
-		});
-		MISC_ITEMS.put(Items.ROTTEN_FLESH, entity -> entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 600)));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new MobEffectInstance(SZEffects.STENCH.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new MobEffectInstance(SZEffects.CUSHION.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new MobEffectInstance(MobEffects.REGENERATION, 200, 1), () -> new MobEffectInstance(MobEffects.ABSORPTION, 2400), ChatFormatting.AQUA));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(MobEffects.HUNGER, 600), () -> null, ChatFormatting.AQUA));
 	}
 
 	public SuspiciousPumpkinPieItem(Properties properties) {
@@ -99,28 +89,34 @@ public class SuspiciousPumpkinPieItem extends Item {
 			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
 			String itemId = ingredient.getItem().getRegistryName().getPath();
 			ChatFormatting color = ChatFormatting.GOLD;
+			boolean foundEffect = false;
 
-			if (CUSTOM_EFFECTS.stream().anyMatch(f -> f.apply(ingredient) != null)) {
-				MobEffectInstance effect = CUSTOM_EFFECTS.stream().map(f -> f.apply(ingredient)).filter(Objects::nonNull).findFirst().orElse(null);
+			for(PieEffect pieEffect : PIE_EFFECTS) {
+				if(pieEffect.check.apply(ingredient)) {
+					MobEffectInstance mainEffect = pieEffect.mainEffect.get();
+					MobEffectInstance extraEffect = pieEffect.extraEffect.get();
 
-				if (effect != null) {
-					entity.addEffect(effect);
-					entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100));
-					color = ChatFormatting.DARK_PURPLE;
+					if(mainEffect != null) {
+						entity.addEffect(mainEffect);
+					}
+
+					if(extraEffect != null) {
+						entity.addEffect(extraEffect);
+					}
+
+					if(ingredient.is(SZTags.Items.ROTTEN_WOOL)) {
+						itemId = "rotten_wool";
+					}
+
+					foundEffect = true;
+					break;
 				}
 			}
-			else if (MISC_ITEMS.containsKey(ingredient.getItem())) {
-				MISC_ITEMS.get(ingredient.getItem()).accept(entity);
-				color = ChatFormatting.AQUA;
-			}
-			else if (!(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
+
+			if (!foundEffect && !(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
 				itemId = "mob_drop";
 				color = ChatFormatting.DARK_GREEN;
-			}
-
-			if (CUSTOM_TRANSLATION_KEYS.stream().anyMatch(f -> !f.apply(ingredient).isEmpty())) {
-				itemId = CUSTOM_TRANSLATION_KEYS.stream().map(f -> f.apply(ingredient)).filter(s -> !s.isEmpty()).findFirst().orElse("mob_drop");
 			}
 
 			if (level.isClientSide) {
