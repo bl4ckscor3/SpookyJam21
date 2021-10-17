@@ -49,14 +49,14 @@ public class SZEventHandler {
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
 
-		if (entity instanceof PathfinderMob mob) {
-			if (mob.getType() == EntityType.CHICKEN)
+		if(entity instanceof PathfinderMob mob) {
+			if(mob.getType() == EntityType.CHICKEN)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedChicken.class, 4.0F, 1.0F, 1.2F));
-			else if (mob.getType() == EntityType.COW)
+			else if(mob.getType() == EntityType.COW)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedCow.class, 4.0F, 1.0F, 1.2F));
-			else if (mob.getType() == EntityType.PIG)
+			else if(mob.getType() == EntityType.PIG)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedPig.class, 4.0F, 1.0F, 1.2F));
-			else if (mob.getType() == EntityType.SHEEP)
+			else if(mob.getType() == EntityType.SHEEP)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
 		}
 	}
@@ -66,15 +66,14 @@ public class SZEventHandler {
 		Entity entity = event.getTarget();
 		Player player = event.getPlayer();
 
-		if (entity instanceof Animal animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
+		if(entity instanceof Animal animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
 			ItemStack stack = player.getItemInHand(event.getHand());
 
-			if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
+			if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
 				animal.addEffect(new MobEffectInstance(SZEffects.DECOMPOSING.get(), 2400));
 
-				if (!player.getAbilities().instabuild) {
+				if(!player.getAbilities().instabuild)
 					stack.shrink(1);
-				}
 
 				event.setCanceled(true);
 				event.setCancellationResult(InteractionResult.SUCCESS);
@@ -84,9 +83,8 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onEntityConvert(LivingConversionEvent.Pre event) {
-		if (event.getEntityLiving() instanceof ZombifiedPig && event.getOutcome() == EntityType.ZOMBIFIED_PIGLIN) {
+		if(event.getEntityLiving() instanceof ZombifiedPig && event.getOutcome() == EntityType.ZOMBIFIED_PIGLIN)
 			event.setCanceled(true);
-		}
 	}
 
 	@SubscribeEvent
@@ -95,13 +93,12 @@ public class SZEventHandler {
 		Entity killer = event.getSource().getEntity();
 		Level level = livingEntity.level;
 
-		if (!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
+		if(!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
 			EntityType<? extends Mob> conversionType = (EntityType<? extends Mob>)killer.getType();
 
-			if (livingEntity instanceof Animal killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
-				if (level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean()) {
+			if(livingEntity instanceof Animal killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
+				if(level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean())
 					return;
-				}
 
 				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
@@ -109,35 +106,33 @@ public class SZEventHandler {
 				((ZombifiedAnimal)convertedAnimal).readFromVanilla(killedEntity);
 				ForgeEventFactory.onLivingConvert(livingEntity, convertedAnimal);
 
-				if (!killer.isSilent()) {
+				if(!killer.isSilent())
 					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
-				}
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public static void onClientTick(TickEvent.ClientTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			if (!ACTIONBAR_TEXTS.isEmpty()) {
+		if(event.phase == TickEvent.Phase.END) {
+			if(!ACTIONBAR_TEXTS.isEmpty()) {
 				Player player = Minecraft.getInstance().player;
 				Component actionbarText = ACTIONBAR_TEXTS.keySet().stream().findFirst().orElse(TextComponent.EMPTY);
 				int ticks = ACTIONBAR_TEXTS.get(actionbarText);
 
-				if (actionbarText != TextComponent.EMPTY && ticks > 0) {
+				if(actionbarText != TextComponent.EMPTY && ticks > 0) {
 					player.displayClientMessage(actionbarText, true);
 					ACTIONBAR_TEXTS.put(actionbarText, --ticks);
 				}
-				else {
+				else
 					ACTIONBAR_TEXTS.remove(actionbarText);
-				}
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public static void onLivingFall(LivingFallEvent event) {
-		if (event.getEntityLiving().hasEffect(SZEffects.CUSHION.get()) && event.getDistance() > 3.0F) {
+		if(event.getEntityLiving().hasEffect(SZEffects.CUSHION.get()) && event.getDistance() > 3.0F) {
 			MobEffectInstance cushionEffect = event.getEntityLiving().getEffect(SZEffects.CUSHION.get());
 
 			event.setDamageMultiplier((Math.max(event.getDamageMultiplier() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0)));
@@ -147,7 +142,7 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onKnockback(LivingKnockBackEvent event) {
-		if (event.getEntityLiving().hasEffect(SZEffects.CUSHION.get())) {
+		if(event.getEntityLiving().hasEffect(SZEffects.CUSHION.get())) {
 			MobEffectInstance cushionEffect = event.getEntityLiving().getEffect(SZEffects.CUSHION.get());
 
 			event.setStrength(Math.max(event.getOriginalStrength() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));

@@ -31,7 +31,7 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if (id == 3) {
+		if(id == 3) {
 			for(int i = 0; i < 8; ++i) {
 				level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, getItem()), getX(), getY(), getZ(), (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D);
 			}
@@ -46,16 +46,15 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 
 		result.getEntity().hurt(DamageSource.thrown(this, getOwner()), 0.0F);
 
-		if (entity instanceof LivingEntity livingEntity && random.nextInt(8) == 0) {
+		if(entity instanceof LivingEntity livingEntity && random.nextInt(8) == 0)
 			livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200));
-		}
 	}
 
 	@Override
 	protected void onHit(HitResult result) {
 		super.onHit(result);
 
-		if (!level.isClientSide) {
+		if(!level.isClientSide) {
 			level.broadcastEntityEvent(this, (byte)3);
 			discard();
 		}

@@ -42,7 +42,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
 		CompoundTag ingredientTag = new CompoundTag();
 
-		if (ingredient.getItem() instanceof CandyItem candy) {
+		if(ingredient.getItem() instanceof CandyItem candy) {
 			MobEffect effect = candy.getEffect();
 
 			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, effect, candy.getEffectDuration());
@@ -54,7 +54,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 	}
 
 	public static boolean hasIngredient(ItemStack pie, Item test) {
-		if (pie.hasTag() && pie.getTag().contains("Ingredient")) {
+		if(pie.hasTag() && pie.getTag().contains("Ingredient")) {
 			ItemStack ingredient = ItemStack.of(pie.getTag().getCompound("Ingredient"));
 			return ingredient.getItem() == test;
 		}
@@ -66,26 +66,23 @@ public class SuspiciousPumpkinPieItem extends Item {
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 		CompoundTag tag = stack.getTag();
 
-		if (tag != null && tag.contains("Effects", 9)) {
+		if(tag != null && tag.contains("Effects", 9)) {
 			ListTag effects = tag.getList("Effects", 10);
 
 			for(int i = 0; i < effects.size(); ++i) {
 				int duration = 160;
 				CompoundTag effectTag = effects.getCompound(i);
-
-				if (effectTag.contains("EffectDuration", 3)) {
-					duration = effectTag.getInt("EffectDuration");
-				}
-
 				MobEffect effect = MobEffect.byId(effectTag.getByte("EffectId"));
 
-				if (effect != null) {
+				if(effectTag.contains("EffectDuration", 3))
+					duration = effectTag.getInt("EffectDuration");
+
+				if(effect != null)
 					entity.addEffect(new MobEffectInstance(effect, duration));
-				}
 			}
 		}
 
-		if (tag != null && tag.contains("Ingredient")) {
+		if(tag != null && tag.contains("Ingredient")) {
 			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
 			String itemId = ingredient.getItem().getRegistryName().getPath();
 			ChatFormatting color = ChatFormatting.GOLD;
@@ -96,36 +93,31 @@ public class SuspiciousPumpkinPieItem extends Item {
 					MobEffectInstance mainEffect = pieEffect.mainEffect.get();
 					MobEffectInstance extraEffect = pieEffect.extraEffect.get();
 
-					if(mainEffect != null) {
+					if(mainEffect != null)
 						entity.addEffect(mainEffect);
-					}
 
-					if(extraEffect != null) {
+					if(extraEffect != null)
 						entity.addEffect(extraEffect);
-					}
 
-					if(ingredient.is(SZTags.Items.ROTTEN_WOOL)) {
+					if(ingredient.is(SZTags.Items.ROTTEN_WOOL))
 						itemId = "rotten_wool";
-					}
 
 					foundEffect = true;
 					break;
 				}
 			}
 
-			if (!foundEffect && !(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
+			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
 				itemId = "mob_drop";
 				color = ChatFormatting.DARK_GREEN;
 			}
 
-			if (level.isClientSide) {
+			if(level.isClientSide)
 				SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), 80);
-			}
 		}
-		else if (level.isClientSide) {
+		else if(level.isClientSide)
 			SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie.air").withStyle(ChatFormatting.AQUA), 80);
-		}
 
 		return super.finishUsingItem(stack, level, entity);
 	}

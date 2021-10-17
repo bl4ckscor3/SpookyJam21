@@ -48,9 +48,8 @@ public interface ZombifiedAnimal {
 		writeToVanilla(vanillaAnimal);
 		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 
-		if (!zombifiedAnimal.isSilent()) {
+		if(!zombifiedAnimal.isSilent())
 			level.levelEvent(null, 1027, zombifiedAnimal.blockPosition(), 0);
-		}
 
 		ForgeEventFactory.onLivingConvert(zombifiedAnimal, vanillaAnimal);
 	}
@@ -59,7 +58,7 @@ public interface ZombifiedAnimal {
 		int progress = 1;
 		Animal animal = (Animal)this;
 
-		if (animal.getRandom().nextFloat() < 0.01F) {
+		if(animal.getRandom().nextFloat() < 0.01F) {
 			int buffCount = 0;
 			BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
@@ -68,10 +67,9 @@ public interface ZombifiedAnimal {
 					for(int z = (int)animal.getZ() - 4; z < animal.getZ() + 4 && buffCount < 14; ++z) {
 						BlockState state = animal.level.getBlockState(pos.set(x, y, z));
 
-						if (state.is(BlockTags.WOODEN_FENCES) || state.is(Blocks.HAY_BLOCK)) {
-							if (animal.getRandom().nextFloat() < 0.3F) {
+						if(state.is(BlockTags.WOODEN_FENCES) || state.is(Blocks.HAY_BLOCK)) {
+							if(animal.getRandom().nextFloat() < 0.3F)
 								++progress;
-							}
 
 							++buffCount;
 						}

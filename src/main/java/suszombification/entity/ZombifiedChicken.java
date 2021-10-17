@@ -59,8 +59,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	private int conversionTime;
 	public float flap;
 	public float flapSpeed;
-	public float oFlapSpeed;
-	public float oFlap;
+	public float previousFlapSpeed;
+	public float previousFlap;
 	public float flapping = 1.0F;
 	private float nextFlap = 1.0F;
 	public int eggTime = random.nextInt(6000) + 6000;
@@ -104,13 +104,11 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide && isAlive() && isConverting()) {
-			int i = getConversionProgress();
+		if(!level.isClientSide && isAlive() && isConverting()) {
+			conversionTime -= getConversionProgress();
 
-			conversionTime -= i;
-			if (conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.CHICKEN, this::setConversionTime)) {
+			if(conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.CHICKEN, this::setConversionTime))
 				finishConversion((ServerLevel)level);
-			}
 		}
 
 		super.tick();
@@ -119,26 +117,25 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		oFlap = flap;
-		oFlapSpeed = flapSpeed;
+		previousFlap = flap;
+		previousFlapSpeed = flapSpeed;
 		flapSpeed = (float)(flapSpeed + (onGround ? -1 : 4) * 0.3D);
 		flapSpeed = Mth.clamp(flapSpeed, 0.0F, 1.0F);
 
-		if (!onGround && flapping < 1.0F) {
+		if(!onGround && flapping < 1.0F)
 			flapping = 1.0F;
-		}
 
 		flapping = flapping * 0.9F;
 
-		Vec3 vec3 = getDeltaMovement();
+		Vec3 deltaMovement = getDeltaMovement();
 
-		if (!onGround && vec3.y < 0.0D) {
-			setDeltaMovement(vec3.multiply(1.0D, 0.6D, 1.0D));
+		if (!onGround && deltaMovement.y < 0.0D) {
+			setDeltaMovement(deltaMovement.multiply(1.0D, 0.6D, 1.0D));
 		}
 
 		flap += flapping * 2.0F;
 
-		if (!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
+		if(!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
@@ -149,15 +146,13 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
-			if (hasEffect(MobEffects.WEAKNESS)) {
-				if (!player.getAbilities().instabuild) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if(hasEffect(MobEffects.WEAKNESS)) {
+				if(!player.getAbilities().instabuild)
 					stack.shrink(1);
-				}
 
-				if (!level.isClientSide) {
+				if(!level.isClientSide)
 					startConverting(random.nextInt(2401) + 3600);
-				}
 
 				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
 				return InteractionResult.SUCCESS;
@@ -170,14 +165,14 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public void handleEntityEvent(byte pId) {
-		if (pId == 16) {
-			if (!isSilent()) {
+	public void handleEntityEvent(byte id) {
+		if(id == 16) {
+			if(!isSilent())
 				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
-			}
-		} else {
-			super.handleEntityEvent(pId);
 		}
+		else
+			super.handleEntityEvent(id);
+
 	}
 
 	@Override
@@ -187,7 +182,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	protected void onFlap() {
-		this.nextFlap = flyDist + flapSpeed / 2.0F;
+		nextFlap = flyDist + flapSpeed / 2.0F;
 	}
 
 	@Override
@@ -232,7 +227,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
 			ItemStack ingredient = ItemStack.of(ingredientTag);
 
@@ -245,15 +240,13 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		this.isChickenJockey = tag.getBoolean("IsChickenJockey");
+		isChickenJockey = tag.getBoolean("IsChickenJockey");
 
-		if (tag.contains("EggLayTime")) {
+		if(tag.contains("EggLayTime"))
 			this.eggTime = tag.getInt("EggLayTime");
-		}
 
-		if (tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1) {
+		if(tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
-		}
 	}
 
 	@Override
@@ -278,10 +271,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 		passenger.setPos(getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
 
-		if (passenger instanceof LivingEntity entity) {
+		if(passenger instanceof LivingEntity entity)
 			entity.yBodyRot = yBodyRot;
-		}
-
 	}
 
 	public boolean isChickenJockey() {
@@ -289,7 +280,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	public void setChickenJockey(boolean jockey) {
-		this.isChickenJockey = jockey;
+		isChickenJockey = jockey;
 	}
 
 	@Override
@@ -314,7 +305,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void setPersistentAngerTarget(UUID target) {
-		this.persistentAngerTarget = target;
+		persistentAngerTarget = target;
 	}
 
 	@Override
@@ -329,16 +320,14 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if (animal instanceof Chicken chicken) {
+		if(animal instanceof Chicken chicken)
 			setChickenJockey(chicken.isChickenJockey());
-		}
 	}
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if (animal instanceof Chicken chicken) {
+		if(animal instanceof Chicken chicken)
 			chicken.setChickenJockey(isChickenJockey());
-		}
 	}
 
 	@Override

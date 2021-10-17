@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
@@ -85,13 +84,11 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide && isAlive() && isConverting()) {
-			int i = getConversionProgress();
+		if(!level.isClientSide && isAlive() && isConverting()) {
+			conversionTime -= getConversionProgress();
 
-			conversionTime -= i;
-			if (conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.PIG, this::setConversionTime)) {
+			if(conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.PIG, this::setConversionTime))
 				finishConversion((ServerLevel)level);
-			}
 		}
 
 		super.tick();
@@ -99,12 +96,10 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public boolean canBeControlledByRider() {
-		Entity entity = getControllingPassenger();
-		if (!(entity instanceof Player player)) {
-			return false;
-		} else {
+		if(getControllingPassenger() instanceof Player player)
 			return player.isHolding(Items.PORKCHOP); //TODO: Porkchop on a Stick
-		}
+		else
+			return false;
 	}
 
 	@Override
@@ -116,15 +111,13 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
-			if (hasEffect(MobEffects.WEAKNESS)) {
-				if (!player.getAbilities().instabuild) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if(hasEffect(MobEffects.WEAKNESS)) {
+				if(!player.getAbilities().instabuild)
 					stack.shrink(1);
-				}
 
-				if (!level.isClientSide) {
+				if(!level.isClientSide)
 					startConverting(random.nextInt(2401) + 3600);
-				}
 
 				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
 				return InteractionResult.SUCCESS;
@@ -137,14 +130,13 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public void handleEntityEvent(byte pId) {
-		if (pId == 16) {
-			if (!isSilent()) {
+	public void handleEntityEvent(byte id) {
+		if(id == 16) {
+			if(!isSilent())
 				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
-			}
-		} else {
-			super.handleEntityEvent(pId);
 		}
+		else
+			super.handleEntityEvent(id);
 	}
 
 	@Override
@@ -159,7 +151,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
 			ItemStack ingredient = ItemStack.of(ingredientTag);
 
@@ -173,9 +165,8 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if (tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1) {
+		if(tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
-		}
 	}
 
 	@Override

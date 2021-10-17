@@ -26,30 +26,28 @@ public class DecomposingEffect extends MobEffect {
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		if (!entity.level.isClientSide) {
-			if (entity instanceof Animal animal) {
+		if(!entity.level.isClientSide) {
+			if(entity instanceof Animal animal) {
 				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
-				if (conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
+				if(conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
 					Mob convertedAnimal = animal.convertTo(conversionType, false);
 
 					convertedAnimal.finalizeSpawn((ServerLevel)animal.level, animal.level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
 					((ZombifiedAnimal)convertedAnimal).readFromVanilla(animal);
 					ForgeEventFactory.onLivingConvert(animal, convertedAnimal);
 
-					if (!animal.isSilent()) {
+					if(!animal.isSilent())
 						animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
-					}
 				}
 				else {
 					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
 
-					if (entity.isDeadOrDying()) {
+					if(entity.isDeadOrDying())
 						spawnDecomposingDrops(entity);
-					}
 				}
 			}
-			else if (entity instanceof Player player && !player.getAbilities().instabuild) {
+			else if(entity instanceof Player player && !player.getAbilities().instabuild) {
 				entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
 				spawnDecomposingDrops(entity);
 			}
@@ -58,7 +56,6 @@ public class DecomposingEffect extends MobEffect {
 
 	private void spawnDecomposingDrops(LivingEntity entity) {
 		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLootTables.DEATH_BY_DECOMPOSING);
-		System.out.println(lootTable);
 		LootContext.Builder builder = new LootContext.Builder((ServerLevel)entity.level)
 				.withRandom(entity.getRandom())
 				.withParameter(LootContextParams.THIS_ENTITY, entity)

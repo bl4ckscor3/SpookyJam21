@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -26,9 +25,7 @@ public class NoDecomposingDropsModifier extends LootModifier {
 
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		DamageSource source = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
-
-		return source == SZDamageSources.DECOMPOSING ? List.of() : generatedLoot;
+		return context.getParamOrNull(LootContextParams.DAMAGE_SOURCE) == SZDamageSources.DECOMPOSING ? List.of() : generatedLoot;
 	}
 
 	public static class Serializer extends GlobalLootModifierSerializer<NoDecomposingDropsModifier> {

@@ -1,5 +1,6 @@
 package suszombification.entity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -97,12 +98,11 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	protected void registerGoals() {
-		this.eatBlockGoal = new EatBlockGoal(this);
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
 		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false, stack -> stack.is(ItemTags.WOOL)));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(5, eatBlockGoal);
+		goalSelector.addGoal(5, eatBlockGoal = new EatBlockGoal(this));
 		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -117,13 +117,11 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide && isAlive() && isConverting()) {
-			int i = getConversionProgress();
+		if(!level.isClientSide && isAlive() && isConverting()) {
+			conversionTime -= getConversionProgress();
 
-			conversionTime -= i;
-			if (conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.SHEEP, this::setConversionTime)) {
+			if(conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.SHEEP, this::setConversionTime))
 				finishConversion((ServerLevel)level);
-			}
 		}
 
 		super.tick();
@@ -131,9 +129,9 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public ResourceLocation getDefaultLootTable() {
-		if (isSheared()) {
+		if(isSheared())
 			return getType().getDefaultLootTable();
-		} else {
+		else {
 			return switch (getColor()) {
 				case WHITE -> SZLootTables.ZOMBIFIED_SHEEP_WHITE;
 				case ORANGE -> SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
@@ -164,15 +162,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
-			if (hasEffect(MobEffects.WEAKNESS)) {
-				if (!player.getAbilities().instabuild) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if(hasEffect(MobEffects.WEAKNESS)) {
+				if(!player.getAbilities().instabuild)
 					stack.shrink(1);
-				}
 
-				if (!level.isClientSide) {
+				if(!level.isClientSide)
 					startConverting(random.nextInt(2401) + 3600);
-				}
 
 				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
 				return InteractionResult.SUCCESS;
@@ -185,14 +181,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public void handleEntityEvent(byte pId) {
-		if (pId == 16) {
-			if (!isSilent()) {
+	public void handleEntityEvent(byte id) {
+		if(id == 16) {
+			if(!isSilent())
 				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
-			}
-		} else {
-			super.handleEntityEvent(pId);
 		}
+		else
+			super.handleEntityEvent(id);
 	}
 
 	@Override
@@ -200,14 +195,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
 		setSheared(true);
 
-		int i = 1 + random.nextInt(3);
+		int amount = 1 + random.nextInt(3);
 
-		for(int j = 0; j < i; ++j) {
+		for(int i = 0; i < amount; ++i) {
 			ItemEntity item = spawnAtLocation(ITEM_BY_DYE.get(getColor()), 1);
 
-			if (item != null) {
+			if(item != null)
 				item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
-			}
 		}
 	}
 
@@ -224,13 +218,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public List<ItemStack> onSheared(Player player, ItemStack item, Level world, BlockPos pos, int fortune) {
 		world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
 
-		if (!world.isClientSide) {
+		if(!world.isClientSide) {
 			setSheared(true);
 
-			int i = 1 + random.nextInt(3);
-			List<ItemStack> items = new java.util.ArrayList<>();
+			int amount = 1 + random.nextInt(3);
+			List<ItemStack> items = new ArrayList<>();
 
-			for (int j = 0; j < i; ++j) {
+			for(int i = 0; i < amount; ++i) {
 				items.add(new ItemStack(ITEM_BY_DYE.get(getColor())));
 			}
 
@@ -247,7 +241,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
 			ItemStack ingredient = ItemStack.of(ingredientTag);
 
@@ -261,9 +255,8 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if (tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1) {
+		if(tag.contains("ConversionTime", 99) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
-		}
 	}
 
 	@Override
@@ -309,7 +302,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if (animal instanceof Sheep sheep) {
+		if(animal instanceof Sheep sheep) {
 			setColor(sheep.getColor());
 			setSheared(sheep.isSheared());
 		}
@@ -317,7 +310,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if (animal instanceof Sheep sheep) {
+		if(animal instanceof Sheep sheep) {
 			sheep.setColor(getColor());
 			sheep.setSheared(isSheared());
 		}

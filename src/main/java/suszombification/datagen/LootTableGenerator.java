@@ -128,7 +128,7 @@ public class LootTableGenerator implements DataProvider {
 			try {
 				DataProvider.save(GSON, cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
 			}
-			catch (IOException e) {
+			catch(IOException e) {
 				e.printStackTrace();
 			}
 		});

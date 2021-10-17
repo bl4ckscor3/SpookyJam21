@@ -23,10 +23,10 @@ public class ZombifiedChickenRenderer extends MobRenderer<ZombifiedChicken, Chic
 
 	@Override
 	protected float getBob(ZombifiedChicken entity, float partialTicks) {
-		float f = Mth.lerp(partialTicks, entity.oFlap, entity.flap);
-		float f1 = Mth.lerp(partialTicks, entity.oFlapSpeed, entity.flapSpeed);
+		float flapLerp = Mth.lerp(partialTicks, entity.previousFlap, entity.flap);
+		float flapSpeedLerp = Mth.lerp(partialTicks, entity.previousFlapSpeed, entity.flapSpeed);
 
-		return (Mth.sin(f) + 1.0F) * f1;
+		return (Mth.sin(flapLerp) + 1.0F) * flapSpeedLerp;
 	}
 
 	@Override

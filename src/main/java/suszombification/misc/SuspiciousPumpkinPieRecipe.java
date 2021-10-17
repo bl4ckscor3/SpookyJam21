@@ -37,17 +37,16 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
-			if (!stack.isEmpty()) {
-				if (stack.is(Items.SUGAR) && !hasSugar) {
+			if(!stack.isEmpty()) {
+				if(stack.is(Items.SUGAR) && !hasSugar)
 					hasSugar = true;
-				} else if (stack.is(Items.EGG) && !hasEgg) {
+				else if(stack.is(Items.EGG) && !hasEgg)
 					hasEgg = true;
-				} else if (isIngredient(stack) && !hasSpecialIngredient) {
+				else if(isIngredient(stack) && !hasSpecialIngredient)
 					hasSpecialIngredient = true;
-				} else {
-					if (!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin) {
+				else {
+					if(!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin)
 						return false;
-					}
 
 					hasPumpkin = true;
 				}
@@ -65,7 +64,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 		for(int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
-			if (!stack.isEmpty() && isIngredient(stack)) {
+			if(!stack.isEmpty() && isIngredient(stack)) {
 				ingredient = stack.copy();
 				break;
 			}

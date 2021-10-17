@@ -15,11 +15,9 @@ public class BlockModelAndStateGenerator extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			Block block = ro.get();
-
+		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			//as long as we don't have any fancy models, this works well
-			simpleBlock(block);
+			simpleBlock(ro.get());
 		}
 	}
 }

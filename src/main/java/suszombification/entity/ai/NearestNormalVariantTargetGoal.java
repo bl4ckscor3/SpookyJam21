@@ -11,7 +11,7 @@ public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<
 
 	public NearestNormalVariantTargetGoal(ZombifiedAnimal zombifiedAnimal, boolean mustSee, boolean mustReach) {
 		super((Animal)zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
-		this.targetType = zombifiedAnimal.getNormalVariant();
+		targetType = zombifiedAnimal.getNormalVariant();
 	}
 
 	@Override

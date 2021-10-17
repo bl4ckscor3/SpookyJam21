@@ -25,22 +25,18 @@ public class ItemModelGenerator extends ItemModelProvider {
 	protected void registerModels() {
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
-			Item item = block.asItem();
 
-			if (item instanceof BlockItem) {
+			if(block.asItem() instanceof BlockItem)
 				simpleParent(block);
-			}
 		}
 
-		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
+		for(RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
 			Item item = ro.get();
 
-			if (item instanceof SpawnEggItem) {
+			if (item instanceof SpawnEggItem)
 				spawnEgg(item);
-			}
-			else {
+			else
 				flatItem(item);
-			}
 		}
 
 		flatItem(SZItems.HONEY_CANDY.get())
