@@ -29,6 +29,6 @@ public class StenchEffect extends MobEffect {
 
 	@Override
 	public boolean isDurationEffectTick(int duration, int amplifier) {
-		return true;
+		return duration % 5 == 0;
 	}
 }
