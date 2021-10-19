@@ -23,5 +23,6 @@ public class SuspiciousZombification {
 		SZEffects.EFFECTS.register(modEventBus);
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);
+		SZStructures.STRUCTURES.register(modEventBus);
 	}
 }

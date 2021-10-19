@@ -18,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.levelgen.feature.PillagerOutpostFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
@@ -25,6 +27,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import suszombification.entity.ZombifiedAnimal;
@@ -33,9 +37,17 @@ import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.structure.ConfiguredStructures;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
+	@SubscribeEvent
+	public static void onWorldLoad(WorldEvent.Load event) {
+		if(event.getWorld() instanceof ServerLevel level){
+			level.getChunkSource().generator.getSettings().structureConfig.putIfAbsent(SZStructures.ZOMBIE_OUTPOST.get(), new StructureFeatureConfiguration(32, 8, 46821176));
+		}
+	}
+
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
@@ -123,5 +135,11 @@ public class SZEventHandler {
 			event.setStrength(Math.max(event.getOriginalStrength() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
 			event.getEntityLiving().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
 		}
+	}
+
+	@SubscribeEvent
+	public static void onBiomeLoad(BiomeLoadingEvent event) {
+		if(event.getGeneration().getStructures().stream().anyMatch(csf -> csf.get().feature instanceof PillagerOutpostFeature))
+			event.getGeneration().addStructureStart(ConfiguredStructures.CONFIGURED_ZOMBIE_OUTPOST);
 	}
 }
