@@ -1,11 +1,5 @@
 package suszombification;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
@@ -25,7 +19,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -43,8 +36,6 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
-	public static final Map<Component, Integer> ACTIONBAR_TEXTS = new LinkedHashMap<>();
-
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
@@ -110,24 +101,6 @@ public class SZEventHandler {
 
 				if(!killer.isSilent())
 					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public static void onClientTick(TickEvent.ClientTickEvent event) {
-		if(event.phase == TickEvent.Phase.END) {
-			if(!ACTIONBAR_TEXTS.isEmpty()) {
-				Player player = Minecraft.getInstance().player;
-				Component actionbarText = ACTIONBAR_TEXTS.keySet().stream().findFirst().orElse(TextComponent.EMPTY);
-				int ticks = ACTIONBAR_TEXTS.get(actionbarText);
-
-				if(actionbarText != TextComponent.EMPTY && ticks > 0) {
-					player.displayClientMessage(actionbarText, true);
-					ACTIONBAR_TEXTS.put(actionbarText, --ticks);
-				}
-				else
-					ACTIONBAR_TEXTS.remove(actionbarText);
 			}
 		}
 	}

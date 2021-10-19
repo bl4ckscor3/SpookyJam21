@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
 import suszombification.SZEffects;
-import suszombification.SZEventHandler;
 import suszombification.SZItems;
 import suszombification.SZTags;
 
@@ -65,6 +65,8 @@ public class SuspiciousPumpkinPieItem extends Item {
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 		CompoundTag tag = stack.getTag();
+		String messageSuffix = "air";
+		ChatFormatting color = ChatFormatting.GRAY;
 
 		if(tag != null && tag.contains("Effects", 9)) {
 			ListTag effects = tag.getList("Effects", 10);
@@ -84,9 +86,10 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 		if(tag != null && tag.contains("Ingredient")) {
 			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
-			String itemId = ingredient.getItem().getRegistryName().getPath();
-			ChatFormatting color = ChatFormatting.GOLD;
 			boolean foundEffect = false;
+
+			messageSuffix = ingredient.getItem().getRegistryName().getPath();
+			color = ChatFormatting.GOLD;
 
 			for(PieEffect pieEffect : PIE_EFFECTS) {
 				if(pieEffect.check.apply(ingredient)) {
@@ -100,7 +103,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 						entity.addEffect(extraEffect);
 
 					if(ingredient.is(SZTags.Items.ROTTEN_WOOL))
-						itemId = "rotten_wool";
+						messageSuffix = "rotten_wool";
 
 					foundEffect = true;
 					break;
@@ -109,15 +112,13 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)) { //Vanilla Mob Drop
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
-				itemId = "mob_drop";
+				messageSuffix = "mob_drop";
 				color = ChatFormatting.DARK_GREEN;
 			}
-
-			if(level.isClientSide)
-				SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + itemId).withStyle(color), 80);
 		}
-		else if(level.isClientSide)
-			SZEventHandler.ACTIONBAR_TEXTS.put(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie.air").withStyle(ChatFormatting.AQUA), 80);
+
+		if(!level.isClientSide)
+			entity.sendMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color), Util.NIL_UUID);
 
 		return super.finishUsingItem(stack, level, entity);
 	}
