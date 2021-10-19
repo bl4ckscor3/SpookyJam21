@@ -45,10 +45,10 @@ public final class SuspiciousRitual {
 			);
 
 	/**
-	 * Checks if the block structure of the suspicious ritual is built correctly.
+	 * Checks if the block structure of the suspicious ritual is built correctly at the given position.
 	 *
 	 * @param level The level the structure is built in
-	 * @param structureOrigin The origin block of the structure, in this case the fence block in the middle
+	 * @param structureOrigin The origin block position of the structure, in this case the position of the fence block in the middle
 	 * @return true if the structure has been built correctly, false otherwise
 	 */
 	public static final boolean isStructurePresent(Level level, BlockPos structureOrigin) {
