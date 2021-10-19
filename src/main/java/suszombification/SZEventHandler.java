@@ -50,13 +50,15 @@ public class SZEventHandler {
 		Entity entity = event.getEntity();
 
 		if(entity instanceof PathfinderMob mob) {
-			if(mob.getType() == EntityType.CHICKEN)
+			EntityType<?> type = mob.getType();
+
+			if(type == EntityType.CHICKEN)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedChicken.class, 4.0F, 1.0F, 1.2F));
-			else if(mob.getType() == EntityType.COW)
+			else if(type == EntityType.COW)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedCow.class, 4.0F, 1.0F, 1.2F));
-			else if(mob.getType() == EntityType.PIG)
+			else if(type == EntityType.PIG)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedPig.class, 4.0F, 1.0F, 1.2F));
-			else if(mob.getType() == EntityType.SHEEP)
+			else if(type == EntityType.SHEEP)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
 		}
 	}

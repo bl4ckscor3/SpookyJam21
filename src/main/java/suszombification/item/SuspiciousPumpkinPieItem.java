@@ -107,7 +107,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 				}
 			}
 
-			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)){ //Vanilla Mob Drop
+			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)) { //Vanilla Mob Drop
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
 				itemId = "mob_drop";
 				color = ChatFormatting.DARK_GREEN;
