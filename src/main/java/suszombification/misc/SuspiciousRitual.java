@@ -1,16 +1,27 @@
 package suszombification.misc;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.AABB;
+import suszombification.SZDamageSources;
+import suszombification.entity.ZombifiedAnimal;
 
 public final class SuspiciousRitual {
 	private static final Predicate<BlockState> WOODEN_FENCE = state -> state.is(BlockTags.WOODEN_FENCES);
@@ -51,8 +62,66 @@ public final class SuspiciousRitual {
 	 * @param structureOrigin The origin block position of the structure, in this case the position of the fence block in the middle
 	 * @return true if the structure has been built correctly, false otherwise
 	 */
-	public static final boolean isStructurePresent(Level level, BlockPos structureOrigin) {
+	public static boolean isStructurePresent(Level level, BlockPos structureOrigin) {
 		return STRUCTURE_PARTS.stream().allMatch(part -> part.checkPart(level, structureOrigin));
+	}
+
+	/**
+	 * Tries to perform the ritual for the given player.
+	 *
+	 * @param level The current level
+	 * @param player The player to perform the ritual for
+	 * @return true if the ritual was performed successfully, false otherwise
+	 */
+	public static boolean performRitual(Level level, Player player) {
+		if(level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
+			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal)
+					.stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
+
+			if(potentialSacrifice.isPresent()) {
+				Animal sacrifice = potentialSacrifice.get();
+				Entity leashHolder = sacrifice.getLeashHolder();
+				BlockPos ritualOrigin = leashHolder.blockPosition();
+
+				//the player is within the ritual structure and also not under it
+				if(player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
+					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
+					leashHolder.remove(RemovalReason.DISCARDED);
+					player.removeAllEffects();
+					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.0F);
+					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_AMBIENT, SoundSource.NEUTRAL, 2.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
+					//TODO: add beneficial effect
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if the given animal is an eligible sacrifice for use in the ritual
+	 * @param animal The animal to check
+	 * @return true if the given animal can be used in the ritual, false otherwise
+	 */
+	public static boolean isGoodSacrifice(Animal animal) {
+		if(!animal.isLeashed())
+			return false;
+
+		//the animal is leashed to a fence
+		if(!(animal.getLeashHolder() instanceof LeashFenceKnotEntity leashKnot))
+			return false;
+
+		//the animal is within the ritual structure
+		if(animal.distanceTo(leashKnot) > 3.0F)
+			return false;
+
+		//the animal should not be under the ritual
+		if(Math.floor(animal.position().y) < Math.floor(leashKnot.position().y))
+			return false;
+
+		//the animal needs to be leashed to a fence that is part of a correctly built ritual structure
+		return isStructurePresent(animal.level, leashKnot.blockPosition());
 	}
 
 	private static interface StructurePart {

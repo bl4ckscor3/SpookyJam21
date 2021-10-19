@@ -14,6 +14,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.Level;
 import suszombification.SZEffects;
 import suszombification.SZItems;
 import suszombification.SZTags;
+import suszombification.misc.SuspiciousRitual;
 
 public class SuspiciousPumpkinPieItem extends Item {
 	private record PieEffect(Function<ItemStack, Boolean> check, Supplier<MobEffectInstance> mainEffect, Supplier<MobEffectInstance> extraEffect, ChatFormatting displayColor) {}
@@ -114,6 +116,12 @@ public class SuspiciousPumpkinPieItem extends Item {
 				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
 				messageSuffix = "mob_drop";
 				color = ChatFormatting.DARK_GREEN;
+			}
+
+			//ritual
+			if(ingredient.getItem() == Items.GOLDEN_APPLE && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(level, player)) {
+				color = ChatFormatting.AQUA;
+				messageSuffix = "cured_by_ritual";
 			}
 		}
 

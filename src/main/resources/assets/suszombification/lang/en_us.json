@@ -40,6 +40,8 @@
 
 	"death.attack.suszombification.decomposing": "%s decomposed to a small pile of rotten flesh",
 	"death.attack.suszombification.decomposing.player": "%1$s decomposed to a small pile of rotten flesh whilst fighting %2$s",
+	"death.attack.suszombification.ritual_sacrifice": "%s was the sacrifice in a suspicious ritual",
+	"death.attack.suszombification.ritual_sacrifice.player": "%1$s got sacrificed in a suspicious ritual whilst fighting %2$s",
 
 	"message.suszombification.suspicious_pumpkin_pie.air": "Tastes like a normal pumpkin pie... someone must have confused the recipes!",
 	"message.suszombification.suspicious_pumpkin_pie.caramel_candy": "Sweet! Suddenly you feel so light... light as a feather in the wind...",
@@ -56,6 +58,7 @@
 	"message.suszombification.suspicious_pumpkin_pie.rotten_wool": "Very hard to chew, but after some time you feel like your whole body is getting softer and squishier - maybe you're gonna have an easier time resisting punches?",
 	"message.suszombification.suspicious_pumpkin_pie.rotten_flesh": "Tastes incredibly bad, but also nostalgic - reminds you of times of need and starvation...",
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
+	"message.suszombification.suspicious_pumpkin_pie.cured_by_ritual": "You feel an eerie sensation coming from the ritual. A sense of relief washes over you and it seems fewer eyes than normal are focused on you - for now...",
 
 	"effect.suszombification.amplifying": "Amplifying",
 	"effect.suszombification.cushion": "Cushion",
