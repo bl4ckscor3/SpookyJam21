@@ -5,13 +5,16 @@ import java.util.function.Consumer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import suszombification.SZBlocks;
+import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
@@ -23,6 +26,13 @@ public class RecipeGenerator extends RecipeProvider {
 	@Override
 	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe.serializer).save(consumer, "suspicious_pumpkin_pie");
+		ShapedRecipeBuilder.shaped(SZItems.PORKCHOP_ON_A_STICK.get())
+		.pattern("R ")
+		.pattern(" P")
+		.define('R', Items.FISHING_ROD)
+		.define('P', Items.PORKCHOP)
+		.unlockedBy("has_porkchop", has(Items.PORKCHOP))
+		.save(consumer);
 
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_BLACK, SZBlocks.BLACK_ROTTEN_WOOL.get());
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_BLUE, SZBlocks.BLUE_ROTTEN_WOOL.get());

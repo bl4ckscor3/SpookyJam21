@@ -46,6 +46,7 @@ public class ItemModelGenerator extends ItemModelProvider {
 		.transform(Perspective.FIRSTPERSON_RIGHT).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.transform(Perspective.FIRSTPERSON_LEFT).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.end();
+		handheldRodItem(SZItems.PORKCHOP_ON_A_STICK.get());
 	}
 
 	private ItemModelBuilder flatItem(Item item) {
@@ -54,10 +55,10 @@ public class ItemModelGenerator extends ItemModelProvider {
 		return getBuilder(name).parent(new UncheckedModelFile("item/generated")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
-	private void handheldItem(Item item) {
+	private void handheldRodItem(Item item) {
 		String name = item.getRegistryName().getPath();
 
-		getBuilder(name).parent(new UncheckedModelFile("item/handheld")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
+		getBuilder(name).parent(new UncheckedModelFile("item/handheld_rod")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
 	private void spawnEgg(Item item) {
