@@ -64,6 +64,7 @@
 	"effect.suszombification.cushion": "Cushion",
 	"effect.suszombification.decomposing": "Decomposing",
 	"effect.suszombification.stench": "Stench",
+	"effect.suszombification.zombies_grace": "Zombies' Grace",
 
 	"itemGroup.suszombification": "Suspicious Zombification"
 }

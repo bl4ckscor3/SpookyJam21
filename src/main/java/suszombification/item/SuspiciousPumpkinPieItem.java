@@ -119,7 +119,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			//ritual
-			if(ingredient.getItem() == Items.GOLDEN_APPLE && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(level, player)) {
+			if(ingredient.is(Items.GOLDEN_APPLE) && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(level, player)) {
 				color = ChatFormatting.AQUA;
 				messageSuffix = "cured_by_ritual";
 			}

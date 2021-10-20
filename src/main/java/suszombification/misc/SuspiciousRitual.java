@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.animal.Animal;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import suszombification.SZDamageSources;
+import suszombification.SZEffects;
 import suszombification.entity.ZombifiedAnimal;
 
 public final class SuspiciousRitual {
@@ -88,9 +90,9 @@ public final class SuspiciousRitual {
 					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
 					leashHolder.remove(RemovalReason.DISCARDED);
 					player.removeAllEffects();
+					player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_GRACE.get(), 24000, 0, false, false, true));
 					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.0F);
 					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_AMBIENT, SoundSource.NEUTRAL, 2.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
-					//TODO: add beneficial effect
 					return true;
 				}
 			}

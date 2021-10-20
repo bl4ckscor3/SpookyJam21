@@ -26,6 +26,7 @@ import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -90,6 +91,12 @@ public class SZEventHandler {
 	public static void onEntityConvert(LivingConversionEvent.Pre event) {
 		if(event.getEntityLiving() instanceof ZombifiedPig && event.getOutcome() == EntityType.ZOMBIFIED_PIGLIN)
 			event.setCanceled(true);
+	}
+
+	@SubscribeEvent
+	public static void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) {
+		if(event.getTarget() != null && event.getTarget().hasEffect(SZEffects.ZOMBIES_GRACE.get()) && event.getEntityLiving().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
+			((Mob)event.getEntityLiving()).setTarget(null);
 	}
 
 	@SubscribeEvent

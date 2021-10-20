@@ -18,4 +18,5 @@ public class SZEffects {
 	public static final RegistryObject<MobEffect> CUSHION = EFFECTS.register("cushion", () -> new MobEffect(MobEffectCategory.BENEFICIAL, 0xEDEDED));
 	public static final RegistryObject<MobEffect> DECOMPOSING = EFFECTS.register("decomposing", () -> new DecomposingEffect(MobEffectCategory.HARMFUL, 0x799C65).addAttributeModifier(Attributes.MOVEMENT_SPEED, "71c0aa55-a4ea-410d-8a42-99e9daa37ef5", -0.2F, Operation.MULTIPLY_TOTAL));
 	public static final RegistryObject<MobEffect> STENCH = EFFECTS.register("stench", () -> new StenchEffect(MobEffectCategory.BENEFICIAL, 0xCACC52));
+	public static final RegistryObject<MobEffect> ZOMBIES_GRACE = EFFECTS.register("zombies_grace", () -> new MobEffect(MobEffectCategory.BENEFICIAL, 0x009E9E));
 }

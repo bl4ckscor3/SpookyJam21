@@ -20,6 +20,7 @@ public class DataGenHandler {
 
 		generator.addProvider(new BlockModelAndStateGenerator(generator, existingFileHelper));
 		generator.addProvider(blockTagGenerator);
+		generator.addProvider(new EntityTypeTagGenerator(generator, existingFileHelper));
 		generator.addProvider(new GlobalLootModifierGenerator(generator));
 		generator.addProvider(new ItemModelGenerator(generator, existingFileHelper));
 		generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator, existingFileHelper));
