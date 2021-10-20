@@ -2,6 +2,7 @@ package suszombification;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.TimeUtil;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -76,7 +77,7 @@ public class SZEventHandler {
 			ItemStack stack = player.getItemInHand(event.getHand());
 
 			if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
-				animal.addEffect(new MobEffectInstance(SZEffects.DECOMPOSING.get(), 2400));
+				animal.addEffect(new MobEffectInstance(SZEffects.DECOMPOSING.get(), TimeUtil.rangeOfSeconds(50, 70).sample(animal.getRandom())));
 
 				if(!player.getAbilities().instabuild)
 					stack.shrink(1);
