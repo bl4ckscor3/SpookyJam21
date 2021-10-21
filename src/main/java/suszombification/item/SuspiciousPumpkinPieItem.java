@@ -20,21 +20,26 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fml.ModList;
 import suszombification.SZEffects;
 import suszombification.SZItems;
 import suszombification.SZTags;
+import suszombification.compat.TrickOrTreatCompat;
 import suszombification.misc.SuspiciousRitual;
 
 public class SuspiciousPumpkinPieItem extends Item {
-	private record PieEffect(Function<ItemStack, Boolean> check, Supplier<MobEffectInstance> mainEffect, Supplier<MobEffectInstance> extraEffect, ChatFormatting displayColor) {}
+	public static record PieEffect(Function<ItemStack, Boolean> check, Supplier<MobEffectInstance> mainEffect, Supplier<MobEffectInstance> extraEffect, ChatFormatting displayColor, String messageSuffix) {}
 	private static final List<PieEffect> PIE_EFFECTS = new ArrayList<>();
 
 	static {
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new MobEffectInstance(SZEffects.STENCH.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new MobEffectInstance(SZEffects.CUSHION.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new MobEffectInstance(MobEffects.REGENERATION, 200, 1), () -> new MobEffectInstance(MobEffects.ABSORPTION, 2400), ChatFormatting.AQUA));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(MobEffects.HUNGER, 600), () -> null, ChatFormatting.AQUA));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new MobEffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new MobEffectInstance(SZEffects.STENCH.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new MobEffectInstance(SZEffects.CUSHION.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, "rotten_wool"));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new MobEffectInstance(MobEffects.REGENERATION, 200, 1), () -> new MobEffectInstance(MobEffects.ABSORPTION, 2400), ChatFormatting.AQUA, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(MobEffects.HUNGER, 600), () -> null, ChatFormatting.AQUA, ""));
+
+		if(ModList.get().isLoaded("trickortreat"))
+			TrickOrTreatCompat.addEffects(PIE_EFFECTS);
 	}
 
 	public SuspiciousPumpkinPieItem(Properties properties) {
@@ -104,18 +109,24 @@ public class SuspiciousPumpkinPieItem extends Item {
 					if(extraEffect != null)
 						entity.addEffect(extraEffect);
 
-					if(ingredient.is(SZTags.Items.ROTTEN_WOOL))
-						messageSuffix = "rotten_wool";
+					if(!pieEffect.messageSuffix.isEmpty())
+						messageSuffix = pieEffect.messageSuffix;
 
 					foundEffect = true;
 					break;
 				}
 			}
 
-			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)) { //Vanilla Mob Drop
-				entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
-				messageSuffix = "mob_drop";
-				color = ChatFormatting.DARK_GREEN;
+			if(!foundEffect && !(ingredient.getItem() instanceof CandyItem)) {
+				if(ModList.get().isLoaded("trickortreat") && TrickOrTreatCompat.attemptCandyEffect(entity, level, ingredient)) {
+					messageSuffix = "trickortreat";
+					color = ChatFormatting.GOLD;
+				}
+				else { //vanilla mob drop
+					entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
+					messageSuffix = "mob_drop";
+					color = ChatFormatting.DARK_GREEN;
+				}
 			}
 
 			//ritual

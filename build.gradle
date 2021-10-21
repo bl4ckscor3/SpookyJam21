@@ -72,8 +72,19 @@ minecraft {
     }
 }
 
+repositories {
+    maven {
+    	url "https://cursemaven.com/"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.17.1-37.0.97'
+
+    implementation fg.deobf("curse.maven:trick-or-treat-535636:3497712")
 }
 
 jar {
