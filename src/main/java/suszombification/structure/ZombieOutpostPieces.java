@@ -46,8 +46,9 @@ public class ZombieOutpostPieces {
 		private static StructurePlaceSettings makeSettings(Rotation rotation) {
 			return new StructurePlaceSettings().setRotation(rotation).setMirror(Mirror.NONE)
 					.addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR)
-					.addProcessor(new RuleProcessor(List.of(new ProcessorRule(new RandomBlockMatchTest(Blocks.COBBLESTONE, 0.4F), AlwaysTrueTest.INSTANCE, Blocks.MOSSY_COBBLESTONE.defaultBlockState()))))
-					.addProcessor(new RuleProcessor(List.of(new ProcessorRule(new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.4F), AlwaysTrueTest.INSTANCE, Blocks.MOSSY_STONE_BRICKS.defaultBlockState()))));
+					.addProcessor(new RuleProcessor(List.of(new ProcessorRule(new RandomBlockMatchTest(Blocks.COBBLESTONE, 0.3F), AlwaysTrueTest.INSTANCE, Blocks.MOSSY_COBBLESTONE.defaultBlockState()))))
+					.addProcessor(new RuleProcessor(List.of(new ProcessorRule(new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.1F), AlwaysTrueTest.INSTANCE, Blocks.MOSSY_STONE_BRICKS.defaultBlockState()),
+							new ProcessorRule(new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.4F), AlwaysTrueTest.INSTANCE, Blocks.CRACKED_STONE_BRICKS.defaultBlockState()))));
 		}
 
 		@Override
@@ -63,7 +64,7 @@ public class ZombieOutpostPieces {
 
 				BlockEntity be = level.getBlockEntity(pos);
 
-				if (be instanceof SpawnerBlockEntity) {
+				if (be instanceof SpawnerBlockEntity ) {
 					BaseSpawner spawner = ((SpawnerBlockEntity)be).getSpawner();
 					EntityType<?> type = level.getBiome(pos).getBiomeCategory() == Biome.BiomeCategory.DESERT ? EntityType.HUSK : EntityType.ZOMBIE;
 
