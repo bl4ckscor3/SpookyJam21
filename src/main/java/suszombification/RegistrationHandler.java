@@ -16,13 +16,16 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.misc.CatMorningGiftModifier;
 import suszombification.misc.NoDecomposingDropsModifier;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
-import suszombification.structure.ConfiguredStructures;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
-		event.enqueueWork(ConfiguredStructures::register);
+		event.enqueueWork(() -> {
+			SZProcessors.setup();
+			SZStructures.setup();
+			SZConfiguredStructures.setup();
+		});
 	}
 
 	@SubscribeEvent
