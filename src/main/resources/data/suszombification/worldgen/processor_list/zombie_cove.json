@@ -7,7 +7,7 @@
 					"input_predicate": {
 						"predicate_type": "random_block_match",
 						"block": "minecraft:stone",
-						"probability": 0.4
+						"probability": 0.2
 					},
 					"location_predicate": {
 						"predicate_type": "always_true"
