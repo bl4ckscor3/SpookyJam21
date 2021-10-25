@@ -22,7 +22,6 @@ public class RegistrationHandler {
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
-			SZProcessors.setup();
 			SZStructures.setup();
 			SZConfiguredStructures.setup();
 		});
