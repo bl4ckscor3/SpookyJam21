@@ -6,7 +6,7 @@
 			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/main",
+				"location": "suszombification:zombie_cove/start",
 				"processors": "suszombification:zombie_cove",
 				"projection": "rigid"
 			}
