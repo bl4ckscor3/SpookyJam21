@@ -1,0 +1,24 @@
+{
+	"name": "suszombification:zombie_cove/outside",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/outside1",
+				"processors": "suszombification:zombie_cove",
+				"projection": "rigid"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/outside2",
+				"processors": "suszombification:zombie_cove",
+				"projection": "rigid"
+			}
+		}
+	]
+}
