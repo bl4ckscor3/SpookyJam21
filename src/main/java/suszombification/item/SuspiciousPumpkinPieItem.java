@@ -36,7 +36,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new MobEffectInstance(SZEffects.STENCH.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, ""));
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new MobEffectInstance(SZEffects.CUSHION.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, "rotten_wool"));
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new MobEffectInstance(MobEffects.REGENERATION, 200, 1), () -> new MobEffectInstance(MobEffects.ABSORPTION, 2400), ChatFormatting.AQUA, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(MobEffects.HUNGER, 600), () -> null, ChatFormatting.AQUA, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(SZEffects.DECOMPOSING.get(), 600), () -> null, ChatFormatting.AQUA, ""));
 
 		if(ModList.get().isLoaded("trickortreat"))
 			TrickOrTreatCompat.addEffects(PIE_EFFECTS);
