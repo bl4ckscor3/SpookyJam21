@@ -1,12 +1,12 @@
 {
-	"name": "suszombification:zombie_cove/outside",
+	"name": "suszombification:zombie_cove/zombified_animals",
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
-			"weight": 2,
+			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/outside_pen",
+				"location": "suszombification:zombie_cove/zombified_chicken",
 				"processors": "suszombification:zombie_cove",
 				"projection": "rigid"
 			}
@@ -15,7 +15,7 @@
 			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/outside_wall1",
+				"location": "suszombification:zombie_cove/zombified_cow",
 				"processors": "suszombification:zombie_cove",
 				"projection": "rigid"
 			}
@@ -24,7 +24,16 @@
 			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/outside_wall2",
+				"location": "suszombification:zombie_cove/zombified_pig",
+				"processors": "suszombification:zombie_cove",
+				"projection": "rigid"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/zombified_sheep",
 				"processors": "suszombification:zombie_cove",
 				"projection": "rigid"
 			}
