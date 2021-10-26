@@ -1,5 +1,5 @@
 {
-	"name": "suszombification:zombie_cove/cellar_connector",
+	"name": "suszombification:zombie_cove/staircase_to_cellar",
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
