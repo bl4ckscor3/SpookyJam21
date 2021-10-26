@@ -1,0 +1,24 @@
+{
+	"name": "suszombification:zombie_cove/hidden_treasure",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 2,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/blocks/cobblestone",
+				"processors": "minecraft:empty",
+				"projection": "rigid"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/blocks/raw_iron_block",
+				"processors": "minecraft:empty",
+				"projection": "rigid"
+			}
+		}
+	]
+}
