@@ -61,6 +61,7 @@
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
 	"message.suszombification.suspicious_pumpkin_pie.cured_by_ritual": "You feel an eerie sensation coming from the ritual. A sense of relief washes over you and it seems fewer eyes than normal are focused on you - for now...",
 	"message.suszombification.suspicious_pumpkin_pie.trickortreat": "A mysterious outer force is making your body behave in odd ways...",
+	"message.suszombification.ritual.need_night": "The suspicious ritual only works during nighttime.",
 
 	"effect.suszombification.amplifying": "Amplifying",
 	"effect.suszombification.cushion": "Cushion",

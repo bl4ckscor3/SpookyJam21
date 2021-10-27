@@ -1,7 +1,10 @@
 package suszombification;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionResult;
@@ -20,6 +23,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.PillagerOutpostFeature;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -38,6 +42,7 @@ import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.misc.SuspiciousRitual;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
@@ -76,6 +81,20 @@ public class SZEventHandler {
 				event.setCanceled(true);
 				event.setCancellationResult(InteractionResult.SUCCESS);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onRightclickBlock(PlayerInteractEvent.RightClickBlock event) {
+		Level level = event.getWorld();
+
+		if(!level.isClientSide) {
+			BlockPos pos = event.getPos();
+			BlockState state = level.getBlockState(pos);
+			Player player = event.getPlayer();
+
+			if(state.is(BlockTags.WOODEN_FENCES) && player.getItemInHand(event.getHand()).is(Items.LEAD) && !level.isNight() && SuspiciousRitual.isStructurePresent(level, pos))
+				player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
 		}
 	}
 
