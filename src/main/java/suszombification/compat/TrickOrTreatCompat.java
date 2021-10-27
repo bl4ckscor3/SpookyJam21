@@ -17,14 +17,14 @@ import suszombification.item.SuspiciousPumpkinPieItem.PieEffect;
 
 public class TrickOrTreatCompat {
 	public static void addEffects(List<PieEffect> pieEffects) {
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.FIREFINGERS.get()), () -> new MobEffectInstance(ModEffects.FIREFINGER.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.DEADISH_FISH.get()), () -> new MobEffectInstance(ModEffects.WATERBOLT.get(), 200), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SCREAMBURSTS.get()), () -> new MobEffectInstance(ModEffects.SCARY.get(), 200), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.MEMBRANE_BUTTER_CUPS.get()), () -> new MobEffectInstance(ModEffects.LIFE_LEECH.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.BONEBREAKER.get()), () -> new MobEffectInstance(ModEffects.BONE_BREAKING.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SLIME_GUM.get()), () -> new MobEffectInstance(ModEffects.BOUNCY.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.CHOCOLATE_SPIDER_EYE.get()), () -> new MobEffectInstance(ModEffects.CLIMBING.get(), 500), () -> null, ChatFormatting.GOLD, "trickortreat"));
-		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SOUR_PATCH_ZOMBIES.get()), () -> new MobEffectInstance(ModEffects.ROTTEN_BITE.get(), 300), () -> new MobEffectInstance(MobEffects.HUNGER, 600), ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.FIREFINGERS.get()), () -> new MobEffectInstance(ModEffects.FIREFINGER.get(), 450), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.DEADISH_FISH.get()), () -> new MobEffectInstance(ModEffects.WATERBOLT.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SCREAMBURSTS.get()), () -> new MobEffectInstance(ModEffects.SCARY.get(), 300), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.MEMBRANE_BUTTER_CUPS.get()), () -> new MobEffectInstance(ModEffects.LIFE_LEECH.get(), 450), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.BONEBREAKER.get()), () -> new MobEffectInstance(ModEffects.BONE_BREAKING.get(), 450), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SLIME_GUM.get()), () -> new MobEffectInstance(ModEffects.BOUNCY.get(), 450), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.CHOCOLATE_SPIDER_EYE.get()), () -> new MobEffectInstance(ModEffects.CLIMBING.get(), 750), () -> null, ChatFormatting.GOLD, "trickortreat"));
+		pieEffects.add(new PieEffect(stack -> stack.is(ModItems.SOUR_PATCH_ZOMBIES.get()), () -> new MobEffectInstance(ModEffects.ROTTEN_BITE.get(), 450), () -> new MobEffectInstance(MobEffects.HUNGER, 600), ChatFormatting.GOLD, "trickortreat"));
 	}
 
 	public static Ingredient getCandies() {
