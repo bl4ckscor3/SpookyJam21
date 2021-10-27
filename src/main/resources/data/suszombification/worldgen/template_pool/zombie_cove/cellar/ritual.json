@@ -1,13 +1,13 @@
 {
-	"name": "suszombification:zombie_cove/cellar",
+	"name": "suszombification:zombie_cove/cellar/ritual",
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
 			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/cellar/cellar",
-				"processors": "suszombification:zombie_cove",
+				"location": "suszombification:zombie_cove/cellar/ritual",
+				"processors": "suszombification:cove_ritual",
 				"projection": "rigid"
 			}
 		}

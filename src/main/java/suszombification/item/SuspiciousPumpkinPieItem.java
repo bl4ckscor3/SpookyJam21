@@ -49,11 +49,8 @@ public class SuspiciousPumpkinPieItem extends Item {
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
 		CompoundTag ingredientTag = new CompoundTag();
 
-		if(ingredient.getItem() instanceof CandyItem candy) {
-			MobEffect effect = candy.getEffect();
-
-			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, effect, candy.getEffectDuration());
-		}
+		if(ingredient.getItem() instanceof CandyItem candy)
+			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, candy.getEffect(), candy.getEffectDuration());
 
 		ingredient.setCount(1);
 		ingredient.save(ingredientTag);

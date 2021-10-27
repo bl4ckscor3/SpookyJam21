@@ -3,7 +3,10 @@ package suszombification;
 import net.minecraft.resources.ResourceLocation;
 
 public class SZLootTables {
+	//gameplay
 	public static final ResourceLocation DEATH_BY_DECOMPOSING = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/death_by_decomposing");
+	public static final ResourceLocation ZOMBIFIED_CAT_MORNING_GIFT = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/zombified_cat_morning_gift");
+	//entities
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BROWN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/brown");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BLUE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/blue");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_PURPLE = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/purple");
@@ -20,5 +23,7 @@ public class SZLootTables {
 	public static final ResourceLocation ZOMBIFIED_SHEEP_GREEN = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/green");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_RED = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/red");
 	public static final ResourceLocation ZOMBIFIED_SHEEP_BLACK = new ResourceLocation(SuspiciousZombification.MODID, "entities/zombified_sheep/black");
-	public static final ResourceLocation ZOMBIFIED_CAT_MORNING_GIFT = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/zombified_cat_morning_gift");
+	//zombie cove
+	public static final ResourceLocation PEN_BARREL = new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/pen_barrel");
+	public static final ResourceLocation TREASURE = new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/treasure");
 }

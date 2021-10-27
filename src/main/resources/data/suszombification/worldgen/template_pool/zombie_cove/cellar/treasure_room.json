@@ -1,0 +1,15 @@
+{
+	"name": "suszombification:zombie_cove/cellar/treasure_room",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "suszombification:zombie_cove/cellar/treasure_room",
+				"processors": "suszombification:zombie_cove",
+				"projection": "rigid"
+			}
+		}
+	]
+}

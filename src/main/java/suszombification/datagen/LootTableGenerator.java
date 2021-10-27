@@ -10,7 +10,9 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -18,9 +20,12 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import suszombification.SZBlocks;
@@ -40,11 +45,24 @@ public class LootTableGenerator implements DataProvider {
 	private Map<ResourceLocation, LootTable.Builder> generateEntityLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
+		//gameplay
 		lootTables.put(SZLootTables.DEATH_BY_DECOMPOSING, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
+		lootTables.put(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
+						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()).setWeight(10))));
+		//entities
 		lootTables.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -94,17 +112,80 @@ public class LootTableGenerator implements DataProvider {
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_RED, createSheepTable(SZBlocks.RED_ROTTEN_WOOL.get()));
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_WHITE, createSheepTable(SZBlocks.WHITE_ROTTEN_WOOl.get()));
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_YELLOW, createSheepTable(SZBlocks.YELLOW_ROTTEN_WOOL.get()));
-		lootTables.put(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
+
+		//zombie cove
+		CompoundTag rottenFleshSppTag = new CompoundTag();
+
+		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
+		lootTables.put(SZLootTables.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()).setWeight(10))));
+						.add(LootItem.lootTableItem(Items.SUGAR)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.PUMPKIN)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.EGG)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(4.0F))
+						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
+								.apply(SetNbtFunction.setTag(rottenFleshSppTag)))));
+		lootTables.put(SZLootTables.TREASURE, LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.IRON_INGOT)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(3.0F))
+						.add(LootItem.lootTableItem(Items.CARROT)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F))))
+						.add(LootItem.lootTableItem(Items.POTATO)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F)))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.DIAMOND) //TODO: special item
+								.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.when(LootItemRandomChanceCondition.randomChance(0.1F))
+						.add(LootItem.lootTableItem(Items.IRON_SWORD)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_AXE)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_HOE)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_SHOVEL)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_PICKAXE)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_BOOTS)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_CHESTPLATE)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_HELMET)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
+						.add(LootItem.lootTableItem(Items.IRON_LEGGINGS)
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+										.when(LootItemRandomChanceCondition.randomChance(0.25F))))));
 
 		return lootTables;
 	}
