@@ -2,6 +2,7 @@ package suszombification.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import suszombification.SZBlocks;
 import suszombification.SZTags;
@@ -31,6 +32,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
 				SZBlocks.GREEN_ROTTEN_WOOL.get(),
 				SZBlocks.RED_ROTTEN_WOOL.get(),
 				SZBlocks.BLACK_ROTTEN_WOOL.get());
+		tag(BlockTags.WOOL).addTag(SZTags.Blocks.ROTTEN_WOOL);
 	}
 
 	@Override
