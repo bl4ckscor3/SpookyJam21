@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import suszombification.SZDamageSources;
 import suszombification.SZEffects;
+import suszombification.SZTags;
 import suszombification.entity.ZombifiedAnimal;
 
 public final class SuspiciousRitual {
@@ -34,6 +35,7 @@ public final class SuspiciousRitual {
 	private static final BiPredicate<BlockState, Direction> CARVED_PUMPKIN = (state, dir) -> state.is(Blocks.CARVED_PUMPKIN) && state.getValue(BlockStateProperties.HORIZONTAL_FACING) == dir;
 	private static final List<StructurePart> STRUCTURE_PARTS = List.of(
 			new StructurePosition(0, 0, 0, WOODEN_FENCE),
+			new StructurePosition(0, 1, 0, state -> state.is(SZTags.Blocks.TROPHIES)),
 			new StructurePosition(0, -1, 0, CHISELED_STONE_BRICKS),
 			new StructureArea(-2, -1, -2, 2, -1, -1, ANY_OTHER_STONE_BRICKS),
 			new StructureArea(-2, -1, 0, -1, -1, 0, ANY_OTHER_STONE_BRICKS),
@@ -89,6 +91,7 @@ public final class SuspiciousRitual {
 				if(player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
 					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
 					leashHolder.remove(RemovalReason.DISCARDED);
+					level.removeBlock(ritualOrigin.above(), false); //remove the trophy
 					player.removeAllEffects();
 					player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_GRACE.get(), 24000, 0, false, false, true));
 					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.0F);
