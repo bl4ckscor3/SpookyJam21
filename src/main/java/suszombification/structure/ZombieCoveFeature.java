@@ -27,11 +27,13 @@ import suszombification.SuspiciousZombification;
 
 public class ZombieCoveFeature extends StructureFeature<NoneFeatureConfiguration> {
 	private final List<SpawnerData> structureMonsters;
+	private final String startPiece;
 
-	public ZombieCoveFeature(EntityType<?> typeToSpawn, Codec<NoneFeatureConfiguration> codec) {
+	public ZombieCoveFeature(EntityType<?> typeToSpawn, String startPiece, Codec<NoneFeatureConfiguration> codec) {
 		super(codec);
 
 		structureMonsters = ImmutableList.of(new SpawnerData(typeToSpawn, 100, 3, 6));
+		this.startPiece = startPiece;
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class ZombieCoveFeature extends StructureFeature<NoneFeatureConfiguration
 		return structureMonsters;
 	}
 
-	public static class Start extends NoiseAffectingStructureStart<NoneFeatureConfiguration> {
+	public class Start extends NoiseAffectingStructureStart<NoneFeatureConfiguration> {
 		public Start(StructureFeature<NoneFeatureConfiguration> structure, ChunkPos chunkPos, int reference, long seed) {
 			super(structure, chunkPos, reference, seed);
 		}
@@ -57,7 +59,7 @@ public class ZombieCoveFeature extends StructureFeature<NoneFeatureConfiguration
 		@Override
 		public void generatePieces(RegistryAccess registryAccess, ChunkGenerator chunkGenerator, StructureManager structureManager, ChunkPos chunkPos, Biome biome, NoneFeatureConfiguration config, LevelHeightAccessor heightAccessor) {
 			JigsawPlacement.addPieces(registryAccess,
-					new JigsawConfiguration(() -> registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/start")), 10),
+					new JigsawConfiguration(() -> registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/" + startPiece)), 10),
 					PoolElementStructurePiece::new, chunkGenerator, structureManager,
 					new BlockPos(chunkPos.getMinBlockX(), 0, chunkPos.getMinBlockZ()),
 					this, random, false, true, heightAccessor);

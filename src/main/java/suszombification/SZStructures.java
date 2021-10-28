@@ -20,8 +20,8 @@ import suszombification.structure.ZombieCoveFeature;
 public class SZStructures {
 	public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SuspiciousZombification.MODID);
 
-	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> ZOMBIE_COVE = STRUCTURES.register("zombie_cove", () -> new ZombieCoveFeature(EntityType.ZOMBIE, NoneFeatureConfiguration.CODEC));
-	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> DESERT_ZOMBIE_COVE = STRUCTURES.register("desert_zombie_cove", () -> new ZombieCoveFeature(EntityType.HUSK, NoneFeatureConfiguration.CODEC));
+	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> ZOMBIE_COVE = STRUCTURES.register("zombie_cove", () -> new ZombieCoveFeature(EntityType.ZOMBIE, "start", NoneFeatureConfiguration.CODEC));
+	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> DESERT_ZOMBIE_COVE = STRUCTURES.register("desert_zombie_cove", () -> new ZombieCoveFeature(EntityType.HUSK, "desert_start", NoneFeatureConfiguration.CODEC));
 
 	public static void setup() {
 		registerStructure(ZOMBIE_COVE.get(), new StructureFeatureConfiguration(32, 8, 46821176), true);

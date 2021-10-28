@@ -1,5 +1,5 @@
 {
-	"name": "suszombification:zombie_cove/zombified_animals",
+	"name": "suszombification:zombie_cove/mobs/zombified_animals",
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
