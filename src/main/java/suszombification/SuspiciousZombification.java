@@ -20,6 +20,7 @@ public class SuspiciousZombification {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		SZBlocks.BLOCKS.register(modEventBus);
+		SZBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
 		SZEffects.EFFECTS.register(modEventBus);
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);

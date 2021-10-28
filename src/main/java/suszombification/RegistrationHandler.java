@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fmllegacy.RegistryObject;
+import suszombification.block.TrophyBlock;
 import suszombification.misc.CatMorningGiftModifier;
 import suszombification.misc.NoDecomposingDropsModifier;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
@@ -32,8 +33,12 @@ public class RegistrationHandler {
 		//register block items from blocks
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
+			Item.Properties properties = new Item.Properties().tab(SuspiciousZombification.TAB);
 
-			event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)).setRegistryName(block.getRegistryName()));
+			if(block instanceof TrophyBlock)
+				properties.stacksTo(1);
+
+			event.getRegistry().register(new BlockItem(block, properties).setRegistryName(block.getRegistryName()));
 		}
 	}
 

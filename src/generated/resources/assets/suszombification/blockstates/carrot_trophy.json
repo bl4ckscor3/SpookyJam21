@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "suszombification:block/trophy"
+    },
+    "facing=south": {
+      "model": "suszombification:block/trophy",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "suszombification:block/trophy",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "suszombification:block/trophy",
+      "y": 90
+    }
+  }
+}

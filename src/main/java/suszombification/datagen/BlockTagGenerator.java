@@ -32,7 +32,13 @@ public class BlockTagGenerator extends BlockTagsProvider {
 				SZBlocks.GREEN_ROTTEN_WOOL.get(),
 				SZBlocks.RED_ROTTEN_WOOL.get(),
 				SZBlocks.BLACK_ROTTEN_WOOL.get());
+		tag(SZTags.Blocks.TROPHIES).add(
+				SZBlocks.CARROT_TROPHY.get(),
+				SZBlocks.POTATO_TROPHY.get(),
+				SZBlocks.IRON_INGOT_TROPHY.get());
 		tag(BlockTags.WOOL).addTag(SZTags.Blocks.ROTTEN_WOOL);
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(SZTags.Blocks.TROPHIES);
+		tag(BlockTags.NEEDS_IRON_TOOL).addTag(SZTags.Blocks.TROPHIES);
 	}
 
 	@Override

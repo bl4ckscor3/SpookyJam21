@@ -12,6 +12,7 @@ import net.minecraftforge.common.Tags.IOptionalNamedTag;
 public class SZTags {
 	public static class Blocks {
 		public static final IOptionalNamedTag<Block> ROTTEN_WOOL = tag("rotten_wool");
+		public static final IOptionalNamedTag<Block> TROPHIES = tag("trophies");
 
 		private static IOptionalNamedTag<Block> tag(String name) {
 			return BlockTags.createOptional(new ResourceLocation(SuspiciousZombification.MODID, name));

@@ -3,10 +3,12 @@ package suszombification.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.SZBlocks;
 import suszombification.SuspiciousZombification;
+import suszombification.block.TrophyBlock;
 
 public class BlockModelAndStateGenerator extends BlockStateProvider {
 	public BlockModelAndStateGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -16,8 +18,12 @@ public class BlockModelAndStateGenerator extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			//as long as we don't have any fancy models, this works well
-			simpleBlock(ro.get());
+			Block block = ro.get();
+
+			if(block instanceof TrophyBlock)
+				horizontalBlock(block, state -> new UncheckedModelFile(modLoc("block/trophy")));
+			else
+				simpleBlock(block);
 		}
 	}
 }

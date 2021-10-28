@@ -1,9 +1,7 @@
 package suszombification;
 
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -17,10 +15,6 @@ import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
-import suszombification.renderer.ZombifiedChickenRenderer;
-import suszombification.renderer.ZombifiedCowRenderer;
-import suszombification.renderer.ZombifiedPigRenderer;
-import suszombification.renderer.ZombifiedSheepRenderer;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class SZEntityTypes {
@@ -47,15 +41,6 @@ public class SZEntityTypes {
 			.clientTrackingRange(4)
 			.updateInterval(10)
 			.build(SuspiciousZombification.MODID + ":rotten_egg"));
-
-	@SubscribeEvent
-	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChickenRenderer::new);
-		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCowRenderer::new);
-		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);
-		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_SHEEP.get(), ZombifiedSheepRenderer::new);
-		event.registerEntityRenderer(SZEntityTypes.ROTTEN_EGG.get(), ThrownItemRenderer::new);
-	}
 
 	@SubscribeEvent
 	public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {

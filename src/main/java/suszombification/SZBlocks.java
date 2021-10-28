@@ -9,6 +9,8 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.block.RottenWoolBlock;
+import suszombification.block.TrophyBlock;
+import suszombification.block.TrophyBlock.TrophyType;
 
 public class SZBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SuspiciousZombification.MODID);
@@ -29,4 +31,7 @@ public class SZBlocks {
 	public static final RegistryObject<Block> GREEN_ROTTEN_WOOL = BLOCKS.register("green_rotten_wool", () -> new RottenWoolBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.COLOR_GREEN).strength(0.8F).sound(SoundType.WOOL)));
 	public static final RegistryObject<Block> RED_ROTTEN_WOOL = BLOCKS.register("red_rotten_wool", () -> new RottenWoolBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.COLOR_RED).strength(0.8F).sound(SoundType.WOOL)));
 	public static final RegistryObject<Block> BLACK_ROTTEN_WOOL = BLOCKS.register("black_rotten_wool", () -> new RottenWoolBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.COLOR_BLACK).strength(0.8F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CARROT_TROPHY = BLOCKS.register("carrot_trophy", () -> new TrophyBlock(TrophyType.CARROT, BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
+	public static final RegistryObject<Block> POTATO_TROPHY = BLOCKS.register("potato_trophy", () -> new TrophyBlock(TrophyType.POTATO, BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
+	public static final RegistryObject<Block> IRON_INGOT_TROPHY = BLOCKS.register("iron_ingot_trophy", () -> new TrophyBlock(TrophyType.IRON_INGOT, BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
 }

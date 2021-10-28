@@ -15,6 +15,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.SZBlocks;
 import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
+import suszombification.block.TrophyBlock;
 
 public class ItemModelGenerator extends ItemModelProvider {
 	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -26,14 +27,18 @@ public class ItemModelGenerator extends ItemModelProvider {
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block.asItem() instanceof BlockItem)
-				simpleParent(block);
+			if(block.asItem() instanceof BlockItem item) {
+				if(block instanceof TrophyBlock)
+					flatItem(item);
+				else
+					simpleParent(block);
+			}
 		}
 
 		for(RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
 			Item item = ro.get();
 
-			if (item instanceof SpawnEggItem)
+			if(item instanceof SpawnEggItem)
 				spawnEgg(item);
 			else
 				flatItem(item);
