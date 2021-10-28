@@ -69,14 +69,18 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1.0,
-              "add": false
-            }
-          ],
-          "name": "minecraft:diamond"
+          "weight": 40,
+          "name": "suszombification:carrot_trophy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 40,
+          "name": "suszombification:potato_trophy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "suszombification:iron_ingot_trophy"
         }
       ]
     },

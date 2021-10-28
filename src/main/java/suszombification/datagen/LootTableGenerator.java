@@ -101,8 +101,9 @@ public class LootTableGenerator implements DataProvider {
 						.setRolls(ConstantValue.exactly(1.0F)))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.DIAMOND) //TODO: special item
-								.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))))
+						.add(LootItem.lootTableItem(SZBlocks.CARROT_TROPHY.get()).setWeight(40))
+						.add(LootItem.lootTableItem(SZBlocks.POTATO_TROPHY.get()).setWeight(40))
+						.add(LootItem.lootTableItem(SZBlocks.IRON_INGOT_TROPHY.get()).setWeight(20)))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.when(LootItemRandomChanceCondition.randomChance(0.1F))
