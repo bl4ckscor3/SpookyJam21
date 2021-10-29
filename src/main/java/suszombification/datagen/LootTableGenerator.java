@@ -37,6 +37,8 @@ import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
+import suszombification.block.TrophyBlock;
+import suszombification.misc.CurseGivenFunction;
 
 public class LootTableGenerator implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -52,7 +54,9 @@ public class LootTableGenerator implements DataProvider {
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block.asItem() instanceof BlockItem)
+			if(block instanceof TrophyBlock)
+				lootTables.put(block.getLootTable(), createTrophyLootTable(block));
+			else if(block.asItem() instanceof BlockItem)
 				lootTables.put(block.getLootTable(), createStandardBlockLootTable(block));
 		}
 
@@ -232,6 +236,15 @@ public class LootTableGenerator implements DataProvider {
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(drop))
+						.when(ExplosionCondition.survivesExplosion()));
+	}
+
+	private final LootTable.Builder createTrophyLootTable(ItemLike drop) {
+		return LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(drop)
+								.apply(CurseGivenFunction.create()))
 						.when(ExplosionCondition.survivesExplosion()));
 	}
 

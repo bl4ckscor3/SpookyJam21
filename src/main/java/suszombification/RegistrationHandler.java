@@ -6,6 +6,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,11 +17,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CatMorningGiftModifier;
+import suszombification.misc.CurseGivenFunction;
 import suszombification.misc.NoDecomposingDropsModifier;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
+	public static final LootItemFunctionType CURSE_GIVEN_LOOT_FUNCTION = LootItemFunctions.register(SuspiciousZombification.MODID + ":curse_given", new CurseGivenFunction.Serializer());
+
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
@@ -33,12 +38,9 @@ public class RegistrationHandler {
 		//register block items from blocks
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
-			Item.Properties properties = new Item.Properties().tab(SuspiciousZombification.TAB);
 
-			if(block instanceof TrophyBlock)
-				properties.stacksTo(1);
-
-			event.getRegistry().register(new BlockItem(block, properties).setRegistryName(block.getRegistryName()));
+			if(!(block instanceof TrophyBlock))
+				event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)).setRegistryName(block.getRegistryName()));
 		}
 	}
 

@@ -13,6 +13,7 @@ import suszombification.item.PorkchopOnAStickItem;
 import suszombification.item.RottenEggItem;
 import suszombification.item.SpoiledMilkBucketItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.item.TrophyItem;
 
 public class SZItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SuspiciousZombification.MODID);
@@ -37,4 +38,8 @@ public class SZItems {
 	public static final RegistryObject<Item> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.register("zombified_cow_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_COW, 0x443626, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_PIG_SPAWN_EGG = ITEMS.register("zombified_pig_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_PIG, 0xF0A5A2, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
 	public static final RegistryObject<Item> ZOMBIFIED_SHEEP_SPAWN_EGG = ITEMS.register("zombified_sheep_spawn_egg", () -> new ForgeSpawnEggItem(SZEntityTypes.ZOMBIFIED_SHEEP, 0xE7E7E7, 0x799C65, new Item.Properties().tab(SuspiciousZombification.TAB)));
+	//trophies
+	public static final RegistryObject<Item> CARROT_TROPHY = ITEMS.register("carrot_trophy", () -> new TrophyItem(SZBlocks.CARROT_TROPHY.get(), new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> POTATO_TROPHY = ITEMS.register("potato_trophy", () -> new TrophyItem(SZBlocks.POTATO_TROPHY.get(), new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
+	public static final RegistryObject<Item> IRON_INGOT_TROPHY = ITEMS.register("iron_ingot_trophy", () -> new TrophyItem(SZBlocks.IRON_INGOT_TROPHY.get(), new Item.Properties().stacksTo(1).tab(SuspiciousZombification.TAB)));
 }

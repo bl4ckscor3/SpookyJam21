@@ -7,6 +7,11 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "suszombification:curse_given"
+            }
+          ],
           "name": "suszombification:carrot_trophy"
         }
       ],

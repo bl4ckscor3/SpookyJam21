@@ -10,6 +10,7 @@ import suszombification.block.TrophyBlock.TrophyType;
 
 public class TrophyBlockEntity extends BlockEntity {
 	private TrophyType trophyType;
+	private boolean curseGiven;
 
 	public TrophyBlockEntity(BlockPos pos, BlockState state) {
 		super(SZBlockEntityTypes.TROPHY.get(), pos, state);
@@ -21,6 +22,14 @@ public class TrophyBlockEntity extends BlockEntity {
 		this.trophyType = trophyType;
 	}
 
+	public void setCurseGiven(boolean curseGiven) {
+		this.curseGiven = curseGiven;
+	}
+
+	public boolean isCurseGiven() {
+		return curseGiven;
+	}
+
 	public TrophyType getTrophyType() {
 		return trophyType;
 	}
@@ -28,6 +37,7 @@ public class TrophyBlockEntity extends BlockEntity {
 	@Override
 	public CompoundTag save(CompoundTag tag) {
 		tag.putInt("TrophyType", trophyType.ordinal());
+		tag.putBoolean("CurseGiven", curseGiven);
 		return super.save(tag);
 	}
 
@@ -41,5 +51,7 @@ public class TrophyBlockEntity extends BlockEntity {
 			trophyType = TrophyType.CARROT;
 		else
 			trophyType = TrophyType.values()[savedOrdinal];
+
+		curseGiven = tag.getBoolean("CurseGiven");
 	}
 }
