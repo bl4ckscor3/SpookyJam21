@@ -32,6 +32,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -85,7 +86,7 @@ public class SZEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void onRightclickBlock(PlayerInteractEvent.RightClickBlock event) {
+	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
 		Level level = event.getWorld();
 
 		if(!level.isClientSide) {
@@ -133,6 +134,12 @@ public class SZEventHandler {
 					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerClone(PlayerEvent.Clone event) {
+		if(event.getOriginal().hasEffect(SZEffects.ZOMBIES_CURSE.get()))
+			event.getPlayer().addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
 	}
 
 	@SubscribeEvent
