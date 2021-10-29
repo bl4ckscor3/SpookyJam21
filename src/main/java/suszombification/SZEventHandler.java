@@ -93,7 +93,7 @@ public class SZEventHandler {
 			BlockState state = level.getBlockState(pos);
 			Player player = event.getPlayer();
 
-			if(state.is(BlockTags.WOODEN_FENCES) && player.getItemInHand(event.getHand()).is(Items.LEAD) && !level.isNight() && SuspiciousRitual.isStructurePresent(level, pos))
+			if(state.is(BlockTags.WOODEN_FENCES) && player.getItemInHand(event.getHand()).is(Items.LEAD) && !level.isNight() && SuspiciousRitual.isStructurePresent(level, pos, false))
 				player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
 		}
 	}

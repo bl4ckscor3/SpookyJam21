@@ -35,7 +35,8 @@ public final class SuspiciousRitual {
 	private static final BiPredicate<BlockState, Direction> CARVED_PUMPKIN = (state, dir) -> state.is(Blocks.CARVED_PUMPKIN) && state.getValue(BlockStateProperties.HORIZONTAL_FACING) == dir;
 	private static final List<StructurePart> STRUCTURE_PARTS = List.of(
 			new StructurePosition(0, 0, 0, WOODEN_FENCE),
-			new StructurePosition(0, 1, 0, state -> state.is(SZTags.Blocks.TROPHIES)),
+			//technically part of the structure, but handled seperately in isStructurePresent to allow ritual structures without a trophy to show the nighttime info text
+			//new StructurePosition(0, 1, 0, state -> state.is(SZTags.Blocks.TROPHIES)),
 			new StructurePosition(0, -1, 0, CHISELED_STONE_BRICKS),
 			new StructureArea(-2, -1, -2, 2, -1, -1, ANY_OTHER_STONE_BRICKS),
 			new StructureArea(-2, -1, 0, -1, -1, 0, ANY_OTHER_STONE_BRICKS),
@@ -64,10 +65,16 @@ public final class SuspiciousRitual {
 	 *
 	 * @param level The level the structure is built in
 	 * @param structureOrigin The origin block position of the structure, in this case the position of the fence block in the middle
+	 * @param includeTrophy Whether to check for the trophy placed on top of the fence
 	 * @return true if the structure has been built correctly, false otherwise
 	 */
-	public static boolean isStructurePresent(Level level, BlockPos structureOrigin) {
-		return STRUCTURE_PARTS.stream().allMatch(part -> part.checkPart(level, structureOrigin));
+	public static boolean isStructurePresent(Level level, BlockPos structureOrigin, boolean includeTrophy) {
+		boolean isStructurePresent = STRUCTURE_PARTS.stream().allMatch(part -> part.checkPart(level, structureOrigin));
+
+		if(includeTrophy)
+			isStructurePresent &= level.getBlockState(structureOrigin.above()).is(SZTags.Blocks.TROPHIES);
+
+		return isStructurePresent;
 	}
 
 	/**
@@ -126,7 +133,7 @@ public final class SuspiciousRitual {
 			return false;
 
 		//the animal needs to be leashed to a fence that is part of a correctly built ritual structure
-		return isStructurePresent(animal.level, leashKnot.blockPosition());
+		return isStructurePresent(animal.level, leashKnot.blockPosition(), true);
 	}
 
 	private static interface StructurePart {
