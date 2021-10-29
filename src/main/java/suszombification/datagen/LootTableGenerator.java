@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -66,8 +67,10 @@ public class LootTableGenerator implements DataProvider {
 	private Map<ResourceLocation, LootTable.Builder> generateChestLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 		CompoundTag rottenFleshSppTag = new CompoundTag();
+		CompoundTag weaknessPotionTag = new CompoundTag();
 
 		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
+		weaknessPotionTag.putString("Potion", Potions.WEAKNESS.getRegistryName().toString());
 		lootTables.put(SZLootTables.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -90,6 +93,30 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
 								.apply(SetNbtFunction.setTag(rottenFleshSppTag)))));
+		lootTables.put(SZLootTables.RITUAL_BARREL, LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.SUGAR)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.PUMPKIN)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.EGG)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.GOLDEN_APPLE)))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.POTION)
+								.apply(SetNbtFunction.setTag(weaknessPotionTag))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(4.0F))
+						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
 		lootTables.put(SZLootTables.TREASURE, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
