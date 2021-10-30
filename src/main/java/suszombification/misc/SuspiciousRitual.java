@@ -142,12 +142,15 @@ public final class SuspiciousRitual {
 		public boolean checkPart(Level level, BlockPos structureOrigin);
 	}
 
-	public static void maybeSendNeedZombifiedAnimalInfoMessage(Mob leashedMob, Level level, BlockPos pos, Player player) {
-		if(!level.isClientSide && !(leashedMob instanceof ZombifiedAnimal)) {
+	public static void maybeSendInfoMessages(Mob leashedMob, Level level, BlockPos pos, Player player) {
+		if(!level.isClientSide && (leashedMob != null || !level.isNight())) {
 			BlockState state = level.getBlockState(pos);
 
 			if(state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
-				player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
+				if(!(leashedMob instanceof ZombifiedAnimal))
+					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
+				else
+					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
 			}
 		}
 	}
