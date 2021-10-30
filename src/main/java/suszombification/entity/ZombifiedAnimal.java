@@ -8,10 +8,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 
@@ -37,7 +39,7 @@ public interface ZombifiedAnimal {
 		setConverting();
 		animal.removeEffect(MobEffects.WEAKNESS);
 		animal.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, conversionTime, Math.min(animal.level.getDifficulty().getId() - 1, 0)));
-		animal.level.broadcastEntityEvent(animal, (byte)16);
+		animal.level.broadcastEntityEvent(animal, EntityEvent.ZOMBIE_CONVERTING);
 	}
 
 	default void finishConversion(ServerLevel level) {
@@ -49,7 +51,7 @@ public interface ZombifiedAnimal {
 		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 
 		if(!zombifiedAnimal.isSilent())
-			level.levelEvent(null, 1027, zombifiedAnimal.blockPosition(), 0);
+			level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, zombifiedAnimal.blockPosition(), 0);
 
 		ForgeEventFactory.onLivingConvert(zombifiedAnimal, vanillaAnimal);
 	}
