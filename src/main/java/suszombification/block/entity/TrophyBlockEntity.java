@@ -2,6 +2,8 @@ package suszombification.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -53,5 +55,20 @@ public class TrophyBlockEntity extends BlockEntity {
 			trophyType = TrophyType.values()[savedOrdinal];
 
 		curseGiven = tag.getBoolean("CurseGiven");
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		return save(new CompoundTag());
+	}
+
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return new ClientboundBlockEntityDataPacket(worldPosition, 1, getUpdateTag());
+	}
+
+	@Override
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		load(packet.getTag());
 	}
 }
