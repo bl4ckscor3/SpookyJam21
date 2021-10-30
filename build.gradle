@@ -2,15 +2,18 @@ buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 
@@ -38,6 +41,7 @@ minecraft {
         client {
             workingDirectory project.file('run/client')
             property 'forge.logging.console.level', 'debug'
+            args '-mixin.config=suszombification.mixins.json'
 
             mods {
                 suszombification {
@@ -49,7 +53,7 @@ minecraft {
         server {
             workingDirectory project.file('run/server')
             property 'forge.logging.console.level', 'debug'
-            args "-nogui"
+            args '-nogui', '-mixin.config=suszombification.mixins.json'
 
             mods {
                 suszombification {
@@ -83,8 +87,13 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.17.1-37.0.103'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
     implementation fg.deobf("curse.maven:trick-or-treat-535636:3497712")
+}
+
+mixin {
+    add sourceSets.main, "securitycraft.refmap.json"
 }
 
 jar {
@@ -98,7 +107,8 @@ jar {
                 "Implementation-Title"    : "Suspicious Zombification",
                 "Implementation-Version"  : "${version}",
                 "Implementation-Vendor"   : "Redstone_Dubstep, bl4ckscor3",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "suszombification.mixins.json"
         ])
     }
 }

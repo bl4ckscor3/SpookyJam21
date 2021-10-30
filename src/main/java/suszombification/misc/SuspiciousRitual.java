@@ -7,12 +7,14 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import net.minecraft.world.entity.player.Player;
@@ -138,6 +140,16 @@ public final class SuspiciousRitual {
 
 	private static interface StructurePart {
 		public boolean checkPart(Level level, BlockPos structureOrigin);
+	}
+
+	public static void maybeSendNeedZombifiedAnimalInfoMessage(Mob leashedMob, Level level, BlockPos pos, Player player) {
+		if(!level.isClientSide && !(leashedMob instanceof ZombifiedAnimal)) {
+			BlockState state = level.getBlockState(pos);
+
+			if(state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
+				player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
+			}
+		}
 	}
 
 	private static record StructurePosition(int x, int y, int z, Predicate<BlockState> check) implements StructurePart {
