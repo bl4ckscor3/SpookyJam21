@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_16",
 	"refmap": "suszombification.refmap.json",
 	"mixins": [
-		"LeadItemMixin"
+		"LeadItemMixin",
+		"ZombieHorseMixin"
 	],
 	"minVersion": "0.8"
 }

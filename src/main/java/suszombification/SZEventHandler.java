@@ -1,5 +1,8 @@
 package suszombification;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.TimeUtil;
@@ -13,15 +16,20 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.levelgen.feature.PillagerOutpostFeature;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -38,11 +46,16 @@ import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
+import suszombification.entity.ai.NearestNormalVariantTargetGoal;
+import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.misc.SuspiciousRitual;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
+	public static EntityDataAccessor<Boolean> zombieHorseDataConvertingId;
+
+	@SuppressWarnings("rawtypes")
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
@@ -58,6 +71,24 @@ public class SZEventHandler {
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedPig.class, 4.0F, 1.0F, 1.2F));
 			else if(type == EntityType.SHEEP)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
+			else if(type == EntityType.HORSE)
+				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombieHorse.class, 4.0F, 1.0F, 1.2F));
+			else if(type == EntityType.ZOMBIE_HORSE) {
+				mob.goalSelector.addGoal(2, new SPPTemptGoal(mob, 1.0D, Ingredient.of(Items.LEATHER), false));
+				mob.targetSelector.addGoal(1, new HurtByTargetGoal(mob));
+				mob.targetSelector.addGoal(2, new NearestNormalVariantTargetGoal((ZombifiedAnimal)mob, true, false));
+				mob.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal(mob, false));
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onEntityConstructing(EntityEvent.EntityConstructing event) {
+		if(event.getEntity() instanceof ZombieHorse) {
+			if(zombieHorseDataConvertingId == null)
+				zombieHorseDataConvertingId = SynchedEntityData.defineId(ZombieHorse.class, EntityDataSerializers.BOOLEAN);
+
+			event.getEntity().getEntityData().define(zombieHorseDataConvertingId, false);
 		}
 	}
 
