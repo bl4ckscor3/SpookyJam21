@@ -50,7 +50,7 @@ import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 
 @Mixin(ZombieHorse.class)
-public abstract class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, NeutralMob {
+public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, NeutralMob {
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombieHorse.class, EntityDataSerializers.BOOLEAN);
 	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
