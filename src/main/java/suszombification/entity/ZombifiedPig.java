@@ -226,5 +226,4 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public void setConversionTime(int conversionTime) {
 		this.conversionTime = conversionTime;
 	}
-
 }

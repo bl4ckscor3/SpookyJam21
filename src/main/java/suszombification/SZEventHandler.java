@@ -44,7 +44,6 @@ import suszombification.misc.SuspiciousRitual;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
-	@SuppressWarnings("rawtypes")
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();

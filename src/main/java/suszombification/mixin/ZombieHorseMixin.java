@@ -73,7 +73,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
-		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal(this, false));
+		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
 	@Inject(method="createAttributes", at=@At("HEAD"), cancellable=true)
