@@ -67,7 +67,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(2, new TemptGoal(this, 1.2D, Ingredient.of(Items.PORKCHOP, SZItems.PORKCHOP_ON_A_STICK.get()), false));
+		goalSelector.addGoal(2, new TemptGoal(this, 1.2D, Ingredient.of(SZItems.PORKCHOP_ON_A_STICK.get()), false));
 		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
@@ -226,4 +226,5 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public void setConversionTime(int conversionTime) {
 		this.conversionTime = conversionTime;
 	}
+
 }
