@@ -14,6 +14,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -43,6 +44,7 @@ import suszombification.misc.SuspiciousRitual;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
+	@SuppressWarnings("rawtypes")
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
@@ -58,6 +60,8 @@ public class SZEventHandler {
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedPig.class, 4.0F, 1.0F, 1.2F));
 			else if(type == EntityType.SHEEP)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
+			else if(type == EntityType.HORSE)
+				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombieHorse.class, 4.0F, 1.0F, 1.2F));
 		}
 	}
 
