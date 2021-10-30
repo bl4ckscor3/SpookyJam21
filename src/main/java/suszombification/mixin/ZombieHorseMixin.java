@@ -22,21 +22,35 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RunAroundLikeCrazyGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZItems;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.entity.ai.NearestNormalVariantTargetGoal;
+import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 
 @Mixin(ZombieHorse.class)
-public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, NeutralMob {
+public abstract class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, NeutralMob {
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombieHorse.class, EntityDataSerializers.BOOLEAN);
 	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
@@ -45,6 +59,26 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 
 	protected ZombieHorseMixin(EntityType<? extends AbstractHorse> type, Level level) {
 		super(type, level);
+	}
+
+	@Override
+	protected void registerGoals() {
+		goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
+		goalSelector.addGoal(2, new BreedGoal(this, 1.0D, AbstractHorse.class));
+		goalSelector.addGoal(3, new SPPTemptGoal(this, 1.0D, Ingredient.of(Items.LEATHER), false));
+		goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
+		goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, false));
+		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
+		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal(this, false));
+	}
+
+	@Inject(method="createAttributes", at=@At("HEAD"), cancellable=true)
+	private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> callback) {
+		callback.setReturnValue(createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 15.0D).add(Attributes.MOVEMENT_SPEED, 0.2F).add(Attributes.ATTACK_DAMAGE, 2.0F));
 	}
 
 	@Override

@@ -13,14 +13,11 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.LevelEvent;
@@ -42,8 +39,6 @@ import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
-import suszombification.entity.ai.NearestNormalVariantTargetGoal;
-import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.misc.SuspiciousRitual;
 
@@ -67,12 +62,6 @@ public class SZEventHandler {
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
 			else if(type == EntityType.HORSE)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombieHorse.class, 4.0F, 1.0F, 1.2F));
-			else if(type == EntityType.ZOMBIE_HORSE) {
-				mob.goalSelector.addGoal(2, new SPPTemptGoal(mob, 1.0D, Ingredient.of(Items.LEATHER), false));
-				mob.targetSelector.addGoal(1, new HurtByTargetGoal(mob));
-				mob.targetSelector.addGoal(2, new NearestNormalVariantTargetGoal((ZombifiedAnimal)mob, true, false));
-				mob.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal(mob, false));
-			}
 		}
 	}
 
