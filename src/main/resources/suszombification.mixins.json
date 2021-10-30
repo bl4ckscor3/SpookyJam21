@@ -3,7 +3,7 @@
 	"package": "suszombification.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"refmap": "suszombification.refmap.json",
-	"client": [
+	"mixins": [
 		"LeadItemMixin"
 	],
 	"minVersion": "0.8"
