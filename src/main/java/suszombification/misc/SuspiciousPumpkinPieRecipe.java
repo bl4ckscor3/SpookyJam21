@@ -38,7 +38,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 				Items.PORKCHOP,
 				Items.MUTTON,
 				SZItems.SPOILED_MILK_BUCKET.get(),
-				SZItems.ROTTEN_EGG.get()); //TODO: add rotten items
+				SZItems.ROTTEN_EGG.get());
 
 		if(ModList.get().isLoaded("trickortreat"))
 			specialItems = Ingredient.merge(List.of(specialItems, TrickOrTreatCompat.getCandies()));
