@@ -93,7 +93,7 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, "securitycraft.refmap.json"
+    add sourceSets.main, "suszombification.refmap.json"
 }
 
 jar {
