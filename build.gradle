@@ -19,7 +19,7 @@ apply plugin: 'eclipse'
 
 version = '1.0'
 group = 'suszombification'
-archivesBaseName = 'suszombification'
+archivesBaseName = 'suszombification-1.17.1'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
