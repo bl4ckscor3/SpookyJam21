@@ -31,6 +31,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +47,7 @@ import suszombification.misc.AnimalUtil;
 public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, NeutralMob {
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.LEATHER);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombieHorse.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(ZombieHorse.class, EntityDataSerializers.INT);
 	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
@@ -79,6 +81,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		entityData.define(DATA_CONVERTING_ID, false);
+		entityData.define(DATA_ID_TYPE_VARIANT, 0);
 	}
 
 	@Override
@@ -117,12 +120,15 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 
 		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
+
+		entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("ConversionTime", isConverting() ? conversionTime : -1);
+		tag.putInt("Variant", entityData.get(DATA_ID_TYPE_VARIANT));
 	}
 
 	@Override
@@ -153,6 +159,18 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	@Override
 	public EntityType<? extends Animal> getNormalVariant() {
 		return EntityType.HORSE;
+	}
+
+	@Override
+	public void readFromVanilla(Animal animal) {
+		if(animal instanceof Horse horse)
+			entityData.set(DATA_ID_TYPE_VARIANT, horse.getTypeVariant());
+	}
+
+	@Override
+	public void writeToVanilla(Animal animal) {
+		if(animal instanceof Horse horse)
+			horse.setTypeVariant(entityData.get(DATA_ID_TYPE_VARIANT));
 	}
 
 	@Override
