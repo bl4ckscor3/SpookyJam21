@@ -164,7 +164,18 @@ public class LootTableGenerator implements DataProvider {
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_LEGGINGS)
 								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))));
+										.when(LootItemRandomChanceCondition.randomChance(0.25F)))))
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.when(LootItemRandomChanceCondition.randomChance(0.05F))
+						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()))
+						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()))));
 		return lootTables;
 	}
 

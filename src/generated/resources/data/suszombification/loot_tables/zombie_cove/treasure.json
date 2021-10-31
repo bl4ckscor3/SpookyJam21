@@ -231,6 +231,51 @@
         }
       ],
       "functions": []
+    },
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:caramel_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:chocolate_cream_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:cinnamon_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:honey_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:melon_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:peppermint_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:pumpkin_candy"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "suszombification:vanilla_cream_candy"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.05
+        }
+      ],
+      "functions": []
     }
   ]
 }
