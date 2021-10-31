@@ -32,6 +32,8 @@ public interface ZombifiedAnimal {
 
 	void setConversionTime(int conversionTime);
 
+	int getConversionTime();
+
 	default void startConverting(int conversionTime) {
 		Animal animal = (Animal)this;
 

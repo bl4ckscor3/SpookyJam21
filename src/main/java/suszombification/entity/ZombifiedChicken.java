@@ -17,11 +17,9 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -46,14 +44,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
-import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.misc.AnimalUtil;
 
 public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
@@ -106,13 +102,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void tick() {
-		if(!level.isClientSide && isAlive() && isConverting()) {
-			conversionTime -= getConversionProgress();
-
-			if(conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.CHICKEN, this::setConversionTime))
-				finishConversion((ServerLevel)level);
-		}
-
+		AnimalUtil.tick(this);
 		super.tick();
 	}
 
@@ -146,35 +136,18 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		ItemStack stack = player.getItemInHand(hand);
+		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
-			if(hasEffect(MobEffects.WEAKNESS)) {
-				if(!player.getAbilities().instabuild)
-					stack.shrink(1);
-
-				if(!level.isClientSide)
-					startConverting(random.nextInt(2401) + 3600);
-
-				gameEvent(GameEvent.MOB_INTERACT, eyeBlockPosition());
-				return InteractionResult.SUCCESS;
-			}
-
-			return InteractionResult.CONSUME;
-		}
+		if(returnValue != InteractionResult.PASS)
+			return returnValue;
 
 		return super.mobInteract(player, hand);
 	}
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(id == EntityEvent.ZOMBIE_CONVERTING) {
-			if(!isSilent())
-				level.playLocalSound(getX(), getEyeY(), getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
-		}
-		else
+		if(!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
-
 	}
 
 	@Override
@@ -229,14 +202,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
-			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
-			ItemStack ingredient = ItemStack.of(ingredientTag);
-
-			return FOOD_ITEMS.test(ingredient);
-		}
-
-		return false;
+		return AnimalUtil.isFood(stack, FOOD_ITEMS);
 	}
 
 	@Override
@@ -345,5 +311,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	@Override
 	public void setConversionTime(int conversionTime) {
 		this.conversionTime = conversionTime;
+	}
+
+	@Override
+	public int getConversionTime() {
+		return conversionTime;
 	}
 }
