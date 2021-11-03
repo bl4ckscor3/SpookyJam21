@@ -46,6 +46,8 @@
 	"death.attack.suszombification.decomposing.player": "%1$s decomposed to a small pile of rotten flesh whilst fighting %2$s",
 	"death.attack.suszombification.ritual_sacrifice": "%s was the sacrifice in a suspicious ritual",
 	"death.attack.suszombification.ritual_sacrifice.player": "%1$s got sacrificed in a suspicious ritual whilst fighting %2$s",
+	"death.attack.suszombification.spp_explosion": "%s blew himself up through improper nutrient consumption",
+	"death.attack.suszombification.spp_explosion.player": "%1$s blew himself up through improper nutrient consumption whilst fighting %2$s",
 
 	"message.suszombification.suspicious_pumpkin_pie.air": "Tastes like a normal pumpkin pie... someone must have confused the recipes!",
 	"message.suszombification.suspicious_pumpkin_pie.caramel_candy": "Sweet! Suddenly you feel so light... light as a feather in the wind...",
@@ -64,6 +66,7 @@
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "A healthy and slightly metallic flavor that seems to accelerate your healing! Reminds you of past desert pyramid looting times...",
 	"message.suszombification.suspicious_pumpkin_pie.cured_by_ritual": "You feel an eerie sensation coming from the ritual. A sense of relief washes over you and it seems fewer eyes than normal are focused on you - for now...",
 	"message.suszombification.suspicious_pumpkin_pie.trickortreat": "A mysterious outer force is making your body behave in odd ways...",
+	"message.suszombification.suspicious_pumpkin_pie.gunpowder": "Tastes very hot - suddenly you realize that this flavor doesn't just react explosive on your tongue, but also in the rest of your body...",
 	"message.suszombification.ritual.need_night": "The suspicious ritual looks like it does not work at this time of day.",
 	"message.suszombification.ritual.need_zombified_animal": "The suspicious ritual seems to reject this mob.",
 	"message.suszombification.curse.warning": "This sound makes you feel uneasy... perhaps you should stay clear of living beings for now.",

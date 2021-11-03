@@ -10,6 +10,7 @@ import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -19,6 +20,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import suszombification.SZEffects;
@@ -118,6 +121,13 @@ public class SuspiciousPumpkinPieItem extends Item {
 				if(ModList.get().isLoaded("trickortreat") && TrickOrTreatCompat.attemptCandyEffect(entity, level, ingredient)) {
 					messageSuffix = "trickortreat";
 					color = ChatFormatting.GOLD;
+				}
+				else if (ingredient.is(Items.GUNPOWDER)) {
+					boolean mobGriefing = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+					DamageSource source = new DamageSource("suszombification.spp_explosion").setScalesWithDifficulty().setExplosion();
+
+					if (!level.isClientSide)
+						level.explode(null, source, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, !(entity instanceof Player) && !mobGriefing ? Explosion.BlockInteraction.NONE : Explosion.BlockInteraction.DESTROY);
 				}
 				else { //vanilla mob drop
 					entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));

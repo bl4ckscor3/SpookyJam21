@@ -37,6 +37,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 				Items.LEATHER,
 				Items.PORKCHOP,
 				Items.MUTTON,
+				Items.GUNPOWDER,
 				SZItems.SPOILED_MILK_BUCKET.get(),
 				SZItems.ROTTEN_EGG.get());
 

@@ -46,6 +46,8 @@
 	"death.attack.suszombification.decomposing.player": "%1$s zersetzte sich während des Kampfes mit %2$s zu einem Häufchen von verrottetem Fleisch",
 	"death.attack.suszombification.ritual_sacrifice": "%s war das Opfer eines Seltsamen Rituals",
 	"death.attack.suszombification.ritual_sacrifice.player": "%1$s wurde während des Kampfes mit %2$s in einem Seltsamen Ritual geopfert",
+	"death.attack.suszombification.spp_explosion": "%s sprengte sich durch falschen Nahrungsmittelkonsum selbst in die Luft",
+	"death.attack.suszombification.spp_explosion.player": "%s sprengte sich während des Kampfes mit %2$s durch falschen Nahrungsmittelkonsum selbst in die Luft",
 
 	"message.suszombification.suspicious_pumpkin_pie.air": "Schmeckt wie ein normaler Kürbiskuchen... jemand muss die Rezepte vertauscht haben!",
 	"message.suszombification.suspicious_pumpkin_pie.caramel_candy": "Süß! Auf einmal kommst du dir so leicht vor... wie eine Feder im Wind...",
@@ -64,6 +66,7 @@
 	"message.suszombification.suspicious_pumpkin_pie.golden_apple": "Ein gesundes, leicht metallisches Aroma, welches deine Heilprozesse zu beschleunigen scheint! Lässt dich an vergangene Wüstentempel-Expeditionen zurückdenken...",
 	"message.suszombification.suspicious_pumpkin_pie.cured_by_ritual": "Du fühlst ein vom Ritual ausgehendes, unheimliches Gefühl. Eine Welle der Befreiung fegt über dich hinweg und es scheint, dass nun weniger Augen auf dich gerichtet sind - fürs Erste...",
 	"message.suszombification.suspicious_pumpkin_pie.trickortreat": "Eine mysteriöse Macht von außen scheint seltsame Dinge mit deinem Körper anzustellen...",
+	"message.suszombification.suspicious_pumpkin_pie.gunpowder": "Schmeckt sehr scharf - plötzlich fällt dir auf, dass dieses Aroma nicht nur auf deiner Zunge explodierend wirkt, sondern auch im Rest deines Körpers...",
 	"message.suszombification.ritual.need_night": "Es sieht so aus, als ob das Seltsame Ritual nicht zu dieser Tageszeit funktioniert.",
 	"message.suszombification.ritual.need_zombified_animal": "Dem Seltsamen Ritual scheint diese Kreatur zu missfallen.",
 	"message.suszombification.curse.warning": "Dieses Geräusch lässt dich nervös werden... vermutlich solltest du in nächster Zeit anderen Lebewesen fern bleiben.",
