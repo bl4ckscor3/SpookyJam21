@@ -66,6 +66,7 @@
 	"message.suszombification.suspicious_pumpkin_pie.trickortreat": "A mysterious outer force is making your body behave in odd ways...",
 	"message.suszombification.ritual.need_night": "The suspicious ritual looks like it does not work at this time of day.",
 	"message.suszombification.ritual.need_zombified_animal": "The suspicious ritual seems to reject this mob.",
+	"message.suszombification.curse.warning": "This sound makes you feel uneasy... perhaps you should stay clear of living beings for now.",
 
 	"effect.suszombification.amplifying": "Amplifying",
 	"effect.suszombification.cushion": "Cushion",
