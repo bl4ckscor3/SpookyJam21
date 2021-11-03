@@ -41,14 +41,14 @@ public class DecomposingEffect extends MobEffect {
 						animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
 				}
 				else {
-					entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
+					entity.hurt(SZDamageSources.DECOMPOSING, Float.MAX_VALUE);
 
 					if(entity.isDeadOrDying())
 						spawnDecomposingDrops(entity);
 				}
 			}
 			else if(entity instanceof Player player && !player.getAbilities().instabuild) {
-				entity.hurt(SZDamageSources.DECOMPOSING, entity.getHealth() * 2);
+				entity.hurt(SZDamageSources.DECOMPOSING, Float.MAX_VALUE);
 				spawnDecomposingDrops(entity);
 			}
 		}
