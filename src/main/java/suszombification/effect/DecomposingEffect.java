@@ -7,11 +7,11 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -57,12 +57,12 @@ public class DecomposingEffect extends Effect {
 
 	private void spawnDecomposingDrops(LivingEntity entity) {
 		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLootTables.DEATH_BY_DECOMPOSING);
-		LootContext.Builder builder = new LootContext.Builder((ServerLevel)entity.level)
+		LootContext.Builder builder = new LootContext.Builder((ServerWorld)entity.level)
 				.withRandom(entity.getRandom())
-				.withParameter(LootContextParams.THIS_ENTITY, entity)
-				.withParameter(LootContextParams.ORIGIN, entity.position())
-				.withParameter(LootContextParams.DAMAGE_SOURCE, SZDamageSources.DECOMPOSING);
-		LootContext ctx = builder.create(LootContextParamSets.ENTITY);
+				.withParameter(LootParameters.THIS_ENTITY, entity)
+				.withParameter(LootParameters.ORIGIN, entity.position())
+				.withParameter(LootParameters.DAMAGE_SOURCE, SZDamageSources.DECOMPOSING);
+		LootContext ctx = builder.create(LootParameterSets.ENTITY);
 
 		lootTable.getRandomItems(ctx).forEach(entity::spawnAtLocation);
 	}

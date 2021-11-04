@@ -28,7 +28,7 @@ public class TrophyItem extends BlockItem {
 		if(level.getDifficulty() != Difficulty.PEACEFUL) {
 			PlayerEntity player = (PlayerEntity)entity;
 
-			if(!player.getAbilities().instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE.get()) && !stack.getOrCreateTag().getBoolean("CurseGiven")) {
+			if(!player.abilities.instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE.get()) && !stack.getOrCreateTag().getBoolean("CurseGiven")) {
 				stack.getTag().putBoolean("CurseGiven", true);
 				player.playSound(SoundEvents.WITHER_SPAWN, 1.0F, 0.9F);
 				player.playSound(SoundEvents.ZOMBIE_AMBIENT, 0.5F, 0.8F);

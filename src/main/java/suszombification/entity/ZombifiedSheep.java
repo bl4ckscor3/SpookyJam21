@@ -16,9 +16,14 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.ResetAngerGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -43,11 +48,6 @@ import net.minecraft.util.TickRangeConverter;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.ai.goal.EatBlockGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZBlocks;
@@ -96,16 +96,16 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false, stack -> stack.is(ItemTags.WOOL)));
+		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false, stack -> stack.getItem().is(ItemTags.WOOL)));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(5, eatBlockGoal = new EatBlockGoal(this));
-		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(7, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
-		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(5, eatBlockGoal = new EatGrassGoal(this));
+		goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
-		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
+		targetSelector.addGoal(3, new ResetAngerGoal<>(this, false));
 	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -125,23 +125,23 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 		else {
 			ResourceLocation returnValue = null;
 
-			switch (getColor()) {
-				case WHITE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_WHITE;
-				case ORANGE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
-				case MAGENTA: returnValue = SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
-				case LIGHT_BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE;
-				case YELLOW: returnValue = SZLootTables.ZOMBIFIED_SHEEP_YELLOW;
-				case LIME: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIME;
-				case PINK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PINK;
-				case GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GRAY;
-				case LIGHT_GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY;
-				case CYAN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_CYAN;
-				case PURPLE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PURPLE;
-				case BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLUE;
-				case BROWN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BROWN;
-				case GREEN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GREEN;
-				case RED: returnValue = SZLootTables.ZOMBIFIED_SHEEP_RED;
-				case BLACK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLACK;
+			switch(getColor()) {
+				case WHITE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_WHITE; break;
+				case ORANGE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_ORANGE; break;
+				case MAGENTA: returnValue = SZLootTables.ZOMBIFIED_SHEEP_MAGENTA; break;
+				case LIGHT_BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE; break;
+				case YELLOW: returnValue = SZLootTables.ZOMBIFIED_SHEEP_YELLOW; break;
+				case LIME: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIME; break;
+				case PINK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PINK; break;
+				case GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GRAY; break;
+				case LIGHT_GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY; break;
+				case CYAN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_CYAN; break;
+				case PURPLE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PURPLE; break;
+				case BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLUE; break;
+				case BROWN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BROWN; break;
+				case GREEN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GREEN; break;
+				case RED: returnValue = SZLootTables.ZOMBIFIED_SHEEP_RED; break;
+				case BLACK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLACK; break;
 			};
 
 			return returnValue;
@@ -220,7 +220,7 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		return AnimalUtil.isFood(stack, FOOD_ITEMS, ingredient -> ingredient.is(ItemTags.WOOL));
+		return AnimalUtil.isFood(stack, FOOD_ITEMS, ingredient -> ingredient.getItem().is(ItemTags.WOOL));
 	}
 
 	@Override
@@ -264,7 +264,7 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 
 	@Override
 	public void startPersistentAngerTimer() {
-		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.randomValue(random));
 	}
 
 	@Override

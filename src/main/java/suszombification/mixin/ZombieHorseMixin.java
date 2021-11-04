@@ -14,8 +14,12 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.ResetAngerGoal;
 import net.minecraft.entity.ai.goal.RunAroundLikeCrazyGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
@@ -33,10 +37,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.RangedInteger;
 import net.minecraft.util.TickRangeConverter;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraftforge.common.util.Constants;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
@@ -64,12 +64,12 @@ public class ZombieHorseMixin extends AbstractHorseEntity implements ZombifiedAn
 		goalSelector.addGoal(3, new SPPTemptGoal(this, 1.0D, Ingredient.of(Items.LEATHER), false));
 		goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
-		goalSelector.addGoal(7, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
-		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
+		goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
-		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
+		targetSelector.addGoal(3, new ResetAngerGoal<>(this, false));
 	}
 
 	@Inject(method="createAttributes", at=@At("HEAD"), cancellable=true)
@@ -153,7 +153,7 @@ public class ZombieHorseMixin extends AbstractHorseEntity implements ZombifiedAn
 
 	@Override
 	public void startPersistentAngerTimer() {
-		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.randomValue(random));
 	}
 
 	@Override

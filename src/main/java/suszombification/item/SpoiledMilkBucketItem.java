@@ -28,7 +28,7 @@ public class SpoiledMilkBucketItem extends MilkBucketItem {
 			player.awardStat(Stats.ITEM_USED.get(this));
 		}
 
-		if(entity instanceof PlayerEntity && !((PlayerEntity)entity).getAbilities().instabuild)
+		if(entity instanceof PlayerEntity && !((PlayerEntity)entity).abilities.instabuild)
 			stack.shrink(1);
 
 		return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;

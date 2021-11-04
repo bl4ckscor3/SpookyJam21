@@ -74,7 +74,7 @@ public class SZEventHandler {
 			AnimalEntity animal = (AnimalEntity)entity;
 			ItemStack stack = player.getItemInHand(event.getHand());
 
-			if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
+			if(stack.getItem() == SZItems.SUSPICIOUS_PUMPKIN_PIE.get() && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
 				animal.addEffect(new EffectInstance(SZEffects.DECOMPOSING.get(), TickRangeConverter.rangeOfSeconds(50, 70).randomValue(animal.getRandom())));
 
 				if(!player.abilities.instabuild)

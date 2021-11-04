@@ -17,7 +17,11 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.ResetAngerGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,10 +43,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZEntityTypes;
@@ -60,7 +60,6 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 	public float previousFlapSpeed;
 	public float previousFlap;
 	public float flapping = 1.0F;
-	private float nextFlap = 1.0F;
 	public int eggTime = random.nextInt(6000) + 6000;
 	public boolean isChickenJockey;
 	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
@@ -83,12 +82,12 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(6, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
-		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		goalSelector.addGoal(7, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
-		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
+		targetSelector.addGoal(3, new ResetAngerGoal<>(this, false));
 	}
 
 	@Override
@@ -151,17 +150,7 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 	}
 
 	@Override
-	protected boolean isFlapping() {
-		return flyDist > nextFlap;
-	}
-
-	@Override
-	protected void onFlap() {
-		nextFlap = flyDist + flapSpeed / 2.0F;
-	}
-
-	@Override
-	public boolean causeFallDamage(float height, float mult, DamageSource source) {
+	public boolean causeFallDamage(float height, float mult) {
 		return false;
 	}
 

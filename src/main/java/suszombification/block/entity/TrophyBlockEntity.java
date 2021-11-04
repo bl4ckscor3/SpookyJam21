@@ -6,7 +6,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
 import suszombification.SZBlockEntityTypes;
 import suszombification.block.TrophyBlock.TrophyType;
 
@@ -14,7 +13,7 @@ public class TrophyBlockEntity extends TileEntity {
 	private TrophyType trophyType;
 	private boolean curseGiven;
 
-	public TrophyBlockEntity(BlockPos pos, BlockState state) {
+	public TrophyBlockEntity() {
 		super(SZBlockEntityTypes.TROPHY.get());
 	}
 

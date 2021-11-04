@@ -1,6 +1,6 @@
 package suszombification;
 
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +25,7 @@ public class SZClientHandler {
 			RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCowRenderer::new);
 			RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);
 			RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_SHEEP.get(), ZombifiedSheepRenderer::new);
-			RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ROTTEN_EGG.get(), ThrownItemRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ROTTEN_EGG.get(), manager -> new SpriteRenderer<>(manager, event.getMinecraftSupplier().get().getItemRenderer()));
 			RenderingRegistry.registerEntityRenderingHandler(EntityType.ZOMBIE_HORSE, ZombieHorseRenderer::new);
 			ClientRegistry.bindTileEntityRenderer(SZBlockEntityTypes.TROPHY.get(), TrophyRenderer::new);
 		});

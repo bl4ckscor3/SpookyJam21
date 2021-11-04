@@ -1,6 +1,6 @@
 package suszombification.misc;
 
-import java.util.List;
+import java.util.Arrays;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.CraftingInventory;
@@ -9,6 +9,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.SpecialRecipe;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -23,7 +24,7 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 
 public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
-	public static IRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
+	public static SpecialRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
 	private static final Ingredient INGREDIENTS;
 
 	static {
@@ -41,7 +42,7 @@ public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 				SZItems.ROTTEN_EGG.get());
 
 		if(ModList.get().isLoaded("trickortreat"))
-			specialItems = Ingredient.merge(List.of(specialItems, TrickOrTreatCompat.getCandies()));
+			specialItems = Ingredient.merge(Arrays.asList(specialItems, TrickOrTreatCompat.getCandies()));
 
 		INGREDIENTS = specialItems;
 	}
@@ -61,14 +62,14 @@ public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 			ItemStack stack = inv.getItem(i);
 
 			if(!stack.isEmpty()) {
-				if(stack.is(Items.SUGAR) && !hasSugar)
+				if(stack.getItem() == Items.SUGAR && !hasSugar)
 					hasSugar = true;
-				else if(stack.is(Items.EGG) && !hasEgg)
+				else if(stack.getItem() == Items.EGG && !hasEgg)
 					hasEgg = true;
 				else if(isIngredient(stack) && !hasSpecialIngredient)
 					hasSpecialIngredient = true;
 				else {
-					if(!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin)
+					if(stack.getItem() != Blocks.PUMPKIN.asItem() || hasPumpkin)
 						return false;
 
 					hasPumpkin = true;
@@ -98,7 +99,7 @@ public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 	}
 
 	private boolean isIngredient(ItemStack stack) {
-		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.is(ItemTags.WOOL) || stack.is(SZTags.Items.ROTTEN_WOOL);
+		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.getItem().is(ItemTags.WOOL) || stack.getItem().is(SZTags.Items.ROTTEN_WOOL);
 	}
 
 	@Override

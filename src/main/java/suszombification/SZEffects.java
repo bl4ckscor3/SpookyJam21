@@ -19,7 +19,7 @@ public class SZEffects {
 
 	public static final RegistryObject<Effect> AMPLIFYING = EFFECTS.register("amplifying", () -> new AmplifyingEffect(EffectType.BENEFICIAL, 0xEBE294));
 	public static final RegistryObject<Effect> CUSHION = EFFECTS.register("cushion", () -> new Effect(EffectType.BENEFICIAL, 0xEDEDED));
-	public static final RegistryObject<Effect> DECOMPOSING = EFFECTS.register("decomposing", () -> new DecomposingEffect(EffectType.HARMFUL, 0x799C65).addAttributeModifier(Attributes.MOVEMENT_SPEED, "71c0aa55-a4ea-410d-8a42-99e9daa37ef5", -0.2F, Operation.MULTIPLY_TOTAL));
+	public static final RegistryObject<Effect> DECOMPOSING = EFFECTS.register("decomposing", () -> new DecomposingEffect(EffectType.HARMFUL, 0x799C65).addAttributeModifier(Attributes.MOVEMENT_SPEED, "71c0aa55-a4ea-410d-8a42-99e9daa37ef5", -0.2D, Operation.MULTIPLY_TOTAL));
 	public static final RegistryObject<Effect> STENCH = EFFECTS.register("stench", () -> new VicinityAffectingEffect(EffectType.BENEFICIAL, 0xCACC52,
 			amplifier -> Math.max((amplifier + 1) * 3, 10),
 			e -> true,

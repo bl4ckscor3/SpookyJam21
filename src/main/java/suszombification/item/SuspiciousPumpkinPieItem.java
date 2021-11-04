@@ -33,11 +33,11 @@ public class SuspiciousPumpkinPieItem extends Item {
 	private static final List<PieEffect> PIE_EFFECTS = new ArrayList<>();
 
 	static {
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new EffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new EffectInstance(SZEffects.STENCH.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new EffectInstance(SZEffects.CUSHION.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, "rotten_wool"));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new EffectInstance(Effects.REGENERATION, 200, 1), () -> new EffectInstance(Effects.ABSORPTION, 2400), TextFormatting.AQUA, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new EffectInstance(SZEffects.DECOMPOSING.get(), 600), () -> null, TextFormatting.AQUA, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.getItem() == SZItems.SPOILED_MILK_BUCKET.get(), () -> new EffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.getItem() == SZItems.ROTTEN_EGG.get(), () -> new EffectInstance(SZEffects.STENCH.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.getItem().is(SZTags.Items.ROTTEN_WOOL), () -> new EffectInstance(SZEffects.CUSHION.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, "rotten_wool"));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.getItem() == Items.GOLDEN_APPLE, () -> new EffectInstance(Effects.REGENERATION, 200, 1), () -> new EffectInstance(Effects.ABSORPTION, 2400), TextFormatting.AQUA, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.getItem() == Items.ROTTEN_FLESH, () -> new EffectInstance(SZEffects.DECOMPOSING.get(), 600), () -> null, TextFormatting.AQUA, ""));
 
 		if(ModList.get().isLoaded("trickortreat"))
 			TrickOrTreatCompat.addEffects(PIE_EFFECTS);
@@ -123,7 +123,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 					messageSuffix = "trickortreat";
 					color = TextFormatting.GOLD;
 				}
-				else if(ingredient.is(Items.GUNPOWDER)) {
+				else if(ingredient.getItem() == Items.GUNPOWDER) {
 					boolean mobGriefing = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
 
 					if(!level.isClientSide)
@@ -137,7 +137,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			//ritual
-			if(ingredient.is(Items.GOLDEN_APPLE) && entity instanceof PlayerEntity && ((PlayerEntity)entity).hasEffect(Effects.WEAKNESS) && SuspiciousRitual.performRitual(level, (PlayerEntity)entity)) {
+			if(ingredient.getItem() == Items.GOLDEN_APPLE && entity instanceof PlayerEntity && ((PlayerEntity)entity).hasEffect(Effects.WEAKNESS) && SuspiciousRitual.performRitual(level, (PlayerEntity)entity)) {
 				color = TextFormatting.AQUA;
 				messageSuffix = "cured_by_ritual";
 			}

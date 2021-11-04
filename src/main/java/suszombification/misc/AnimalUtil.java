@@ -35,9 +35,9 @@ public class AnimalUtil {
 	public static ActionResultType mobInteract(LivingEntity me, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+		if(stack.getItem() == SZItems.SUSPICIOUS_PUMPKIN_PIE.get() && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
 			if(me.hasEffect(Effects.WEAKNESS)) {
-				if(!player.getAbilities().instabuild)
+				if(!player.abilities.instabuild)
 					stack.shrink(1);
 
 				if(!me.level.isClientSide)
@@ -68,7 +68,7 @@ public class AnimalUtil {
 	}
 
 	public static boolean isFood(ItemStack stack, Ingredient foodItems, Predicate<ItemStack> extraTest) {
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+		if(stack.getItem() == SZItems.SUSPICIOUS_PUMPKIN_PIE.get() && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 			CompoundNBT ingredientTag = stack.getTag().getCompound("Ingredient");
 			ItemStack ingredient = ItemStack.of(ingredientTag);
 

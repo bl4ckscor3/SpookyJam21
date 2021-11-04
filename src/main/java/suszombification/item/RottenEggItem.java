@@ -38,13 +38,13 @@ public class RottenEggItem extends Item {
 			ThrownRottenEgg egg = new ThrownRottenEgg(level, player);
 
 			egg.setItem(stack);
-			egg.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+			egg.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.5F, 1.0F);
 			level.addFreshEntity(egg);
 		}
 
 		player.awardStat(Stats.ITEM_USED.get(this));
 
-		if(!player.getAbilities().instabuild)
+		if(!player.abilities.instabuild)
 			stack.shrink(1);
 
 		return ActionResult.sidedSuccess(stack, level.isClientSide());

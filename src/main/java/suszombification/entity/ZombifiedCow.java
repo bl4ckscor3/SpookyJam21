@@ -12,7 +12,11 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.ResetAngerGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,11 +34,6 @@ import net.minecraft.util.RangedInteger;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.TickRangeConverter;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZEntityTypes;
@@ -67,12 +66,12 @@ public class ZombifiedCow extends CowEntity implements IAngerable, ZombifiedAnim
 		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(6, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
-		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		goalSelector.addGoal(7, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
-		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
+		targetSelector.addGoal(3, new ResetAngerGoal<>(this, false));
 	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -122,7 +121,7 @@ public class ZombifiedCow extends CowEntity implements IAngerable, ZombifiedAnim
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
+	protected int getExperienceReward(PlayerEntity player) {
 		return super.getExperienceReward(player) + 5;
 	}
 

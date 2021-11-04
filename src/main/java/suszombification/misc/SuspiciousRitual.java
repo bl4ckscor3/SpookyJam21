@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -37,7 +39,7 @@ public final class SuspiciousRitual {
 	private static final Predicate<BlockState> PUMPKIN = state -> state.is(Blocks.PUMPKIN);
 	private static final Predicate<BlockState> REDSTONE_TORCH = state -> state.is(Blocks.REDSTONE_TORCH);
 	private static final BiPredicate<BlockState, Direction> CARVED_PUMPKIN = (state, dir) -> state.is(Blocks.CARVED_PUMPKIN) && state.getValue(BlockStateProperties.HORIZONTAL_FACING) == dir;
-	private static final List<StructurePart> STRUCTURE_PARTS = List.of(
+	private static final List<StructurePart> STRUCTURE_PARTS = ImmutableList.of(
 			new StructurePosition(0, 0, 0, WOODEN_FENCE),
 			//technically part of the structure, but handled seperately in isStructurePresent to allow ritual structures without a trophy to show the nighttime info text
 			//new StructurePosition(0, 1, 0, state -> state.is(SZTags.Blocks.TROPHIES)),
@@ -89,7 +91,7 @@ public final class SuspiciousRitual {
 	 * @return true if the ritual was performed successfully, false otherwise
 	 */
 	public static boolean performRitual(World level, PlayerEntity player) {
-		if(level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
+		if(level.isNight() || player.abilities.instabuild) { //allow players in creative mode to bypass the night restriction
 			Optional<AnimalEntity> potentialSacrifice = level.getEntitiesOfClass(AnimalEntity.class, new AxisAlignedBB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal)
 					.stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
 
