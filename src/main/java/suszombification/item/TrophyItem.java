@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -41,8 +42,10 @@ public class TrophyItem extends BlockItem {
 
 	@Override
 	protected boolean updateCustomBlockEntityTag(BlockPos pos, World level, PlayerEntity player, ItemStack stack, BlockState state) {
-		if(level.getBlockEntity(pos) instanceof TrophyBlockEntity trophy)
-			trophy.setCurseGiven(stack.getOrCreateTag().getBoolean("CurseGiven"));
+		TileEntity be = level.getBlockEntity(pos);
+
+		if(be instanceof TrophyBlockEntity)
+			((TrophyBlockEntity)be).setCurseGiven(stack.getOrCreateTag().getBoolean("CurseGiven"));
 
 		return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
 	}

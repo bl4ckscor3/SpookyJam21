@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.audio.SoundSource;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityType;
@@ -29,7 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -44,21 +42,12 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.TickRangeConverter;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZBlocks;
@@ -134,24 +123,28 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 		if(isSheared())
 			return getType().getDefaultLootTable();
 		else {
-			return switch (getColor()) {
-				case WHITE -> SZLootTables.ZOMBIFIED_SHEEP_WHITE;
-				case ORANGE -> SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
-				case MAGENTA -> SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
-				case LIGHT_BLUE -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE;
-				case YELLOW -> SZLootTables.ZOMBIFIED_SHEEP_YELLOW;
-				case LIME -> SZLootTables.ZOMBIFIED_SHEEP_LIME;
-				case PINK -> SZLootTables.ZOMBIFIED_SHEEP_PINK;
-				case GRAY -> SZLootTables.ZOMBIFIED_SHEEP_GRAY;
-				case LIGHT_GRAY -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY;
-				case CYAN -> SZLootTables.ZOMBIFIED_SHEEP_CYAN;
-				case PURPLE -> SZLootTables.ZOMBIFIED_SHEEP_PURPLE;
-				case BLUE -> SZLootTables.ZOMBIFIED_SHEEP_BLUE;
-				case BROWN -> SZLootTables.ZOMBIFIED_SHEEP_BROWN;
-				case GREEN -> SZLootTables.ZOMBIFIED_SHEEP_GREEN;
-				case RED -> SZLootTables.ZOMBIFIED_SHEEP_RED;
-				case BLACK -> SZLootTables.ZOMBIFIED_SHEEP_BLACK;
+			ResourceLocation returnValue = null;
+
+			switch (getColor()) {
+				case WHITE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_WHITE;
+				case ORANGE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
+				case MAGENTA: returnValue = SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
+				case LIGHT_BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE;
+				case YELLOW: returnValue = SZLootTables.ZOMBIFIED_SHEEP_YELLOW;
+				case LIME: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIME;
+				case PINK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PINK;
+				case GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GRAY;
+				case LIGHT_GRAY: returnValue = SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY;
+				case CYAN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_CYAN;
+				case PURPLE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_PURPLE;
+				case BLUE: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLUE;
+				case BROWN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BROWN;
+				case GREEN: returnValue = SZLootTables.ZOMBIFIED_SHEEP_GREEN;
+				case RED: returnValue = SZLootTables.ZOMBIFIED_SHEEP_RED;
+				case BLACK: returnValue = SZLootTables.ZOMBIFIED_SHEEP_BLACK;
 			};
+
+			return returnValue;
 		}
 	}
 
@@ -281,7 +274,9 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 
 	@Override
 	public void readFromVanilla(AnimalEntity animal) {
-		if(animal instanceof SheepEntity sheep) {
+		if(animal instanceof SheepEntity) {
+			SheepEntity sheep = (SheepEntity)animal;
+
 			setColor(sheep.getColor());
 			setSheared(sheep.isSheared());
 		}
@@ -289,7 +284,9 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 
 	@Override
 	public void writeToVanilla(AnimalEntity animal) {
-		if(animal instanceof SheepEntity sheep) {
+		if(animal instanceof SheepEntity) {
+			SheepEntity sheep = (SheepEntity)animal;
+
 			sheep.setColor(getColor());
 			sheep.setSheared(isSheared());
 		}

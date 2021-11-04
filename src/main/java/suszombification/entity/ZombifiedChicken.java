@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -42,7 +43,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZEntityTypes;
@@ -239,8 +239,8 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 
 		passenger.setPos(getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
 
-		if(passenger instanceof LivingEntity entity)
-			entity.yBodyRot = yBodyRot;
+		if(passenger instanceof LivingEntity)
+			((LivingEntity)passenger).yBodyRot = yBodyRot;
 	}
 
 	public boolean isChickenJockey() {
@@ -288,14 +288,14 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 
 	@Override
 	public void readFromVanilla(AnimalEntity animal) {
-		if(animal instanceof Chicken chicken)
-			setChickenJockey(chicken.isChickenJockey());
+		if(animal instanceof ChickenEntity)
+			setChickenJockey(((ChickenEntity)animal).isChickenJockey());
 	}
 
 	@Override
 	public void writeToVanilla(AnimalEntity animal) {
-		if(animal instanceof Chicken chicken)
-			chicken.setChickenJockey(isChickenJockey());
+		if(animal instanceof ChickenEntity)
+			((ChickenEntity)animal).setChickenJockey(isChickenJockey());
 	}
 
 	@Override

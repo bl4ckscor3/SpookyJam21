@@ -8,6 +8,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.horse.ZombieHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -18,7 +19,6 @@ import net.minecraft.util.TickRangeConverter;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome.Category;
-import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.gen.feature.structure.PillagerOutpostStructure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
@@ -48,7 +48,8 @@ public class SZEventHandler {
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
 
-		if(entity instanceof CreatureEntity mob) {
+		if(entity instanceof CreatureEntity) {
+			CreatureEntity mob = (CreatureEntity)entity;
 			EntityType<?> type = mob.getType();
 
 			if(type == EntityType.CHICKEN)
@@ -60,7 +61,7 @@ public class SZEventHandler {
 			else if(type == EntityType.SHEEP)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedSheep.class, 4.0F, 1.0F, 1.2F));
 			else if(type == EntityType.HORSE)
-				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombieHorse.class, 4.0F, 1.0F, 1.2F));
+				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombieHorseEntity.class, 4.0F, 1.0F, 1.2F));
 		}
 	}
 
@@ -69,7 +70,8 @@ public class SZEventHandler {
 		Entity entity = event.getTarget();
 		PlayerEntity player = event.getPlayer();
 
-		if(entity instanceof AnimalEntity animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
+		if(entity instanceof AnimalEntity && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(((AnimalEntity)entity).getType())) {
+			AnimalEntity animal = (AnimalEntity)entity;
 			ItemStack stack = player.getItemInHand(event.getHand());
 
 			if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
@@ -110,13 +112,14 @@ public class SZEventHandler {
 		Entity killer = event.getSource().getEntity();
 		World level = livingEntity.level;
 
-		if(!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
+		if(!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal) {
 			EntityType<? extends MobEntity> conversionType = (EntityType<? extends MobEntity>)killer.getType();
 
-			if(livingEntity instanceof AnimalEntity killedEntity && killedEntity.getType() == zombifiedAnimal.getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
+			if(livingEntity instanceof AnimalEntity && ((AnimalEntity)livingEntity).getType() == ((ZombifiedAnimal)killer).getNormalVariant() && ForgeEventFactory.canLivingConvert(livingEntity, conversionType, timer -> {})) {
 				if(level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean())
 					return;
 
+				AnimalEntity killedEntity = (AnimalEntity)livingEntity;
 				MobEntity convertedAnimal = killedEntity.convertTo(conversionType, false);
 
 				convertedAnimal.finalizeSpawn((ServerWorld)level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), SpawnReason.CONVERSION, null, null);

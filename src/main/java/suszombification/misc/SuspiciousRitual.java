@@ -5,34 +5,30 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.AABB;
 import suszombification.SZDamageSources;
 import suszombification.SZEffects;
 import suszombification.SZTags;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.misc.multiblock.StructureArea;
+import suszombification.misc.multiblock.StructurePart;
+import suszombification.misc.multiblock.StructurePosition;
 
 public final class SuspiciousRitual {
 	private static final Predicate<BlockState> WOODEN_FENCE = state -> state.is(BlockTags.WOODEN_FENCES);
@@ -129,8 +125,10 @@ public final class SuspiciousRitual {
 			return false;
 
 		//the animal is leashed to a fence
-		if(!(animal.getLeashHolder() instanceof LeashFenceKnotEntity leashKnot))
+		if(!(animal.getLeashHolder() instanceof LeashKnotEntity))
 			return false;
+
+		LeashKnotEntity leashKnot = (LeashKnotEntity)animal.getLeashHolder();
 
 		//the animal is within the ritual structure
 		if(animal.distanceTo(leashKnot) > 3.0F)
@@ -144,10 +142,6 @@ public final class SuspiciousRitual {
 		return isStructurePresent(animal.level, leashKnot.blockPosition(), true);
 	}
 
-	private static interface StructurePart {
-		public boolean checkPart(World level, BlockPos structureOrigin);
-	}
-
 	public static void maybeSendInfoMessages(MobEntity leashedMob, World level, BlockPos pos, PlayerEntity player) {
 		if(!level.isClientSide && (leashedMob != null || !level.isNight())) {
 			BlockState state = level.getBlockState(pos);
@@ -158,29 +152,6 @@ public final class SuspiciousRitual {
 				else
 					player.displayClientMessage(new TranslationTextComponent("message.suszombification.ritual.need_night"), true);
 			}
-		}
-	}
-
-	private static record StructurePosition(int x, int y, int z, Predicate<BlockState> check) implements StructurePart {
-		@Override
-		public boolean checkPart(World level, BlockPos structureOrigin) {
-			return check.test(level.getBlockState(structureOrigin.offset(x, y, z)));
-		}
-	}
-
-	private static record StructureArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Predicate<BlockState> check) implements StructurePart {
-		@Override
-		public boolean checkPart(World level, BlockPos structureOrigin) {
-			for(int x = minX; x <= maxX; x++) {
-				for(int y = minY; y <= maxY; y++) {
-					for(int z = minZ; z <= maxZ; z++) {
-						if(!check.test(level.getBlockState(structureOrigin.offset(x, y, z))))
-							return false;
-					}
-				}
-			}
-
-			return true;
 		}
 	}
 }

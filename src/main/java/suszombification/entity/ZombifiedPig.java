@@ -86,8 +86,8 @@ public class ZombifiedPig extends PigEntity implements IAngerable, ZombifiedAnim
 
 	@Override
 	public boolean canBeControlledByRider() {
-		if(getControllingPassenger() instanceof PlayerEntity player)
-			return player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
+		if(getControllingPassenger() instanceof PlayerEntity)
+			return ((PlayerEntity)getControllingPassenger()).isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
 		else
 			return false;
 	}

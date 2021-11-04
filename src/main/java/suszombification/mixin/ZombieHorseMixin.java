@@ -163,14 +163,14 @@ public class ZombieHorseMixin extends AbstractHorseEntity implements ZombifiedAn
 
 	@Override
 	public void readFromVanilla(AnimalEntity animal) {
-		if(animal instanceof HorseEntity horse)
-			entityData.set(DATA_ID_TYPE_VARIANT, horse.getTypeVariant());
+		if(animal instanceof HorseEntity)
+			entityData.set(DATA_ID_TYPE_VARIANT, ((HorseEntity)animal).getTypeVariant());
 	}
 
 	@Override
 	public void writeToVanilla(AnimalEntity animal) {
-		if(animal instanceof HorseEntity horse)
-			horse.setTypeVariant(entityData.get(DATA_ID_TYPE_VARIANT));
+		if(animal instanceof HorseEntity)
+			((HorseEntity)animal).setTypeVariant(entityData.get(DATA_ID_TYPE_VARIANT));
 	}
 
 	@Override

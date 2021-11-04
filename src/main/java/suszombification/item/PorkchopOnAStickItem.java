@@ -23,8 +23,8 @@ public class PorkchopOnAStickItem extends Item {
 		if(!level.isClientSide) {
 			Entity entity = player.getVehicle();
 
-			if(player.isPassenger() && entity instanceof ZombifiedPig pig) {
-				if(pig.boost()) {
+			if(player.isPassenger() && entity instanceof ZombifiedPig) {
+				if(((ZombifiedPig)entity).boost()) {
 					stack.hurtAndBreak(7, player, e -> e.broadcastBreakEvent(hand));
 
 					if(stack.isEmpty()) {

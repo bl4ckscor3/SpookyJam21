@@ -20,10 +20,10 @@ public class ZombiesCurseEffect extends VicinityAffectingEffect {
 				e -> { return
 						!e.getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE)
 						&& !e.hasEffect(SZEffects.DECOMPOSING.get())
-						&& (e instanceof PlayerEntity || (e instanceof AnimalEntity a
-								&& !a.hasCustomName() //don't affect animals with name tags
-								&& (!(a instanceof TameableEntity ta) || !ta.isTame()) //don't affect tamed animals
-								&& (!(a instanceof AbstractFishEntity b) || !b.fromBucket()))); //don't affect animals that were spawned from a bucket
+						&& (e instanceof PlayerEntity || (e instanceof AnimalEntity
+								&& !e.hasCustomName() //don't affect animals with name tags
+								&& (!(e instanceof TameableEntity) || !((TameableEntity)e).isTame()) //don't affect tamed animals
+								&& (!(e instanceof AbstractFishEntity) || !((AbstractFishEntity)e).fromBucket()))); //don't affect animals that were spawned from a bucket
 				},
 				() -> new EffectInstance(SZEffects.DECOMPOSING.get(), 300));
 	}

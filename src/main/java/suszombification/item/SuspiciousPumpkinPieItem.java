@@ -2,8 +2,6 @@ package suszombification.item;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,24 +20,23 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.fml.ModList;
 import suszombification.SZDamageSources;
 import suszombification.SZEffects;
 import suszombification.SZItems;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
+import suszombification.misc.PieEffect;
 import suszombification.misc.SuspiciousRitual;
 
 public class SuspiciousPumpkinPieItem extends Item {
-	public static record PieEffect(Function<ItemStack, Boolean> check, Supplier<EffectInstance> mainEffect, Supplier<EffectInstance> extraEffect, TextFormatting displayColor, String messageSuffix) {}
 	private static final List<PieEffect> PIE_EFFECTS = new ArrayList<>();
 
 	static {
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new EffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new EffectInstance(MobEffects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new EffectInstance(SZEffects.STENCH.get(), 2400), () -> new EffectInstance(MobEffects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new EffectInstance(SZEffects.CUSHION.get(), 2400), () -> new EffectInstance(MobEffects.CONFUSION, 100), TextFormatting.DARK_PURPLE, "rotten_wool"));
-		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new EffectInstance(MobEffects.REGENERATION, 200, 1), () -> new EffectInstance(MobEffects.ABSORPTION, 2400), TextFormatting.AQUA, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.SPOILED_MILK_BUCKET.get()), () -> new EffectInstance(SZEffects.AMPLIFYING.get(), 1), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZItems.ROTTEN_EGG.get()), () -> new EffectInstance(SZEffects.STENCH.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, ""));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new EffectInstance(SZEffects.CUSHION.get(), 2400), () -> new EffectInstance(Effects.CONFUSION, 100), TextFormatting.DARK_PURPLE, "rotten_wool"));
+		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new EffectInstance(Effects.REGENERATION, 200, 1), () -> new EffectInstance(Effects.ABSORPTION, 2400), TextFormatting.AQUA, ""));
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new EffectInstance(SZEffects.DECOMPOSING.get(), 600), () -> null, TextFormatting.AQUA, ""));
 
 		if(ModList.get().isLoaded("trickortreat"))
@@ -53,8 +50,11 @@ public class SuspiciousPumpkinPieItem extends Item {
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
 		CompoundNBT ingredientTag = new CompoundNBT();
 
-		if(ingredient.getItem() instanceof CandyItem candy)
+		if(ingredient.getItem() instanceof CandyItem) {
+			CandyItem candy = (CandyItem)ingredient.getItem();
+
 			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, candy.getEffect(), candy.getEffectDuration());
+		}
 
 		ingredient.setCount(1);
 		ingredient.save(ingredientTag);
@@ -137,7 +137,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			//ritual
-			if(ingredient.is(Items.GOLDEN_APPLE) && entity instanceof PlayerEntity player && player.hasEffect(Effects.WEAKNESS) && SuspiciousRitual.performRitual(level, player)) {
+			if(ingredient.is(Items.GOLDEN_APPLE) && entity instanceof PlayerEntity && ((PlayerEntity)entity).hasEffect(Effects.WEAKNESS) && SuspiciousRitual.performRitual(level, (PlayerEntity)entity)) {
 				color = TextFormatting.AQUA;
 				messageSuffix = "cured_by_ritual";
 			}

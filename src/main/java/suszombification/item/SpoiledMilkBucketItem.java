@@ -22,12 +22,13 @@ public class SpoiledMilkBucketItem extends MilkBucketItem {
 		entity.addEffect(new EffectInstance(Effects.CONFUSION, 300));
 		entity.addEffect(new EffectInstance(Effects.POISON, 300, 2));
 
-		if(entity instanceof ServerPlayerEntity player) {
+		if(entity instanceof ServerPlayerEntity) {
+			ServerPlayerEntity player = (ServerPlayerEntity)entity;
 			CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
 			player.awardStat(Stats.ITEM_USED.get(this));
 		}
 
-		if(entity instanceof PlayerEntity player && !player.getAbilities().instabuild)
+		if(entity instanceof PlayerEntity && !((PlayerEntity)entity).getAbilities().instabuild)
 			stack.shrink(1);
 
 		return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;

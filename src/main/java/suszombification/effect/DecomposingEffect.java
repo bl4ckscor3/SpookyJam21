@@ -27,7 +27,8 @@ public class DecomposingEffect extends Effect {
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
 		if(!entity.level.isClientSide) {
-			if(entity instanceof AnimalEntity animal) {
+			if(entity instanceof AnimalEntity) {
+				AnimalEntity animal = (AnimalEntity)entity;
 				EntityType<? extends AnimalEntity> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
 				if(conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
@@ -47,7 +48,7 @@ public class DecomposingEffect extends Effect {
 						spawnDecomposingDrops(entity);
 				}
 			}
-			else if(entity instanceof PlayerEntity player && !player.abilities.instabuild) {
+			else if(entity instanceof PlayerEntity && !((PlayerEntity)entity).abilities.instabuild) {
 				entity.hurt(SZDamageSources.DECOMPOSING, Float.MAX_VALUE);
 				spawnDecomposingDrops(entity);
 			}
