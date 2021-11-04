@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "suszombification.mixin",
-	"compatibilityLevel": "JAVA_16",
+	"compatibilityLevel": "JAVA_8",
 	"refmap": "suszombification.refmap.json",
 	"mixins": [
 		"LeadItemMixin",
