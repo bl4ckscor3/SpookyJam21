@@ -2,8 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
@@ -11,11 +10,10 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "type": "minecraft:uniform",
                 "min": 0.0,
-                "max": 3.0
-              },
-              "add": false
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
             }
           ],
           "name": "minecraft:iron_ingot"
@@ -23,8 +21,7 @@
       ]
     },
     {
-      "rolls": 3.0,
-      "bonus_rolls": 0.0,
+      "rolls": 3,
       "entries": [
         {
           "type": "minecraft:item",
@@ -32,11 +29,10 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "type": "minecraft:uniform",
                 "min": 0.0,
-                "max": 3.0
-              },
-              "add": false
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
             }
           ],
           "name": "minecraft:carrot"
@@ -47,11 +43,10 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "type": "minecraft:uniform",
                 "min": 0.0,
-                "max": 3.0
-              },
-              "add": false
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
             }
           ],
           "name": "minecraft:potato"
@@ -59,13 +54,11 @@
       ]
     },
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": []
     },
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
@@ -85,8 +78,7 @@
       ]
     },
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
@@ -229,12 +221,10 @@
           "condition": "minecraft:random_chance",
           "chance": 0.1
         }
-      ],
-      "functions": []
+      ]
     },
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
@@ -274,8 +264,7 @@
           "condition": "minecraft:random_chance",
           "chance": 0.05
         }
-      ],
-      "functions": []
+      ]
     }
   ]
 }
