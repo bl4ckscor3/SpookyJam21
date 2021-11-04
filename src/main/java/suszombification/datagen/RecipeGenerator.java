@@ -2,16 +2,16 @@ package suszombification.datagen;
 
 import java.util.function.Consumer;
 
+import net.minecraft.data.CustomRecipeBuilder;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.data.RecipeProvider;
+import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.ShapelessRecipeBuilder;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.tags.ITag;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
 import suszombification.SZBlocks;
 import suszombification.SZItems;
@@ -24,8 +24,8 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	@Override
-	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe.serializer).save(consumer, "suspicious_pumpkin_pie");
+	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+		CustomRecipeBuilder.special(SuspiciousPumpkinPieRecipe.serializer).save(consumer, "suspicious_pumpkin_pie");
 		ShapedRecipeBuilder.shaped(SZItems.PORKCHOP_ON_A_STICK.get())
 		.pattern("R ")
 		.pattern(" P")
@@ -51,7 +51,7 @@ public class RecipeGenerator extends RecipeProvider {
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_YELLOW, SZBlocks.YELLOW_ROTTEN_WOOL.get());
 	}
 
-	protected final void addColoredWoolRecipe(Consumer<FinishedRecipe> consumer, Tag<Item> dye, ItemLike result) {
+	protected final void addColoredWoolRecipe(Consumer<IFinishedRecipe> consumer, ITag<Item> dye, IItemProvider result) {
 		ShapelessRecipeBuilder.shapeless(result)
 		.group("suszombification:rotten_wool")
 		.requires(dye)

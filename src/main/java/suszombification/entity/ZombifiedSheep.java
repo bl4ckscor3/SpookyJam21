@@ -8,48 +8,59 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.audio.SoundSource;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IAngerable;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.RangedInteger;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.TickRangeConverter;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.World;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.Constants;
 import suszombification.SZBlocks;
 import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
@@ -57,8 +68,8 @@ import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 
-public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
-	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
+public class ZombifiedSheep extends SheepEntity implements IAngerable, ZombifiedAnimal {
+	private static final Map<DyeColor, IItemProvider> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
 		map.put(DyeColor.WHITE, SZBlocks.WHITE_ROTTEN_WOOl.get());
 		map.put(DyeColor.ORANGE, SZBlocks.ORANGE_ROTTEN_WOOL.get());
 		map.put(DyeColor.MAGENTA, SZBlocks.MAGENTA_ROTTEN_WOOL.get());
@@ -77,13 +88,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 		map.put(DyeColor.BLACK, SZBlocks.BLACK_ROTTEN_WOOL.get());
 	});
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
-	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedSheep.class, EntityDataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedSheep.class, DataSerializers.BOOLEAN);
 	private int conversionTime;
-	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
-	public ZombifiedSheep(EntityType<? extends Sheep> type, Level level) {
+	public ZombifiedSheep(EntityType<? extends SheepEntity> type, World level) {
 		super(type, level);
 	}
 
@@ -101,15 +112,15 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
 		goalSelector.addGoal(5, eatBlockGoal = new EatBlockGoal(this));
 		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		goalSelector.addGoal(7, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.ATTACK_DAMAGE, 2.0F);
+	public static AttributeModifierMap.MutableAttribute createAttributes() {
+		return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.ATTACK_DAMAGE, 2.0F);
 	}
 
 	@Override
@@ -150,10 +161,10 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
+	public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+		ActionResultType returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if(returnValue != ActionResultType.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -166,7 +177,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public void shear(SoundSource category) {
+	public void shear(SoundCategory category) {
 		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
 		setSheared(true);
 
@@ -181,19 +192,19 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public Sheep getBreedOffspring(ServerLevel level, AgeableMob mob) {
-		Sheep sheep = (Sheep)mob;
-		Sheep newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level);
+	public SheepEntity getBreedOffspring(ServerWorld level, AgeableEntity mob) {
+		SheepEntity sheep = (SheepEntity)mob;
+		SheepEntity newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level);
 
 		newSheep.setColor(getOffspringColor(this, sheep));
 		return newSheep;
 	}
 
 	@Override
-	public List<ItemStack> onSheared(Player player, ItemStack item, Level world, BlockPos pos, int fortune) {
-		world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+	public List<ItemStack> onSheared(PlayerEntity player, ItemStack item, World level, BlockPos pos, int fortune) {
+		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-		if(!world.isClientSide) {
+		if(!level.isClientSide) {
 			setSheared(true);
 
 			int amount = 1 + random.nextInt(3);
@@ -210,7 +221,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
+	protected int getExperienceReward(PlayerEntity player) {
 		return super.getExperienceReward(player) + 5;
 	}
 
@@ -220,22 +231,22 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(CompoundNBT tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if(tag.contains("ConversionTime", Constants.NBT.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(CompoundNBT tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("ConversionTime", isConverting() ? conversionTime : -1);
 	}
 
 	@Override
-	public MobType getMobType() {
-		return MobType.UNDEAD;
+	public CreatureAttribute getMobType() {
+		return CreatureAttribute.UNDEAD;
 	}
 
 	@Override
@@ -264,21 +275,21 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public EntityType<? extends Animal> getNormalVariant() {
+	public EntityType<? extends AnimalEntity> getNormalVariant() {
 		return EntityType.SHEEP;
 	}
 
 	@Override
-	public void readFromVanilla(Animal animal) {
-		if(animal instanceof Sheep sheep) {
+	public void readFromVanilla(AnimalEntity animal) {
+		if(animal instanceof SheepEntity sheep) {
 			setColor(sheep.getColor());
 			setSheared(sheep.isSheared());
 		}
 	}
 
 	@Override
-	public void writeToVanilla(Animal animal) {
-		if(animal instanceof Sheep sheep) {
+	public void writeToVanilla(AnimalEntity animal) {
+		if(animal instanceof SheepEntity sheep) {
 			sheep.setColor(getColor());
 			sheep.setSheared(isSheared());
 		}

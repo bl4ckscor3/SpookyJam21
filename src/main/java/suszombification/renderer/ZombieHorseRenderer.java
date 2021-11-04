@@ -1,18 +1,17 @@
 package suszombification.renderer;
 
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.UndeadHorseRenderer;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import suszombification.entity.ZombifiedAnimal;
 
 public class ZombieHorseRenderer extends UndeadHorseRenderer {
-	public ZombieHorseRenderer(Context ctx) {
-		super(ctx, ModelLayers.ZOMBIE_HORSE);
+	public ZombieHorseRenderer(EntityRendererManager renderManager) {
+		super(renderManager);
 	}
 
 	@Override
-	protected boolean isShaking(AbstractHorse horse) {
+	protected boolean isShaking(AbstractHorseEntity horse) {
 		return super.isShaking(horse) || ((ZombifiedAnimal)horse).isConverting();
 	}
 }

@@ -6,36 +6,36 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.levelgen.StructureSettings;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.structure.ZombieCoveFeature;
 
 public class SZStructures {
-	public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SuspiciousZombification.MODID);
+	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SuspiciousZombification.MODID);
 
-	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> ZOMBIE_COVE = STRUCTURES.register("zombie_cove", () -> new ZombieCoveFeature(EntityType.ZOMBIE, "start", NoneFeatureConfiguration.CODEC));
-	public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> DESERT_ZOMBIE_COVE = STRUCTURES.register("desert_zombie_cove", () -> new ZombieCoveFeature(EntityType.HUSK, "desert_start", NoneFeatureConfiguration.CODEC));
+	public static final RegistryObject<Structure<NoFeatureConfig>> ZOMBIE_COVE = STRUCTURES.register("zombie_cove", () -> new ZombieCoveFeature(EntityType.ZOMBIE, "start", NoFeatureConfig.CODEC));
+	public static final RegistryObject<Structure<NoFeatureConfig>> DESERT_ZOMBIE_COVE = STRUCTURES.register("desert_zombie_cove", () -> new ZombieCoveFeature(EntityType.HUSK, "desert_start", NoFeatureConfig.CODEC));
 
 	public static void setup() {
-		registerStructure(ZOMBIE_COVE.get(), new StructureFeatureConfiguration(32, 8, 46821176), true);
-		registerStructure(DESERT_ZOMBIE_COVE.get(), new StructureFeatureConfiguration(32, 8, 46821176), true);
+		registerStructure(ZOMBIE_COVE.get(), new StructureSeparationSettings(32, 8, 46821176), true);
+		registerStructure(DESERT_ZOMBIE_COVE.get(), new StructureSeparationSettings(32, 8, 46821176), true);
 	}
 
-	private static <F extends StructureFeature<?>> void registerStructure(F structure, StructureFeatureConfiguration config, boolean transformSurroundingLand) {
-		StructureFeature.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
-		StructureSettings.DEFAULTS = ImmutableMap.<StructureFeature<?>,StructureFeatureConfiguration>builder().putAll(StructureSettings.DEFAULTS).put(structure, config).build();
-		BuiltinRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
-			Map<StructureFeature<?>,StructureFeatureConfiguration> structureMap = settings.getValue().structureSettings().structureConfig();
+	private static <F extends Structure<?>> void registerStructure(F structure, StructureSeparationSettings config, boolean transformSurroundingLand) {
+		Structure.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
+		DimensionStructuresSettings.DEFAULTS = ImmutableMap.<Structure<?>,StructureSeparationSettings>builder().putAll(DimensionStructuresSettings.DEFAULTS).put(structure, config).build();
+		WorldGenRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
+			Map<Structure<?>,StructureSeparationSettings> structureMap = settings.getValue().structureSettings().structureConfig();
 
 			if(structureMap instanceof ImmutableMap) {
-				Map<StructureFeature<?>,StructureFeatureConfiguration> map = new HashMap<>(structureMap);
+				Map<Structure<?>,StructureSeparationSettings> map = new HashMap<>(structureMap);
 
 				map.put(structure, config);
 				settings.getValue().structureSettings().structureConfig = map;
@@ -45,6 +45,6 @@ public class SZStructures {
 		});
 
 		if(transformSurroundingLand)
-			StructureFeature.NOISE_AFFECTING_FEATURES = ImmutableList.<StructureFeature<?>>builder().addAll(StructureFeature.NOISE_AFFECTING_FEATURES).add(structure).build();
+			Structure.NOISE_AFFECTING_FEATURES = ImmutableList.<Structure<?>>builder().addAll(Structure.NOISE_AFFECTING_FEATURES).add(structure).build();
 	}
 }

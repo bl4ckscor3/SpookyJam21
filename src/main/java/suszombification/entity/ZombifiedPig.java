@@ -2,54 +2,54 @@ package suszombification.entity;
 
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IAngerable;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.RangedInteger;
+import net.minecraft.util.TickRangeConverter;
+import net.minecraft.world.World;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Pig;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.Constants;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 
-public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
+public class ZombifiedPig extends PigEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.PORKCHOP);
-	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedPig.class, EntityDataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedPig.class, DataSerializers.BOOLEAN);
 	private int conversionTime;
-	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
-	public ZombifiedPig(EntityType<? extends ZombifiedPig> type, Level level) {
+	public ZombifiedPig(EntityType<? extends ZombifiedPig> type, World level) {
 		super(type, level);
 	}
 
@@ -67,15 +67,15 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
 		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		goalSelector.addGoal(6, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.ATTACK_DAMAGE, 2.0D);
+	public static AttributeModifierMap.MutableAttribute createAttributes() {
+		return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.ATTACK_DAMAGE, 2.0D);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public boolean canBeControlledByRider() {
-		if(getControllingPassenger() instanceof Player player)
+		if(getControllingPassenger() instanceof PlayerEntity player)
 			return player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
 		else
 			return false;
@@ -98,10 +98,10 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
+	public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+		ActionResultType returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if(returnValue != ActionResultType.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -114,12 +114,12 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {
+	public PigEntity getBreedOffspring(ServerWorld level, AgeableEntity mob) {
 		return SZEntityTypes.ZOMBIFIED_PIG.get().create(level);
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
+	protected int getExperienceReward(PlayerEntity player) {
 		return super.getExperienceReward(player) + 5;
 	}
 
@@ -129,22 +129,22 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(CompoundNBT tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if(tag.contains("ConversionTime", Constants.NBT.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(CompoundNBT tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("ConversionTime", isConverting() ? conversionTime : -1);
 	}
 
 	@Override
-	public MobType getMobType() {
-		return MobType.UNDEAD;
+	public CreatureAttribute getMobType() {
+		return CreatureAttribute.UNDEAD;
 	}
 
 	@Override
@@ -169,11 +169,11 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void startPersistentAngerTimer() {
-		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.randomValue(random));
 	}
 
 	@Override
-	public EntityType<? extends Animal> getNormalVariant() {
+	public EntityType<? extends AnimalEntity> getNormalVariant() {
 		return EntityType.PIG;
 	}
 

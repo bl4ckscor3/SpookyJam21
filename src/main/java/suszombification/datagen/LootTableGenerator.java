@@ -7,32 +7,32 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.IDataProvider;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.loot.ConstantRange;
+import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTableManager;
+import net.minecraft.loot.RandomValueRange;
+import net.minecraft.loot.TableLootEntry;
+import net.minecraft.loot.conditions.RandomChance;
+import net.minecraft.loot.conditions.SurvivesExplosion;
+import net.minecraft.loot.functions.EnchantRandomly;
+import net.minecraft.loot.functions.LootingEnchantBonus;
+import net.minecraft.loot.functions.SetCount;
+import net.minecraft.loot.functions.SetNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Potions;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.RegistryObject;
 import suszombification.SZBlocks;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
@@ -41,7 +41,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CurseGivenFunction;
 
-public class LootTableGenerator implements DataProvider {
+public class LootTableGenerator implements IDataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	private final DataGenerator generator;
 
@@ -66,116 +66,116 @@ public class LootTableGenerator implements DataProvider {
 
 	private Map<ResourceLocation, LootTable.Builder> generateChestLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
-		CompoundTag rottenFleshSppTag = new CompoundTag();
-		CompoundTag weaknessPotionTag = new CompoundTag();
+		CompoundNBT rottenFleshSppTag = new CompoundNBT();
+		CompoundNBT weaknessPotionTag = new CompoundNBT();
 
-		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
+		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundNBT()));
 		weaknessPotionTag.putString("Potion", Potions.WEAKNESS.getRegistryName().toString());
 		lootTables.put(SZLootTables.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.SUGAR)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.SUGAR)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.PUMPKIN)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.PUMPKIN)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.EGG)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.EGG)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(4.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)))))
+						.setRolls(ConstantRange.exactly(4))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(2.0F, 4.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(SetNbtFunction.setTag(rottenFleshSppTag)))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 1.0F)))
+								.apply(SetNBT.setTag(rottenFleshSppTag)))));
 		lootTables.put(SZLootTables.RITUAL_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.SUGAR)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.SUGAR)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.PUMPKIN)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.PUMPKIN)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.EGG)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.EGG)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.GOLDEN_APPLE)))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.GOLDEN_APPLE)))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.POTION)
-								.apply(SetNbtFunction.setTag(weaknessPotionTag))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.POTION)
+								.apply(SetNBT.setTag(weaknessPotionTag))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(4.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
+						.setRolls(ConstantRange.exactly(4))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 3.0F))))));
 		lootTables.put(SZLootTables.TREASURE, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.IRON_INGOT)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_INGOT)
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 3.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(3.0F))
-						.add(LootItem.lootTableItem(Items.CARROT)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F))))
-						.add(LootItem.lootTableItem(Items.POTATO)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 3.0F)))))
+						.setRolls(ConstantRange.exactly(3))
+						.add(ItemLootEntry.lootTableItem(Items.CARROT)
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 3.0F))))
+						.add(ItemLootEntry.lootTableItem(Items.POTATO)
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 3.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F)))
+						.setRolls(ConstantRange.exactly(1)))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(SZBlocks.CARROT_TROPHY.get()).setWeight(40))
-						.add(LootItem.lootTableItem(SZBlocks.POTATO_TROPHY.get()).setWeight(40))
-						.add(LootItem.lootTableItem(SZBlocks.IRON_INGOT_TROPHY.get()).setWeight(20)))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(SZBlocks.CARROT_TROPHY.get()).setWeight(40))
+						.add(ItemLootEntry.lootTableItem(SZBlocks.POTATO_TROPHY.get()).setWeight(40))
+						.add(ItemLootEntry.lootTableItem(SZBlocks.IRON_INGOT_TROPHY.get()).setWeight(20)))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.when(LootItemRandomChanceCondition.randomChance(0.1F))
-						.add(LootItem.lootTableItem(Items.IRON_SWORD)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_AXE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_HOE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_SHOVEL)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_PICKAXE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_BOOTS)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_CHESTPLATE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_HELMET)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
-						.add(LootItem.lootTableItem(Items.IRON_LEGGINGS)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
-										.when(LootItemRandomChanceCondition.randomChance(0.25F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.when(RandomChance.randomChance(0.1F))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_SWORD)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_AXE)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_HOE)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_SHOVEL)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_PICKAXE)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_BOOTS)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_CHESTPLATE)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_HELMET)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F))))
+						.add(ItemLootEntry.lootTableItem(Items.IRON_LEGGINGS)
+								.apply(EnchantRandomly.randomApplicableEnchantment()
+										.when(RandomChance.randomChance(0.25F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.when(LootItemRandomChanceCondition.randomChance(0.05F))
-						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()))
-						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()))));
+						.setRolls(ConstantRange.exactly(1))
+						.when(RandomChance.randomChance(0.05F))
+						.add(ItemLootEntry.lootTableItem(SZItems.CARAMEL_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.CINNAMON_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.HONEY_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.MELON_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.PEPPERMINT_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.PUMPKIN_CANDY.get()))
+						.add(ItemLootEntry.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()))));
 		return lootTables;
 	}
 
@@ -185,43 +185,44 @@ public class LootTableGenerator implements DataProvider {
 		//gameplay
 		lootTables.put(SZLootTables.DEATH_BY_DECOMPOSING, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 3.0F))))));
 		//entity drops
+
 		lootTables.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.FEATHER)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.FEATHER)
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 1.0F)))
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F))))));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_COW.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.LEATHER)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.LEATHER)
+								.apply(SetCount.setCount(RandomValueRange.between(0.0F, 1.0F)))
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F)))))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 3.0F)))
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F))))));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_PIG.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 3.0F)))
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F))))));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
+								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F)))
+								.apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F))))));
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BLACK, createSheepTable(SZBlocks.BLACK_ROTTEN_WOOL.get()));
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BLUE, createSheepTable(SZBlocks.BLUE_ROTTEN_WOOL.get()));
 		lootTables.put(SZLootTables.ZOMBIFIED_SHEEP_BROWN, createSheepTable(SZBlocks.BROWN_ROTTEN_WOOL.get()));
@@ -246,57 +247,57 @@ public class LootTableGenerator implements DataProvider {
 
 		lootTables.put(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.MELON_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
-						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()).setWeight(10))));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(SZItems.CARAMEL_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.CHOCOLATE_CREAM_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.CINNAMON_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.HONEY_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.MELON_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.PEPPERMINT_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
+						.add(ItemLootEntry.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()).setWeight(10))));
 		return lootTables;
 	}
 
-	private LootTable.Builder createSheepTable(ItemLike wool) {
+	private LootTable.Builder createSheepTable(IItemProvider wool) {
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(wool)))
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(wool)))
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootTableReference.lootTableReference(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable())));
+						.setRolls(ConstantRange.exactly(1))
+						.add(TableLootEntry.lootTableReference(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable())));
 	}
 
-	private final LootTable.Builder createStandardBlockLootTable(ItemLike drop)
+	private final LootTable.Builder createStandardBlockLootTable(IItemProvider drop)
 	{
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(drop))
-						.when(ExplosionCondition.survivesExplosion()));
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(drop))
+						.when(SurvivesExplosion.survivesExplosion()));
 	}
 
-	private final LootTable.Builder createTrophyLootTable(ItemLike drop) {
+	private final LootTable.Builder createTrophyLootTable(IItemProvider drop) {
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
-						.setRolls(ConstantValue.exactly(1.0F))
-						.add(LootItem.lootTableItem(drop)
+						.setRolls(ConstantRange.exactly(1))
+						.add(ItemLootEntry.lootTableItem(drop)
 								.apply(CurseGivenFunction.create()))
-						.when(ExplosionCondition.survivesExplosion()));
+						.when(SurvivesExplosion.survivesExplosion()));
 	}
 
 	@Override
-	public void run(HashCache cache) {
+	public void run(DirectoryCache cache) {
 		Map<ResourceLocation, LootTable> tables = new HashMap<>();
 
-		generateBlockLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.BLOCK).build()));
-		generateChestLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.CHEST).build()));
-		generateEntityLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.ENTITY).build()));
-		generateGiftLootTable().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.GIFT).build()));
+		generateBlockLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootParameterSets.BLOCK).build()));
+		generateChestLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootParameterSets.CHEST).build()));
+		generateEntityLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootParameterSets.ENTITY).build()));
+		generateGiftLootTable().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootParameterSets.GIFT).build()));
 		tables.forEach((key, lootTable) -> {
 			try {
-				DataProvider.save(GSON, cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
+				IDataProvider.save(GSON, cache, LootTableManager.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
 			}
 			catch(IOException e) {
 				e.printStackTrace();

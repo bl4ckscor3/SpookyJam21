@@ -1,17 +1,17 @@
 package suszombification.datagen;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder.Perspective;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fml.RegistryObject;
 import suszombification.SZBlocks;
 import suszombification.SZItems;
 import suszombification.SuspiciousZombification;

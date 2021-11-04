@@ -3,28 +3,27 @@ package suszombification.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public interface ZombifiedAnimal {
-	Map<EntityType<?>, EntityType<? extends Animal>> VANILLA_TO_ZOMBIFIED = new HashMap<>();
+	Map<EntityType<?>, EntityType<? extends AnimalEntity>> VANILLA_TO_ZOMBIFIED = new HashMap<>();
 
-	EntityType<? extends Animal> getNormalVariant();
+	EntityType<? extends AnimalEntity> getNormalVariant();
 
-	default void readFromVanilla(Animal animal) {}
+	default void readFromVanilla(AnimalEntity animal) {}
 
-	default void writeToVanilla(Animal animal) {}
+	default void writeToVanilla(AnimalEntity animal) {}
 
 	boolean isConverting();
 
@@ -35,36 +34,36 @@ public interface ZombifiedAnimal {
 	int getConversionTime();
 
 	default void startConverting(int conversionTime) {
-		Animal animal = (Animal)this;
+		AnimalEntity animal = (AnimalEntity)this;
 
 		setConversionTime(conversionTime);
 		setConverting();
-		animal.removeEffect(MobEffects.WEAKNESS);
-		animal.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, conversionTime, Math.min(animal.level.getDifficulty().getId() - 1, 0)));
-		animal.level.broadcastEntityEvent(animal, EntityEvent.ZOMBIE_CONVERTING);
+		animal.removeEffect(Effects.WEAKNESS);
+		animal.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, conversionTime, Math.min(animal.level.getDifficulty().getId() - 1, 0)));
+		animal.level.broadcastEntityEvent(animal, (byte)16);
 	}
 
-	default void finishConversion(ServerLevel level) {
-		Animal zombifiedAnimal = (Animal)this;
-		Animal vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
+	default void finishConversion(ServerWorld level) {
+		AnimalEntity zombifiedAnimal = (AnimalEntity)this;
+		AnimalEntity vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
 
-		vanillaAnimal.finalizeSpawn(level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+		vanillaAnimal.finalizeSpawn(level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), SpawnReason.CONVERSION, null, null);
 		writeToVanilla(vanillaAnimal);
-		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
+		vanillaAnimal.addEffect(new EffectInstance(Effects.CONFUSION, 200, 0));
 
 		if(!zombifiedAnimal.isSilent())
-			level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, zombifiedAnimal.blockPosition(), 0);
+			level.levelEvent(null, Constants.WorldEvents.ZOMBIE_VILLAGER_CONVERTED_SOUND, zombifiedAnimal.blockPosition(), 0);
 
 		ForgeEventFactory.onLivingConvert(zombifiedAnimal, vanillaAnimal);
 	}
 
 	default int getConversionProgress() {
 		int progress = 1;
-		Animal animal = (Animal)this;
+		AnimalEntity animal = (AnimalEntity)this;
 
 		if(animal.getRandom().nextFloat() < 0.01F) {
 			int buffCount = 0;
-			BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+			BlockPos.Mutable pos = new BlockPos.Mutable();
 
 			for(int x = (int)animal.getX() - 4; x < animal.getX() + 4 && buffCount < 14; ++x) {
 				for(int y = (int)animal.getY() - 4; y < animal.getY() + 4 && buffCount < 14; ++y) {

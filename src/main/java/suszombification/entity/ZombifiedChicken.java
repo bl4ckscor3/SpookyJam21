@@ -2,58 +2,58 @@ package suszombification.entity;
 
 import java.util.UUID;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IAngerable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.Pose;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.RangedInteger;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.TickRangeConverter;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.Constants;
 import suszombification.SZEntityTypes;
 import suszombification.SZItems;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 
-public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
+public class ZombifiedChicken extends AnimalEntity implements IAngerable, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
-	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedChicken.class, EntityDataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedChicken.class, DataSerializers.BOOLEAN);
 	private int conversionTime;
 	public float flap;
 	public float flapSpeed;
@@ -63,11 +63,11 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	private float nextFlap = 1.0F;
 	public int eggTime = random.nextInt(6000) + 6000;
 	public boolean isChickenJockey;
-	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
-	public ZombifiedChicken(EntityType<? extends ZombifiedChicken> type, Level level) {
+	public ZombifiedChicken(EntityType<? extends ZombifiedChicken> type, World level) {
 		super(type, level);
 	}
 
@@ -84,7 +84,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
 		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		goalSelector.addGoal(6, new LookAtPlayerGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false));
@@ -92,12 +92,12 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	protected float getStandingEyeHeight(Pose pose, EntityDimensions size) {
+	protected float getStandingEyeHeight(Pose pose, EntitySize size) {
 		return isBaby() ? size.height * 0.85F : size.height * 0.92F;
 	}
 
-	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.ATTACK_DAMAGE, 1.0D);
+	public static AttributeModifierMap.MutableAttribute createAttributes() {
+		return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.ATTACK_DAMAGE, 1.0D);
 	}
 
 	@Override
@@ -112,14 +112,14 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		previousFlap = flap;
 		previousFlapSpeed = flapSpeed;
 		flapSpeed = (float)(flapSpeed + (onGround ? -1 : 4) * 0.3D);
-		flapSpeed = Mth.clamp(flapSpeed, 0.0F, 1.0F);
+		flapSpeed = MathHelper.clamp(flapSpeed, 0.0F, 1.0F);
 
 		if(!onGround && flapping < 1.0F)
 			flapping = 1.0F;
 
 		flapping = flapping * 0.9F;
 
-		Vec3 deltaMovement = getDeltaMovement();
+		Vector3d deltaMovement = getDeltaMovement();
 
 		if (!onGround && deltaMovement.y < 0.0D) {
 			setDeltaMovement(deltaMovement.multiply(1.0D, 0.6D, 1.0D));
@@ -135,10 +135,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
+	public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+		ActionResultType returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if(returnValue != ActionResultType.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -191,12 +191,12 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public ZombifiedChicken getBreedOffspring(ServerLevel level, AgeableMob parent) {
+	public ZombifiedChicken getBreedOffspring(ServerWorld level, AgeableEntity parent) {
 		return SZEntityTypes.ZOMBIFIED_CHICKEN.get().create(level);
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
+	protected int getExperienceReward(PlayerEntity player) {
 		return (isChickenJockey() ? 10 : super.getExperienceReward(player)) + 5;
 	}
 
@@ -206,19 +206,19 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(CompoundNBT tag) {
 		super.readAdditionalSaveData(tag);
 		isChickenJockey = tag.getBoolean("IsChickenJockey");
 
 		if(tag.contains("EggLayTime"))
 			this.eggTime = tag.getInt("EggLayTime");
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if(tag.contains("ConversionTime", Constants.NBT.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(CompoundNBT tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putBoolean("IsChickenJockey", isChickenJockey);
 		tag.putInt("EggLayTime", eggTime);
@@ -234,8 +234,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	public void positionRider(Entity passenger) {
 		super.positionRider(passenger);
 
-		float f = Mth.sin(yBodyRot * ((float)Math.PI / 180F));
-		float f1 = Mth.cos(yBodyRot * ((float)Math.PI / 180F));
+		float f = MathHelper.sin(yBodyRot * ((float)Math.PI / 180F));
+		float f1 = MathHelper.cos(yBodyRot * ((float)Math.PI / 180F));
 
 		passenger.setPos(getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
 
@@ -252,8 +252,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public MobType getMobType() {
-		return MobType.UNDEAD;
+	public CreatureAttribute getMobType() {
+		return CreatureAttribute.UNDEAD;
 	}
 
 	@Override
@@ -278,22 +278,22 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void startPersistentAngerTimer() {
-		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
+		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.randomValue(random));
 	}
 
 	@Override
-	public EntityType<? extends Animal> getNormalVariant() {
+	public EntityType<? extends AnimalEntity> getNormalVariant() {
 		return EntityType.CHICKEN;
 	}
 
 	@Override
-	public void readFromVanilla(Animal animal) {
+	public void readFromVanilla(AnimalEntity animal) {
 		if(animal instanceof Chicken chicken)
 			setChickenJockey(chicken.isChickenJockey());
 	}
 
 	@Override
-	public void writeToVanilla(Animal animal) {
+	public void writeToVanilla(AnimalEntity animal) {
 		if(animal instanceof Chicken chicken)
 			chicken.setChickenJockey(isChickenJockey());
 	}

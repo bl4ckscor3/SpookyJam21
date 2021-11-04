@@ -2,17 +2,16 @@ package suszombification.misc;
 
 import java.util.List;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.block.Blocks;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ObjectHolder;
 import suszombification.SZItems;
@@ -22,9 +21,9 @@ import suszombification.compat.TrickOrTreatCompat;
 import suszombification.item.CandyItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
 
-public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
+public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")
-	public static SimpleRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
+	public static IRecipeSerializer<SuspiciousPumpkinPieRecipe> serializer = null;
 	private static final Ingredient INGREDIENTS;
 
 	static {
@@ -52,7 +51,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingContainer inv, Level level) {
+	public boolean matches(CraftingInventory inv, World level) {
 		boolean hasSpecialIngredient = false;
 		boolean hasEgg = false;
 		boolean hasSugar = false;
@@ -81,7 +80,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer inv) {
+	public ItemStack assemble(CraftingInventory inv) {
 		ItemStack ingredient = ItemStack.EMPTY;
 		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
@@ -108,7 +107,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public IRecipeSerializer<?> getSerializer() {
 		return serializer;
 	}
 }

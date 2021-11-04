@@ -5,19 +5,19 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 
-public class VicinityAffectingEffect extends MobEffect {
+public class VicinityAffectingEffect extends Effect {
 	private final Function<Integer,Integer> areaSize;
 	private final Predicate<LivingEntity> filter;
-	private final Supplier<MobEffectInstance>[] effects;
+	private final Supplier<EffectInstance>[] effects;
 
 	@SafeVarargs
-	public VicinityAffectingEffect(MobEffectCategory category, int color, Function<Integer,Integer> areaSize, Predicate<LivingEntity> filter, Supplier<MobEffectInstance>... effects) {
+	public VicinityAffectingEffect(EffectType category, int color, Function<Integer,Integer> areaSize, Predicate<LivingEntity> filter, Supplier<EffectInstance>... effects) {
 		super(category, color);
 
 		this.areaSize = areaSize;
@@ -32,7 +32,7 @@ public class VicinityAffectingEffect extends MobEffect {
 		for(Entity nearbyEntity : nearbyEntities) {
 			LivingEntity nearby = (LivingEntity)nearbyEntity; //the filter parameter in getEntities makes sure this is true
 
-			for(Supplier<MobEffectInstance> effect : effects) {
+			for(Supplier<EffectInstance> effect : effects) {
 				nearby.addEffect(effect.get());
 			}
 		}

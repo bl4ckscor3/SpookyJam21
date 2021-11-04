@@ -1,6 +1,6 @@
 package suszombification;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 
 public class SZLootTables {
 	//gameplay

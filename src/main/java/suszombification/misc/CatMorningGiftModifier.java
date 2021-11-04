@@ -5,10 +5,10 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.conditions.ILootCondition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ObjectHolder;
@@ -19,7 +19,7 @@ public class CatMorningGiftModifier extends LootModifier {
 	@ObjectHolder(SuspiciousZombification.MODID + ":cat_morning_gift")
 	public static GlobalLootModifierSerializer<CatMorningGiftModifier> serializer = null;
 
-	public CatMorningGiftModifier(LootItemCondition[] conditions) {
+	public CatMorningGiftModifier(ILootCondition[] conditions) {
 		super(conditions);
 	}
 
@@ -30,7 +30,7 @@ public class CatMorningGiftModifier extends LootModifier {
 
 	public static class Serializer extends GlobalLootModifierSerializer<CatMorningGiftModifier> {
 		@Override
-		public CatMorningGiftModifier read(ResourceLocation name, JsonObject json, LootItemCondition[] conditions) {
+		public CatMorningGiftModifier read(ResourceLocation name, JsonObject json, ILootCondition[] conditions) {
 			return new CatMorningGiftModifier(conditions);
 		}
 

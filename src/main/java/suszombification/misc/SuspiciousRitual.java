@@ -5,12 +5,18 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
@@ -70,7 +76,7 @@ public final class SuspiciousRitual {
 	 * @param includeTrophy Whether to check for the trophy placed on top of the fence
 	 * @return true if the structure has been built correctly, false otherwise
 	 */
-	public static boolean isStructurePresent(Level level, BlockPos structureOrigin, boolean includeTrophy) {
+	public static boolean isStructurePresent(World level, BlockPos structureOrigin, boolean includeTrophy) {
 		boolean isStructurePresent = STRUCTURE_PARTS.stream().allMatch(part -> part.checkPart(level, structureOrigin));
 
 		if(includeTrophy)
@@ -86,25 +92,25 @@ public final class SuspiciousRitual {
 	 * @param player The player to perform the ritual for
 	 * @return true if the ritual was performed successfully, false otherwise
 	 */
-	public static boolean performRitual(Level level, Player player) {
+	public static boolean performRitual(World level, PlayerEntity player) {
 		if(level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
-			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal)
+			Optional<AnimalEntity> potentialSacrifice = level.getEntitiesOfClass(AnimalEntity.class, new AxisAlignedBB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal)
 					.stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
 
 			if(potentialSacrifice.isPresent()) {
-				Animal sacrifice = potentialSacrifice.get();
+				AnimalEntity sacrifice = potentialSacrifice.get();
 				Entity leashHolder = sacrifice.getLeashHolder();
 				BlockPos ritualOrigin = leashHolder.blockPosition();
 
 				//the player is within the ritual structure and also not under it
 				if(player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
 					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
-					leashHolder.remove(RemovalReason.DISCARDED);
+					leashHolder.remove();
 					level.removeBlock(ritualOrigin.above(), false); //remove the trophy
 					player.removeAllEffects();
-					player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_GRACE.get(), 24000, 0, false, false, true));
-					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.0F);
-					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_AMBIENT, SoundSource.NEUTRAL, 2.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
+					player.addEffect(new EffectInstance(SZEffects.ZOMBIES_GRACE.get(), 24000, 0, false, false, true));
+					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_AMBIENT, SoundCategory.NEUTRAL, 2.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
 					return true;
 				}
 			}
@@ -118,7 +124,7 @@ public final class SuspiciousRitual {
 	 * @param animal The animal to check
 	 * @return true if the given animal can be used in the ritual, false otherwise
 	 */
-	public static boolean isGoodSacrifice(Animal animal) {
+	public static boolean isGoodSacrifice(AnimalEntity animal) {
 		if(!animal.isLeashed())
 			return false;
 
@@ -139,32 +145,32 @@ public final class SuspiciousRitual {
 	}
 
 	private static interface StructurePart {
-		public boolean checkPart(Level level, BlockPos structureOrigin);
+		public boolean checkPart(World level, BlockPos structureOrigin);
 	}
 
-	public static void maybeSendInfoMessages(Mob leashedMob, Level level, BlockPos pos, Player player) {
+	public static void maybeSendInfoMessages(MobEntity leashedMob, World level, BlockPos pos, PlayerEntity player) {
 		if(!level.isClientSide && (leashedMob != null || !level.isNight())) {
 			BlockState state = level.getBlockState(pos);
 
 			if(state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
 				if(!(leashedMob instanceof ZombifiedAnimal))
-					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
+					player.displayClientMessage(new TranslationTextComponent("message.suszombification.ritual.need_zombified_animal"), true);
 				else
-					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
+					player.displayClientMessage(new TranslationTextComponent("message.suszombification.ritual.need_night"), true);
 			}
 		}
 	}
 
 	private static record StructurePosition(int x, int y, int z, Predicate<BlockState> check) implements StructurePart {
 		@Override
-		public boolean checkPart(Level level, BlockPos structureOrigin) {
+		public boolean checkPart(World level, BlockPos structureOrigin) {
 			return check.test(level.getBlockState(structureOrigin.offset(x, y, z)));
 		}
 	}
 
 	private static record StructureArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Predicate<BlockState> check) implements StructurePart {
 		@Override
-		public boolean checkPart(Level level, BlockPos structureOrigin) {
+		public boolean checkPart(World level, BlockPos structureOrigin) {
 			for(int x = minX; x <= maxX; x++) {
 				for(int y = minY; y <= maxY; y++) {
 					for(int z = minZ; z <= maxZ; z++) {

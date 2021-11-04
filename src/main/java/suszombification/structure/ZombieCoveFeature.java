@@ -5,64 +5,63 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
-import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureStart;
-import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo.Spawners;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
+import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructureStart;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 import suszombification.SuspiciousZombification;
 
-public class ZombieCoveFeature extends StructureFeature<NoneFeatureConfiguration> {
-	private final List<SpawnerData> structureMonsters;
+public class ZombieCoveFeature extends Structure<NoFeatureConfig> {
+	private final List<Spawners> structureMonsters;
 	private final String startPiece;
 
-	public ZombieCoveFeature(EntityType<?> typeToSpawn, String startPiece, Codec<NoneFeatureConfiguration> codec) {
+	public ZombieCoveFeature(EntityType<?> typeToSpawn, String startPiece, Codec<NoFeatureConfig> codec) {
 		super(codec);
 
-		structureMonsters = ImmutableList.of(new SpawnerData(typeToSpawn, 100, 3, 6));
+		structureMonsters = ImmutableList.of(new Spawners(typeToSpawn, 100, 3, 6));
 		this.startPiece = startPiece;
 	}
 
 	@Override
-	public StructureStartFactory<NoneFeatureConfiguration> getStartFactory() {
+	public IStartFactory<NoFeatureConfig> getStartFactory() {
 		return Start::new;
 	}
 
 	@Override
-	public GenerationStep.Decoration step() {
-		return GenerationStep.Decoration.SURFACE_STRUCTURES;
+	public GenerationStage.Decoration step() {
+		return GenerationStage.Decoration.SURFACE_STRUCTURES;
 	}
 
 	@Override
-	public List<SpawnerData> getDefaultSpawnList() {
+	public List<Spawners> getDefaultSpawnList() {
 		return structureMonsters;
 	}
 
-	public class Start extends NoiseAffectingStructureStart<NoneFeatureConfiguration> {
-		public Start(StructureFeature<NoneFeatureConfiguration> structure, ChunkPos chunkPos, int reference, long seed) {
-			super(structure, chunkPos, reference, seed);
+	public class Start extends StructureStart<NoFeatureConfig> {
+		public Start(Structure<NoFeatureConfig> structure, int chunkX, int chunkZ, MutableBoundingBox boundingBox, int reference, long seed) {
+			super(structure, chunkX, chunkZ, boundingBox, reference, seed);
 		}
 
 		@Override
-		public void generatePieces(RegistryAccess registryAccess, ChunkGenerator chunkGenerator, StructureManager structureManager, ChunkPos chunkPos, Biome biome, NoneFeatureConfiguration config, LevelHeightAccessor heightAccessor) {
-			JigsawPlacement.addPieces(registryAccess,
-					new JigsawConfiguration(() -> registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/" + startPiece)), 10),
-					PoolElementStructurePiece::new, chunkGenerator, structureManager,
-					new BlockPos(chunkPos.getMinBlockX(), 0, chunkPos.getMinBlockZ()),
-					this, random, false, true, heightAccessor);
+		public void generatePieces(DynamicRegistries registryAccess, ChunkGenerator chunkGenerator, TemplateManager structureManager, int chunkX, int chunkZ, Biome biome, NoFeatureConfig config) {
+			JigsawManager.addPieces(registryAccess,
+					new VillageConfig(() -> registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/" + startPiece)), 10),
+					AbstractVillagePiece::new, chunkGenerator, structureManager,
+					new BlockPos(chunkX * 16, 0, chunkZ * 16),
+					pieces, random, false, true);
 		}
 	}
 }

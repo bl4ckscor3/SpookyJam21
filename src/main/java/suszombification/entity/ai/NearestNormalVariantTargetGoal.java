@@ -1,16 +1,16 @@
 package suszombification.entity.ai;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.passive.AnimalEntity;
 import suszombification.entity.ZombifiedAnimal;
 
 public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<LivingEntity> {
-	protected final EntityType<? extends Animal> targetType;
+	protected final EntityType<? extends AnimalEntity> targetType;
 
 	public NearestNormalVariantTargetGoal(ZombifiedAnimal zombifiedAnimal, boolean mustSee, boolean mustReach) {
-		super((Animal)zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
+		super((AnimalEntity)zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
 		targetType = zombifiedAnimal.getNormalVariant();
 	}
 

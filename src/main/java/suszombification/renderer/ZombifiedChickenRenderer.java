@@ -1,19 +1,18 @@
 package suszombification.renderer;
 
-import net.minecraft.client.model.ChickenModel;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraft.client.renderer.entity.model.ChickenModel;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import suszombification.SuspiciousZombification;
 import suszombification.entity.ZombifiedChicken;
 
 public class ZombifiedChickenRenderer extends MobRenderer<ZombifiedChicken, ChickenModel<ZombifiedChicken>> {
 	private static final ResourceLocation CHICKEN_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_chicken.png");
 
-	public ZombifiedChickenRenderer(Context ctx) {
-		super(ctx, new ChickenModel<>(ctx.bakeLayer(ModelLayers.CHICKEN)), 0.3F);
+	public ZombifiedChickenRenderer(EntityRendererManager renderManager) {
+		super(renderManager, new ChickenModel<>(), 0.3F);
 	}
 
 	@Override
@@ -23,10 +22,10 @@ public class ZombifiedChickenRenderer extends MobRenderer<ZombifiedChicken, Chic
 
 	@Override
 	protected float getBob(ZombifiedChicken entity, float partialTicks) {
-		float flapLerp = Mth.lerp(partialTicks, entity.previousFlap, entity.flap);
-		float flapSpeedLerp = Mth.lerp(partialTicks, entity.previousFlapSpeed, entity.flapSpeed);
+		float flapLerp = MathHelper.lerp(partialTicks, entity.previousFlap, entity.flap);
+		float flapSpeedLerp = MathHelper.lerp(partialTicks, entity.previousFlapSpeed, entity.flapSpeed);
 
-		return (Mth.sin(flapLerp) + 1.0F) * flapSpeedLerp;
+		return (MathHelper.sin(flapLerp) + 1.0F) * flapSpeedLerp;
 	}
 
 	@Override

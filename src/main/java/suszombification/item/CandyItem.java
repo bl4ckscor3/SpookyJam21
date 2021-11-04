@@ -1,13 +1,13 @@
 package suszombification.item;
 
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.item.Item;
+import net.minecraft.item.Item;
+import net.minecraft.potion.Effect;
 
 public class CandyItem extends Item {
-	private final MobEffect suspiciousPumpkinPieEffect;
+	private final Effect suspiciousPumpkinPieEffect;
 	private final int effectDuration;
 
-	public CandyItem(MobEffect effect, int effectDuration, Properties properties) {
+	public CandyItem(Effect effect, int effectDuration, Properties properties) {
 		super(properties);
 		this.suspiciousPumpkinPieEffect = effect;
 
@@ -17,7 +17,7 @@ public class CandyItem extends Item {
 			this.effectDuration = effectDuration * 20;
 	}
 
-	public MobEffect getEffect() {
+	public Effect getEffect() {
 		return suspiciousPumpkinPieEffect;
 	}
 

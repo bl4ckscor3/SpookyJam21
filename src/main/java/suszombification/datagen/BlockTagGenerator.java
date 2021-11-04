@@ -1,7 +1,7 @@
 package suszombification.datagen;
 
+import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import suszombification.SZBlocks;
@@ -37,8 +37,6 @@ public class BlockTagGenerator extends BlockTagsProvider {
 				SZBlocks.POTATO_TROPHY.get(),
 				SZBlocks.IRON_INGOT_TROPHY.get());
 		tag(BlockTags.WOOL).addTag(SZTags.Blocks.ROTTEN_WOOL);
-		tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(SZTags.Blocks.TROPHIES);
-		tag(BlockTags.NEEDS_IRON_TOOL).addTag(SZTags.Blocks.TROPHIES);
 	}
 
 	@Override

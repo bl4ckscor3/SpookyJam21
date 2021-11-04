@@ -1,21 +1,21 @@
 package suszombification;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.loot.LootFunctionType;
+import net.minecraft.loot.functions.LootFunctionManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.misc.CatMorningGiftModifier;
@@ -25,7 +25,7 @@ import suszombification.misc.SuspiciousPumpkinPieRecipe;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
-	public static final LootItemFunctionType CURSE_GIVEN_LOOT_FUNCTION = LootItemFunctions.register(SuspiciousZombification.MODID + ":curse_given", new CurseGivenFunction.Serializer());
+	public static final LootFunctionType CURSE_GIVEN_LOOT_FUNCTION = LootFunctionManager.register(SuspiciousZombification.MODID + ":curse_given", new CurseGivenFunction.Serializer());
 
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
@@ -52,7 +52,7 @@ public class RegistrationHandler {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipeSerializer(RegistryEvent.Register<RecipeSerializer<?>> event) {
+	public static void registerRecipeSerializer(RegistryEvent.Register<IRecipeSerializer<?>> event) {
 		event.getRegistry().register(new SimpleRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new).setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie")));
 	}
 

@@ -1,21 +1,21 @@
 package suszombification.effect;
 
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import suszombification.SZEffects;
 
-public class AmplifyingEffect extends MobEffect {
-	public AmplifyingEffect(MobEffectCategory category, int color) {
+public class AmplifyingEffect extends Effect {
+	public AmplifyingEffect(EffectType category, int color) {
 		super(category, color);
 	}
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		for(MobEffectInstance effect : entity.getActiveEffects()) {
+		for(EffectInstance effect : entity.getActiveEffects()) {
 			if(effect.getEffect() != SZEffects.AMPLIFYING.get() && effect.amplifier <= 63)
-				effect.update(new MobEffectInstance(effect.getEffect(), effect.getDuration(), ((effect.amplifier + 1) * (amplifier + 2)) - 1));
+				effect.update(new EffectInstance(effect.getEffect(), effect.getDuration(), ((effect.amplifier + 1) * (amplifier + 2)) - 1));
 		}
 	}
 

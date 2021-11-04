@@ -1,25 +1,25 @@
 package suszombification.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import suszombification.SZBlockEntityTypes;
 import suszombification.block.entity.TrophyBlockEntity;
 
-public class TrophyBlock extends HorizontalDirectionalBlock implements EntityBlock {
-	private static final VoxelShape SHAPE = Shapes.or(Block.box(6.0D, 7.0D, 6.0D, 10.0D, 8.0D, 10.0D), Block.box(4.0D, 0.0D, 4.0D, 12.0D, 1.0D, 12.0D), Block.box(5.0D, 1.0D, 5.0D, 11.0D, 2.0D, 11.0D), Block.box(7.0D, 2.0D, 7.0D, 9.0D, 7.0D, 9.0D));
+public class TrophyBlock extends HorizontalBlock implements ITileEntityProvider {
+	private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(6.0D, 7.0D, 6.0D, 10.0D, 8.0D, 10.0D), Block.box(4.0D, 0.0D, 4.0D, 12.0D, 1.0D, 12.0D), Block.box(5.0D, 1.0D, 5.0D, 11.0D, 2.0D, 11.0D), Block.box(7.0D, 2.0D, 7.0D, 9.0D, 7.0D, 9.0D));
 	private final TrophyType trophyType;
 
 	public TrophyBlock(TrophyType trophyType, Properties properties) {
@@ -30,18 +30,18 @@ public class TrophyBlock extends HorizontalDirectionalBlock implements EntityBlo
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+	public VoxelShape getShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext ctx) {
 		return SHAPE;
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+	public BlockState getStateForPlacement(BlockItemUseContext ctx) {
 		return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new TrophyBlockEntity(SZBlockEntityTypes.TROPHY.get(), pos, state, trophyType);
+	public TileEntity newBlockEntity(IBlockReader level) {
+		return new TrophyBlockEntity(SZBlockEntityTypes.TROPHY.get(), trophyType);
 	}
 
 	@Override

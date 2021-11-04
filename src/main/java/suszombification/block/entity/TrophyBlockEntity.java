@@ -1,25 +1,25 @@
 package suszombification.block.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.BlockPos;
 import suszombification.SZBlockEntityTypes;
 import suszombification.block.TrophyBlock.TrophyType;
 
-public class TrophyBlockEntity extends BlockEntity {
+public class TrophyBlockEntity extends TileEntity {
 	private TrophyType trophyType;
 	private boolean curseGiven;
 
 	public TrophyBlockEntity(BlockPos pos, BlockState state) {
-		super(SZBlockEntityTypes.TROPHY.get(), pos, state);
+		super(SZBlockEntityTypes.TROPHY.get());
 	}
 
-	public TrophyBlockEntity(BlockEntityType<? extends TrophyBlockEntity> blockEntityType, BlockPos pos, BlockState state, TrophyType trophyType) {
-		super(blockEntityType, pos, state);
+	public TrophyBlockEntity(TileEntityType<? extends TrophyBlockEntity> blockEntityType, TrophyType trophyType) {
+		super(blockEntityType);
 
 		this.trophyType = trophyType;
 	}
@@ -37,15 +37,15 @@ public class TrophyBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag) {
+	public CompoundNBT save(CompoundNBT tag) {
 		tag.putInt("TrophyType", trophyType.ordinal());
 		tag.putBoolean("CurseGiven", curseGiven);
 		return super.save(tag);
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	public void load(BlockState state, CompoundNBT tag) {
+		super.load(state, tag);
 
 		int savedOrdinal = tag.getInt("TrophyType");
 
@@ -58,17 +58,17 @@ public class TrophyBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return save(new CompoundTag());
+	public CompoundNBT getUpdateTag() {
+		return save(new CompoundNBT());
 	}
 
 	@Override
-	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return new ClientboundBlockEntityDataPacket(worldPosition, 1, getUpdateTag());
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		return new SUpdateTileEntityPacket(worldPosition, 1, getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
-		load(packet.getTag());
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+		load(getBlockState(), packet.getTag());
 	}
 }

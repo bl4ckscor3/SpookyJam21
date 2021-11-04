@@ -1,30 +1,29 @@
 package suszombification.renderer;
 
-import net.minecraft.client.model.SheepModel;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.client.renderer.entity.model.SheepModel;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.util.ResourceLocation;
 import suszombification.SuspiciousZombification;
 import suszombification.entity.ZombifiedSheep;
 import suszombification.renderer.layers.ZombifiedSheepFurLayer;
 
-public class ZombifiedSheepRenderer extends MobRenderer<Sheep, SheepModel<Sheep>> {
+public class ZombifiedSheepRenderer extends MobRenderer<SheepEntity, SheepModel<SheepEntity>> {
 	private static final ResourceLocation SHEEP_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_sheep/zombified_sheep.png");
 
-	public ZombifiedSheepRenderer(Context ctx) {
-		super(ctx, new SheepModel<>(ctx.bakeLayer(ModelLayers.SHEEP)), 0.7F);
-		addLayer(new ZombifiedSheepFurLayer(this, ctx.getModelSet()));
+	public ZombifiedSheepRenderer(EntityRendererManager renderManager) {
+		super(renderManager, new SheepModel<>(), 0.7F);
+		addLayer(new ZombifiedSheepFurLayer(this));
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(Sheep entity) {
+	public ResourceLocation getTextureLocation(SheepEntity entity) {
 		return SHEEP_LOCATION;
 	}
 
 	@Override
-	protected boolean isShaking(Sheep sheep) {
+	protected boolean isShaking(SheepEntity sheep) {
 		return super.isShaking(sheep) || ((ZombifiedSheep)sheep).isConverting();
 	}
 }

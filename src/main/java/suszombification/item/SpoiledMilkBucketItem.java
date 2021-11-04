@@ -1,16 +1,16 @@
 package suszombification.item;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.MilkBucketItem;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.MilkBucketItem;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
 
 public class SpoiledMilkBucketItem extends MilkBucketItem {
 	public SpoiledMilkBucketItem(Properties properties) {
@@ -18,16 +18,16 @@ public class SpoiledMilkBucketItem extends MilkBucketItem {
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
-		entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
-		entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2));
+	public ItemStack finishUsingItem(ItemStack stack, World level, LivingEntity entity) {
+		entity.addEffect(new EffectInstance(Effects.CONFUSION, 300));
+		entity.addEffect(new EffectInstance(Effects.POISON, 300, 2));
 
-		if(entity instanceof ServerPlayer player) {
+		if(entity instanceof ServerPlayerEntity player) {
 			CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
 			player.awardStat(Stats.ITEM_USED.get(this));
 		}
 
-		if(entity instanceof Player player && !player.getAbilities().instabuild)
+		if(entity instanceof PlayerEntity player && !player.getAbilities().instabuild)
 			stack.shrink(1);
 
 		return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
