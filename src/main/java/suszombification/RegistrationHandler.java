@@ -1,13 +1,21 @@
 package suszombification;
 
+import org.apache.logging.log4j.LogManager;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.dispenser.IDispenseItemBehavior;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.functions.LootFunctionManager;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
@@ -18,6 +26,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.item.CustomSpawnEggItem;
 import suszombification.misc.CatMorningGiftModifier;
 import suszombification.misc.CurseGivenFunction;
 import suszombification.misc.NoDecomposingDropsModifier;
@@ -29,6 +38,22 @@ public class RegistrationHandler {
 
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
+		IDispenseItemBehavior customSpawnEggDispenseBehavior = (source, stack) -> {
+			Direction facing = source.getBlockState().getValue(DispenserBlock.FACING);
+			EntityType<?> type = ((SpawnEggItem)stack.getItem()).getType(stack.getTag());
+
+			try {
+				type.spawn(source.getLevel(), stack, null, source.getPos().relative(facing), SpawnReason.DISPENSER, facing != Direction.UP, false);
+			}
+			catch(Exception exception) {
+				LogManager.getLogger().error("Error while dispensing spawn egg from dispenser at {}", source.getPos(), exception);
+				return ItemStack.EMPTY;
+			}
+
+			stack.shrink(1);
+			return stack;
+		};
+
 		event.enqueueWork(() -> {
 			SZStructures.setup();
 			SZConfiguredStructures.setup();
@@ -37,6 +62,7 @@ public class RegistrationHandler {
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.PIG, SZEntityTypes.ZOMBIFIED_PIG.get());
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.SHEEP, SZEntityTypes.ZOMBIFIED_SHEEP.get());
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.HORSE, EntityType.ZOMBIE_HORSE);
+			CustomSpawnEggItem.SUS_EGGS.forEach(eggItem -> DispenserBlock.registerBehavior(eggItem, customSpawnEggDispenseBehavior));
 		});
 	}
 

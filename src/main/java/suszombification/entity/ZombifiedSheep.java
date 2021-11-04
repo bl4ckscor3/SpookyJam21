@@ -47,11 +47,13 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.TickRangeConverter;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import suszombification.SZBlocks;
 import suszombification.SZEntityTypes;
+import suszombification.SZItems;
 import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
@@ -161,6 +163,11 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 			return returnValue;
 
 		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(SZItems.ZOMBIFIED_SHEEP_SPAWN_EGG.get());
 	}
 
 	@Override

@@ -41,6 +41,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.TickRangeConverter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -141,6 +142,11 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 			return returnValue;
 
 		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(SZItems.ZOMBIFIED_CHICKEN_SPAWN_EGG.get());
 	}
 
 	@Override

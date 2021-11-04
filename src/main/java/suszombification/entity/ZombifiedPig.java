@@ -32,6 +32,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RangedInteger;
 import net.minecraft.util.TickRangeConverter;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
@@ -105,6 +106,11 @@ public class ZombifiedPig extends PigEntity implements IAngerable, ZombifiedAnim
 			return returnValue;
 
 		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(SZItems.ZOMBIFIED_PIG_SPAWN_EGG.get());
 	}
 
 	@Override
