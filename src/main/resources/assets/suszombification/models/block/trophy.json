@@ -2,7 +2,7 @@
 	"parent": "block/block",
 	"textures": {
 		"0": "minecraft:block/iron_block",
-		"1": "minecraft:block/raw_iron_block",
+		"1": "suszombification:block/trophy_pedestal",
 		"2": "minecraft:block/oak_log",
 		"3": "minecraft:block/oak_log_top",
 		"particle": "minecraft:block/iron_block"

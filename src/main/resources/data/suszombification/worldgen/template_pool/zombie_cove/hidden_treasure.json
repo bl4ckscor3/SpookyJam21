@@ -15,7 +15,7 @@
 			"weight": 1,
 			"element": {
 				"element_type": "minecraft:single_pool_element",
-				"location": "suszombification:zombie_cove/blocks/raw_iron_block",
+				"location": "suszombification:zombie_cove/blocks/iron_block",
 				"processors": "minecraft:empty",
 				"projection": "rigid"
 			}
