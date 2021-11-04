@@ -123,7 +123,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 		if(isSheared())
 			return getType().getDefaultLootTable();
 		else {
-			return switch (getColor()) {
+			return switch(getColor()) {
 				case WHITE -> SZLootTables.ZOMBIFIED_SHEEP_WHITE;
 				case ORANGE -> SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
 				case MAGENTA -> SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
@@ -190,10 +190,10 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public List<ItemStack> onSheared(Player player, ItemStack item, Level world, BlockPos pos, int fortune) {
-		world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+	public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos, int fortune) {
+		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
 
-		if(!world.isClientSide) {
+		if(!level.isClientSide) {
 			setSheared(true);
 
 			int amount = 1 + random.nextInt(3);

@@ -26,7 +26,7 @@ public class ItemModelGenerator extends ItemModelProvider {
 		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block.asItem() instanceof BlockItem item)
+			if(block.asItem() instanceof BlockItem)
 				simpleParent(block);
 		}
 
