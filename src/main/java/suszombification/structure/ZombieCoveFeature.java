@@ -62,6 +62,7 @@ public class ZombieCoveFeature extends Structure<NoFeatureConfig> {
 					AbstractVillagePiece::new, chunkGenerator, structureManager,
 					new BlockPos(chunkX * 16, 0, chunkZ * 16),
 					pieces, random, false, true);
+			calculateBoundingBox();
 		}
 	}
 }
