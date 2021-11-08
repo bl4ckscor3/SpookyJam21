@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import suszombification.renderer.TrophyRenderer;
 import suszombification.renderer.ZombieHorseRenderer;
+import suszombification.renderer.ZombifiedCatRenderer;
 import suszombification.renderer.ZombifiedChickenRenderer;
 import suszombification.renderer.ZombifiedCowRenderer;
 import suszombification.renderer.ZombifiedPigRenderer;
@@ -18,6 +19,7 @@ import suszombification.renderer.ZombifiedSheepRenderer;
 public class SZClientHandler {
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_CAT.get(), ZombifiedCatRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChickenRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCowRenderer::new);
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);

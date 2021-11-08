@@ -189,6 +189,11 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
 		//entity drops
+		lootTables.put(SZEntityTypes.ZOMBIFIED_CAT.get().getDefaultLootTable(), LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(Items.STRING)
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))))));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get().getDefaultLootTable(), LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))

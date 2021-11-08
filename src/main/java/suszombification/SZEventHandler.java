@@ -35,6 +35,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.entity.ZombifiedCat;
 import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
@@ -51,7 +52,9 @@ public class SZEventHandler {
 		if(entity instanceof PathfinderMob mob) {
 			EntityType<?> type = mob.getType();
 
-			if(type == EntityType.CHICKEN)
+			if(type == EntityType.CAT)
+				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedCat.class, 6.0F, 1.0F, 1.2F, animal -> !((ZombifiedCat)animal).isTame()));
+			else if(type == EntityType.CHICKEN)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedChicken.class, 4.0F, 1.0F, 1.2F));
 			else if(type == EntityType.COW)
 				mob.goalSelector.addGoal(0, new AvoidEntityGoal<>(mob, ZombifiedCow.class, 4.0F, 1.0F, 1.2F));

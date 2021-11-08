@@ -10,6 +10,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.entity.ThrownRottenEgg;
+import suszombification.entity.ZombifiedCat;
 import suszombification.entity.ZombifiedChicken;
 import suszombification.entity.ZombifiedCow;
 import suszombification.entity.ZombifiedPig;
@@ -19,6 +20,10 @@ import suszombification.entity.ZombifiedSheep;
 public class SZEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, SuspiciousZombification.MODID);
 
+	public static final RegistryObject<EntityType<ZombifiedCat>> ZOMBIFIED_CAT = ENTITY_TYPES.register("zombified_cat", () -> EntityType.Builder.of(ZombifiedCat::new, MobCategory.CREATURE)
+			.sized(0.6F, 0.7F)
+			.clientTrackingRange(8)
+			.build(SuspiciousZombification.MODID + ":zombified_cat"));
 	public static final RegistryObject<EntityType<ZombifiedChicken>> ZOMBIFIED_CHICKEN = ENTITY_TYPES.register("zombified_chicken", () -> EntityType.Builder.of(ZombifiedChicken::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F)
 			.clientTrackingRange(10)
@@ -43,6 +48,7 @@ public class SZEntityTypes {
 
 	@SubscribeEvent
 	public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
+		event.put(SZEntityTypes.ZOMBIFIED_CAT.get(), ZombifiedCat.createAttributes().build());
 		event.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChicken.createAttributes().build());
 		event.put(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCow.createAttributes().build());
 		event.put(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPig.createAttributes().build());
