@@ -44,8 +44,8 @@ import suszombification.misc.AnimalUtil;
 public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.PORKCHOP);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedPig.class, EntityDataSerializers.BOOLEAN);
-	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private int conversionTime;
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 

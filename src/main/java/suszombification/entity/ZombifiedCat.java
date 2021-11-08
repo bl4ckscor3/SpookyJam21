@@ -60,10 +60,6 @@ import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 
 public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
-	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
-	private SPPTemptGoal temptGoal;
-	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedCat.class, EntityDataSerializers.BOOLEAN);
-	private int conversionTime;
 	public static final Map<Integer, ResourceLocation> TEXTURE_BY_TYPE = Util.make(Maps.newHashMap(), map -> {
 		map.put(0, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/tabby.png"));
 		map.put(1, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/black.png"));
@@ -77,18 +73,23 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		map.put(9, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/jellie.png"));
 		map.put(10, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/all_black.png"));
 	});
+	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
+	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedCat.class, EntityDataSerializers.BOOLEAN);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
+	private SPPTemptGoal temptGoal;
+	private int conversionTime;
 
 	public ZombifiedCat(EntityType<? extends Cat> type, Level level) {
 		super(type, level);
 	}
 
+	@Override
 	public ResourceLocation getResourceLocation() {
 		return TEXTURE_BY_TYPE.getOrDefault(getCatType(), TEXTURE_BY_TYPE.get(0));
 	}
-	
+
 	@Override
 	protected void registerGoals() {
 		temptGoal = new ZombifiedCatTemptGoal(this, 0.6D, TEMPT_INGREDIENT, true);
@@ -258,15 +259,18 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		public void giveMorningGift() {
 			Random random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
-			LootTable loottable = cat.level.getServer().getLootTables().get(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT);
-			LootContext.Builder ctx = (new LootContext.Builder((ServerLevel)this.cat.level)).withParameter(LootContextParams.ORIGIN, cat.position()).withParameter(LootContextParams.THIS_ENTITY, cat).withRandom(random);
+			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT);
+			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel)this.cat.level)
+					.withParameter(LootContextParams.ORIGIN, cat.position())
+					.withParameter(LootContextParams.THIS_ENTITY, cat)
+					.withRandom(random);
 
 			catPos.set(cat.blockPosition());
 			cat.randomTeleport(catPos.getX() + random.nextInt(11) - 5, catPos.getY() + random.nextInt(5) - 2, catPos.getZ() + random.nextInt(11) - 5, false);
 			catPos.set(cat.blockPosition());
 
-			for(ItemStack itemstack : loottable.getRandomItems(ctx.create(LootContextParamSets.GIFT))) {
-				cat.level.addFreshEntity(new ItemEntity(cat.level, (double)catPos.getX() - (double)Mth.sin(cat.yBodyRot * ((float)Math.PI / 180F)), catPos.getY(), (double)catPos.getZ() + (double)Mth.cos(cat.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+			for(ItemStack stack : lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.GIFT))) {
+				cat.level.addFreshEntity(new ItemEntity(cat.level, (double)catPos.getX() - (double)Mth.sin(cat.yBodyRot * ((float)Math.PI / 180F)), catPos.getY(), (double)catPos.getZ() + (double)Mth.cos(cat.yBodyRot * ((float)Math.PI / 180F)), stack));
 			}
 		}
 	}
@@ -284,11 +288,10 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		public void tick() {
 			super.tick();
 
-			if(selectedPlayer == null && mob.getRandom().nextInt(600) == 0) {
+			if(selectedPlayer == null && mob.getRandom().nextInt(600) == 0)
 				selectedPlayer = player;
-			} else if(mob.getRandom().nextInt(500) == 0) {
+			else if(mob.getRandom().nextInt(500) == 0)
 				selectedPlayer = null;
-			}
 		}
 
 		@Override

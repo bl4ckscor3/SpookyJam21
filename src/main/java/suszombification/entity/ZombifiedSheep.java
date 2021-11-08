@@ -78,8 +78,8 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	});
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedSheep.class, EntityDataSerializers.BOOLEAN);
-	private int conversionTime;
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private int conversionTime;
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
