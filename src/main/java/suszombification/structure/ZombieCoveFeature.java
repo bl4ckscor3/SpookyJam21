@@ -7,17 +7,21 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo.Spawners;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
+import net.minecraft.world.gen.feature.structure.PillagerOutpostStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
@@ -48,6 +52,11 @@ public class ZombieCoveFeature extends Structure<NoFeatureConfig> {
 	@Override
 	public List<Spawners> getDefaultSpawnList() {
 		return structureMonsters;
+	}
+
+	@Override
+	protected boolean isFeatureChunk(ChunkGenerator generator, BiomeProvider biomeProvider, long seed, SharedSeedRandom random, int chunkX, int chunkZ, Biome biome, ChunkPos potentialPos, NoFeatureConfig config) {
+		return !((PillagerOutpostStructure)PILLAGER_OUTPOST).isNearVillage(generator, seed, random, chunkX, chunkZ);
 	}
 
 	public class Start extends StructureStart<NoFeatureConfig> {
