@@ -13,9 +13,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.PillagerOutpostFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -49,6 +52,11 @@ public class ZombieCoveFeature extends StructureFeature<NoneFeatureConfiguration
 	@Override
 	public List<SpawnerData> getDefaultSpawnList() {
 		return structureMonsters;
+	}
+
+	@Override
+	protected boolean isFeatureChunk(ChunkGenerator generator, BiomeSource biomeSource, long seed, WorldgenRandom random, ChunkPos chunkPos, Biome biome, ChunkPos potentialPos, NoneFeatureConfiguration config, LevelHeightAccessor level) {
+		return !((PillagerOutpostFeature)PILLAGER_OUTPOST).isNearVillage(generator, seed, random, chunkPos);
 	}
 
 	public class Start extends NoiseAffectingStructureStart<NoneFeatureConfiguration> {
