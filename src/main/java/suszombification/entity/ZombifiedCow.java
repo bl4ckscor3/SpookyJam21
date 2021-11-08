@@ -48,8 +48,8 @@ import suszombification.misc.AnimalUtil;
 public class ZombifiedCow extends CowEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.BEEF, Items.LEATHER);
 	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedCow.class, DataSerializers.BOOLEAN);
-	private int conversionTime;
 	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
+	private int conversionTime;
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 

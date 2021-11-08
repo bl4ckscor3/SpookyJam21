@@ -57,6 +57,7 @@ import suszombification.misc.AnimalUtil;
 public class ZombifiedChicken extends AnimalEntity implements IAngerable, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
 	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedChicken.class, DataSerializers.BOOLEAN);
+	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int conversionTime;
 	public float flap;
 	public float flapSpeed;
@@ -65,7 +66,6 @@ public class ZombifiedChicken extends AnimalEntity implements IAngerable, Zombif
 	public float flapping = 1.0F;
 	public int eggTime = random.nextInt(6000) + 6000;
 	public boolean isChickenJockey;
-	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 

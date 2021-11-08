@@ -82,8 +82,8 @@ public class ZombifiedSheep extends SheepEntity implements IAngerable, Zombified
 	});
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.MUTTON);
 	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedSheep.class, DataSerializers.BOOLEAN);
-	private int conversionTime;
 	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
+	private int conversionTime;
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
