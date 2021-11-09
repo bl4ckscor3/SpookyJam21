@@ -31,11 +31,13 @@
 	"item.suszombification.spoiled_milk_bucket": "Verdorbener Milcheimer",
 	"item.suszombification.rotten_egg": "Faules Ei",
 	"item.suszombification.porkchop_on_a_stick": "Schweinefleischrute",
+	"item.suszombification.zombified_cat_spawn_egg": "Zombifizierte-Katze-Spawn-Ei",
 	"item.suszombification.zombified_chicken_spawn_egg": "Zombifiziertes-Huhn-Spawn-Ei",
 	"item.suszombification.zombified_cow_spawn_egg": "Zombifizierte-Kuh-Spawn-Ei",
 	"item.suszombification.zombified_pig_spawn_egg": "Zombifiziertes-Schwein-Spawn-Ei",
 	"item.suszombification.zombified_sheep_spawn_egg": "Zombifiziertes-Schaf-Spawn-Ei",
 
+	"entity.suszombification.zombified_cat": "Zombifizierte Katze",
 	"entity.suszombification.zombified_chicken": "Zombifiziertes Huhn",
 	"entity.suszombification.zombified_cow": "Zombifizierte Kuh",
 	"entity.suszombification.zombified_pig": "Zombifiziertes Schwein",

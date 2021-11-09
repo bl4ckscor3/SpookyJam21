@@ -13,6 +13,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import suszombification.item.CustomSpawnEggItem;
 import suszombification.renderer.TrophyRenderer;
 import suszombification.renderer.ZombieHorseRenderer;
+import suszombification.renderer.ZombifiedCatRenderer;
 import suszombification.renderer.ZombifiedChickenRenderer;
 import suszombification.renderer.ZombifiedCowRenderer;
 import suszombification.renderer.ZombifiedPigRenderer;
@@ -22,6 +23,7 @@ import suszombification.renderer.ZombifiedSheepRenderer;
 public class SZClientHandler {
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event) {
+		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_CAT.get(), ZombifiedCatRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), ZombifiedChickenRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_COW.get(), ZombifiedCowRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);

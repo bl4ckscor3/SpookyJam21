@@ -31,11 +31,13 @@
 	"item.suszombification.spoiled_milk_bucket": "Spoiled Milk Bucket",
 	"item.suszombification.rotten_egg": "Rotten Egg",
 	"item.suszombification.porkchop_on_a_stick": "Porkchop on a Stick",
+	"item.suszombification.zombified_cat_spawn_egg": "Zombified Cat Spawn Egg",
 	"item.suszombification.zombified_chicken_spawn_egg": "Zombified Chicken Spawn Egg",
 	"item.suszombification.zombified_cow_spawn_egg": "Zombified Cow Spawn Egg",
 	"item.suszombification.zombified_pig_spawn_egg": "Zombified Pig Spawn Egg",
 	"item.suszombification.zombified_sheep_spawn_egg": "Zombified Sheep Spawn Egg",
 
+	"entity.suszombification.zombified_cat": "Zombified Cat",
 	"entity.suszombification.zombified_chicken": "Zombified Chicken",
 	"entity.suszombification.zombified_cow": "Zombified Cow",
 	"entity.suszombification.zombified_pig": "Zombified Pig",

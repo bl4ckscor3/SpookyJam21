@@ -23,6 +23,7 @@ public class EntityTypeTagGenerator extends EntityTypeTagsProvider {
 				EntityType.ZOMBIE_HORSE,
 				EntityType.ZOMBIE_VILLAGER,
 				EntityType.ZOMBIFIED_PIGLIN,
+				SZEntityTypes.ZOMBIFIED_CAT.get(),
 				SZEntityTypes.ZOMBIFIED_CHICKEN.get(),
 				SZEntityTypes.ZOMBIFIED_COW.get(),
 				SZEntityTypes.ZOMBIFIED_PIG.get(),

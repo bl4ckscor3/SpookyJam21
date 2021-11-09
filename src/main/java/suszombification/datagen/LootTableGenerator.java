@@ -189,6 +189,7 @@ public class LootTableGenerator implements IDataProvider {
 						.add(ItemLootEntry.lootTableItem(Items.ROTTEN_FLESH)
 								.apply(SetCount.setCount(RandomValueRange.between(1.0F, 3.0F))))));
 		//entity drops
+		lootTables.put(SZEntityTypes.ZOMBIFIED_CAT.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(2.0F)));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(1.0F))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantRange.exactly(1))
