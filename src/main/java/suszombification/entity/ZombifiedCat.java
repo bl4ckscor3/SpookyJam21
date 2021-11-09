@@ -1,10 +1,7 @@
 package suszombification.entity;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureAttribute;
@@ -45,9 +42,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RangedInteger;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.TickRangeConverter;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -56,7 +51,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
-import suszombification.SuspiciousZombification;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
@@ -64,19 +58,6 @@ import suszombification.misc.AnimalUtil;
 public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
 	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedCat.class, DataSerializers.BOOLEAN);
-	public static final Map<Integer, ResourceLocation> TEXTURE_BY_TYPE = Util.make(Maps.newHashMap(), map -> {
-		map.put(0, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/tabby.png"));
-		map.put(1, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/black.png"));
-		map.put(2, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/red.png"));
-		map.put(3, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/siamese.png"));
-		map.put(4, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/british_shorthair.png"));
-		map.put(5, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/calico.png"));
-		map.put(6, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/persian.png"));
-		map.put(7, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/ragdoll.png"));
-		map.put(8, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/white.png"));
-		map.put(9, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/jellie.png"));
-		map.put(10, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/all_black.png"));
-	});
 	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
@@ -85,11 +66,6 @@ public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnim
 
 	public ZombifiedCat(EntityType<? extends CatEntity> type, World level) {
 		super(type, level);
-	}
-
-	@Override
-	public ResourceLocation getResourceLocation() {
-		return TEXTURE_BY_TYPE.getOrDefault(getCatType(), TEXTURE_BY_TYPE.get(0));
 	}
 
 	@Override

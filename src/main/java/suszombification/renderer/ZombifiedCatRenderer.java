@@ -5,10 +5,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.util.ResourceLocation;
 import suszombification.entity.ZombifiedCat;
+import suszombification.renderer.layers.ZombifiedCatZombieLayer;
 
 public class ZombifiedCatRenderer extends CatRenderer {
 	public ZombifiedCatRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
+		addLayer(new ZombifiedCatZombieLayer<>(this));
 	}
 
 	@Override
