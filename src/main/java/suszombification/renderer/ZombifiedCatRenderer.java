@@ -5,10 +5,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Cat;
 import suszombification.entity.ZombifiedCat;
+import suszombification.renderer.layers.ZombifiedCatZombieLayer;
 
 public class ZombifiedCatRenderer extends CatRenderer {
 	public ZombifiedCatRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx);
+		addLayer(new ZombifiedCatZombieLayer<>(this, ctx.getModelSet()));
 	}
 
 	@Override

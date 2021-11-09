@@ -1,19 +1,14 @@
 package suszombification.entity;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.google.common.collect.Maps;
-
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
@@ -54,25 +49,11 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
-import suszombification.SuspiciousZombification;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 
 public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
-	public static final Map<Integer, ResourceLocation> TEXTURE_BY_TYPE = Util.make(Maps.newHashMap(), map -> {
-		map.put(0, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/tabby.png"));
-		map.put(1, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/black.png"));
-		map.put(2, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/red.png"));
-		map.put(3, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/siamese.png"));
-		map.put(4, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/british_shorthair.png"));
-		map.put(5, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/calico.png"));
-		map.put(6, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/persian.png"));
-		map.put(7, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/ragdoll.png"));
-		map.put(8, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/white.png"));
-		map.put(9, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/jellie.png"));
-		map.put(10, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/all_black.png"));
-	});
 	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedCat.class, EntityDataSerializers.BOOLEAN);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
@@ -83,11 +64,6 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 	public ZombifiedCat(EntityType<? extends Cat> type, Level level) {
 		super(type, level);
-	}
-
-	@Override
-	public ResourceLocation getResourceLocation() {
-		return TEXTURE_BY_TYPE.getOrDefault(getCatType(), TEXTURE_BY_TYPE.get(0));
 	}
 
 	@Override
