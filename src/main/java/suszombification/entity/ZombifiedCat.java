@@ -63,9 +63,7 @@ import suszombification.misc.AnimalUtil;
 
 public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
-	private SPPTemptGoal temptGoal;
 	private static final DataParameter<Boolean> DATA_CONVERTING_ID = EntityDataManager.defineId(ZombifiedCat.class, DataSerializers.BOOLEAN);
-	private int conversionTime;
 	public static final Map<Integer, ResourceLocation> TEXTURE_BY_TYPE = Util.make(Maps.newHashMap(), map -> {
 		map.put(0, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/tabby.png"));
 		map.put(1, new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat/black.png"));
@@ -82,15 +80,18 @@ public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnim
 	private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
+	private SPPTemptGoal temptGoal;
+	private int conversionTime;
 
 	public ZombifiedCat(EntityType<? extends CatEntity> type, World level) {
 		super(type, level);
 	}
 
+	@Override
 	public ResourceLocation getResourceLocation() {
 		return TEXTURE_BY_TYPE.getOrDefault(getCatType(), TEXTURE_BY_TYPE.get(0));
 	}
-	
+
 	@Override
 	protected void registerGoals() {
 		temptGoal = new ZombifiedCatTemptGoal(this, 0.6D, TEMPT_INGREDIENT, true);
@@ -269,15 +270,18 @@ public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnim
 		public void giveMorningGift() {
 			Random random = cat.getRandom();
 			BlockPos.Mutable catPos = new BlockPos.Mutable();
-			LootTable loottable = cat.level.getServer().getLootTables().get(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT);
-			LootContext.Builder ctx = (new LootContext.Builder((ServerWorld)cat.level)).withParameter(LootParameters.ORIGIN, cat.position()).withParameter(LootParameters.THIS_ENTITY, cat).withRandom(random);
+			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT);
+			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerWorld)cat.level)
+					.withParameter(LootParameters.ORIGIN, cat.position())
+					.withParameter(LootParameters.THIS_ENTITY, cat)
+					.withRandom(random);
 
 			catPos.set(cat.blockPosition());
 			cat.randomTeleport(catPos.getX() + random.nextInt(11) - 5, catPos.getY() + random.nextInt(5) - 2, catPos.getZ() + random.nextInt(11) - 5, false);
 			catPos.set(cat.blockPosition());
 
-			for(ItemStack itemstack : loottable.getRandomItems(ctx.create(LootParameterSets.GIFT))) {
-				cat.level.addFreshEntity(new ItemEntity(cat.level, (double)catPos.getX() - (double)MathHelper.sin(cat.yBodyRot * ((float)Math.PI / 180F)), catPos.getY(), (double)catPos.getZ() + (double)MathHelper.cos(cat.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+			for(ItemStack stack : lootTable.getRandomItems(lootContextBuilder.create(LootParameterSets.GIFT))) {
+				cat.level.addFreshEntity(new ItemEntity(cat.level, (double)catPos.getX() - (double)MathHelper.sin(cat.yBodyRot * ((float)Math.PI / 180F)), catPos.getY(), (double)catPos.getZ() + (double)MathHelper.cos(cat.yBodyRot * ((float)Math.PI / 180F)), stack));
 			}
 		}
 	}
@@ -295,11 +299,11 @@ public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnim
 		public void tick() {
 			super.tick();
 
-			if(selectedPlayer == null && mob.getRandom().nextInt(600) == 0) {
+			if(selectedPlayer == null && mob.getRandom().nextInt(600) == 0)
 				selectedPlayer = player;
-			} else if(mob.getRandom().nextInt(500) == 0) {
+			else if(mob.getRandom().nextInt(500) == 0)
 				selectedPlayer = null;
-			}
+
 		}
 
 		@Override
