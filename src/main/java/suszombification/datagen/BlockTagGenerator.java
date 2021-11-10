@@ -4,9 +4,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import suszombification.SZBlocks;
 import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
+import suszombification.registration.SZBlocks;
 
 public class BlockTagGenerator extends BlockTagsProvider {
 	public BlockTagGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {

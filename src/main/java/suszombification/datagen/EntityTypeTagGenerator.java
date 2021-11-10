@@ -4,9 +4,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import suszombification.SZEntityTypes;
 import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
+import suszombification.registration.SZEntityTypes;
 
 public class EntityTypeTagGenerator extends EntityTypeTagsProvider {
 	public EntityTypeTagGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {

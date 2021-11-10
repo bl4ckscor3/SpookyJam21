@@ -7,8 +7,8 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import suszombification.SZBlockEntityTypes;
 import suszombification.block.TrophyBlock.TrophyType;
+import suszombification.registration.SZBlockEntityTypes;
 
 public class TrophyBlockEntity extends BlockEntity {
 	private TrophyType trophyType;

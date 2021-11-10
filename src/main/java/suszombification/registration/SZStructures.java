@@ -1,4 +1,4 @@
-package suszombification;
+package suszombification.registration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatur
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.structure.ZombieCoveFeature;
 
 public class SZStructures {

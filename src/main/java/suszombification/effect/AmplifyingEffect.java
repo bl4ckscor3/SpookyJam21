@@ -4,7 +4,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import suszombification.SZEffects;
+import suszombification.registration.SZEffects;
 
 public class AmplifyingEffect extends MobEffect {
 	public AmplifyingEffect(MobEffectCategory category, int color) {

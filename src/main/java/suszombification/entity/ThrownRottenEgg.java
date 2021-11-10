@@ -13,8 +13,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class ThrownRottenEgg extends ThrowableItemProjectile {
 	public ThrownRottenEgg(EntityType<? extends ThrownRottenEgg> type, Level level) {

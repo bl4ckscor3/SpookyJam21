@@ -24,11 +24,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import suszombification.SZDamageSources;
-import suszombification.SZEffects;
-import suszombification.SZItems;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
 import suszombification.misc.SuspiciousRitual;
+import suszombification.registration.SZEffects;
+import suszombification.registration.SZItems;
 
 public class SuspiciousPumpkinPieItem extends Item {
 	public static record PieEffect(Function<ItemStack, Boolean> check, Supplier<MobEffectInstance> mainEffect, Supplier<MobEffectInstance> extraEffect, ChatFormatting displayColor, String messageSuffix) {}

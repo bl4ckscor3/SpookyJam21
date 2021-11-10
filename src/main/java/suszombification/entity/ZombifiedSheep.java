@@ -50,12 +50,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import suszombification.SZBlocks;
-import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZEntityTypes;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {

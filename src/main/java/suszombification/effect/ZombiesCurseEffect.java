@@ -9,8 +9,8 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import suszombification.SZEffects;
 import suszombification.SZTags;
+import suszombification.registration.SZEffects;
 
 public class ZombiesCurseEffect extends VicinityAffectingEffect {
 	public ZombiesCurseEffect(MobEffectCategory category, int color) {

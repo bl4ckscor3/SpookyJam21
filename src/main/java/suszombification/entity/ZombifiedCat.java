@@ -47,11 +47,11 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
+import suszombification.registration.SZEntityTypes;
 
 public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);
@@ -236,7 +236,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 			Random random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
 			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLootTables.ZOMBIFIED_CAT_MORNING_GIFT);
-			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel)this.cat.level)
+			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel)cat.level)
 					.withParameter(LootContextParams.ORIGIN, cat.position())
 					.withParameter(LootContextParams.THIS_ENTITY, cat)
 					.withRandom(random);

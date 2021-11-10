@@ -12,6 +12,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import suszombification.registration.SZBlockEntityTypes;
+import suszombification.registration.SZEntityTypes;
 import suszombification.renderer.TrophyRenderer;
 import suszombification.renderer.ZombieHorseRenderer;
 import suszombification.renderer.ZombifiedCatRenderer;

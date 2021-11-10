@@ -24,9 +24,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import suszombification.SZDamageSources;
-import suszombification.SZEffects;
 import suszombification.SZTags;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.registration.SZEffects;
 
 public final class SuspiciousRitual {
 	private static final Predicate<BlockState> WOODEN_FENCE = state -> state.is(BlockTags.WOODEN_FENCES);

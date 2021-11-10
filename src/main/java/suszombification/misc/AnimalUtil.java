@@ -16,9 +16,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ForgeEventFactory;
-import suszombification.SZItems;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.registration.SZItems;
 
 public class AnimalUtil {
 	public static void tick(LivingEntity me) {

@@ -12,9 +12,9 @@ import net.minecraftforge.client.model.generators.ModelBuilder.Perspective;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fmllegacy.RegistryObject;
-import suszombification.SZBlocks;
-import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
 	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {

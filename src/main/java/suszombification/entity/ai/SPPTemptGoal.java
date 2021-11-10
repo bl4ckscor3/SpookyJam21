@@ -9,7 +9,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import suszombification.SZItems;
+import suszombification.registration.SZItems;
 
 public class SPPTemptGoal extends TemptGoal {
 	private final Ingredient ingredients;

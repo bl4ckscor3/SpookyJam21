@@ -6,9 +6,9 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fmllegacy.RegistryObject;
-import suszombification.SZBlocks;
 import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
+import suszombification.registration.SZBlocks;
 
 public class BlockModelAndStateGenerator extends BlockStateProvider {
 	public BlockModelAndStateGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {

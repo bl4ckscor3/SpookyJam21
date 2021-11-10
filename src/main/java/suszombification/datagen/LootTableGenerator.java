@@ -33,13 +33,13 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.fmllegacy.RegistryObject;
-import suszombification.SZBlocks;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
 import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CurseGivenFunction;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class LootTableGenerator implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
