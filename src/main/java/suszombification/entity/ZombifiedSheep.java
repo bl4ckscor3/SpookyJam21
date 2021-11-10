@@ -53,13 +53,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
-import suszombification.SZBlocks;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
 import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class ZombifiedSheep extends SheepEntity implements IAngerable, ZombifiedAnimal {
 	private static final Map<DyeColor, IItemProvider> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {

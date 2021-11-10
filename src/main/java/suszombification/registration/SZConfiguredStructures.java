@@ -1,10 +1,11 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
+import suszombification.SuspiciousZombification;
 
 public class SZConfiguredStructures {
 	public static final StructureFeature<?,?> ZOMBIE_COVE = SZStructures.ZOMBIE_COVE.get().configured(NoFeatureConfig.INSTANCE);

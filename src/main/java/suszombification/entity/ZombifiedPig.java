@@ -38,11 +38,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class ZombifiedPig extends PigEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.PORKCHOP);

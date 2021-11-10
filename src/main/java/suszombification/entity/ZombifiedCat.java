@@ -49,11 +49,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
-import suszombification.SZEntityTypes;
 import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
+import suszombification.registration.SZEntityTypes;
 
 public class ZombifiedCat extends CatEntity implements IAngerable, ZombifiedAnimal {
 	private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.STRING);

@@ -26,11 +26,15 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.glm.CatMorningGiftModifier;
+import suszombification.glm.NoDecomposingDropsModifier;
 import suszombification.item.CustomSpawnEggItem;
-import suszombification.misc.CatMorningGiftModifier;
 import suszombification.misc.CurseGivenFunction;
-import suszombification.misc.NoDecomposingDropsModifier;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZConfiguredStructures;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZStructures;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {

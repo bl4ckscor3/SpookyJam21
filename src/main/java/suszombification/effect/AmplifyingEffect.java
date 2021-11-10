@@ -4,7 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
-import suszombification.SZEffects;
+import suszombification.registration.SZEffects;
 
 public class AmplifyingEffect extends Effect {
 	public AmplifyingEffect(EffectType category, int color) {

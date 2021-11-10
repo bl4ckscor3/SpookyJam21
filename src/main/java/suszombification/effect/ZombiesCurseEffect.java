@@ -10,8 +10,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
-import suszombification.SZEffects;
 import suszombification.SZTags;
+import suszombification.registration.SZEffects;
 
 public class ZombiesCurseEffect extends VicinityAffectingEffect {
 	public ZombiesCurseEffect(EffectType category, int color) {

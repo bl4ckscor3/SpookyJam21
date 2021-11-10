@@ -1,4 +1,4 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
@@ -7,6 +7,7 @@ import net.minecraft.potion.Effects;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.item.CandyItem;
 import suszombification.item.CustomSpawnEggItem;
 import suszombification.item.PorkchopOnAStickItem;

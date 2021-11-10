@@ -15,8 +15,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import suszombification.SZEffects;
 import suszombification.block.entity.TrophyBlockEntity;
+import suszombification.registration.SZEffects;
 
 public class TrophyItem extends BlockItem {
 	public TrophyItem(Block block, Properties properties) {

@@ -22,12 +22,12 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import suszombification.SZDamageSources;
-import suszombification.SZEffects;
-import suszombification.SZItems;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
 import suszombification.misc.PieEffect;
 import suszombification.misc.SuspiciousRitual;
+import suszombification.registration.SZEffects;
+import suszombification.registration.SZItems;
 
 public class SuspiciousPumpkinPieItem extends Item {
 	private static final List<PieEffect> PIE_EFFECTS = new ArrayList<>();

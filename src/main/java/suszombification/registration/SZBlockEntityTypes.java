@@ -1,9 +1,10 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.block.entity.TrophyBlockEntity;
 
 public class SZBlockEntityTypes {

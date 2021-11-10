@@ -9,8 +9,8 @@ import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
-import suszombification.misc.CatMorningGiftModifier;
-import suszombification.misc.NoDecomposingDropsModifier;
+import suszombification.glm.CatMorningGiftModifier;
+import suszombification.glm.NoDecomposingDropsModifier;
 
 public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 	public GlobalLootModifierGenerator(DataGenerator gen) {

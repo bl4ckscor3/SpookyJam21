@@ -1,4 +1,4 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -10,6 +10,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.block.RottenWoolBlock;
 import suszombification.block.TrophyBlock;
 import suszombification.block.TrophyBlock.TrophyType;

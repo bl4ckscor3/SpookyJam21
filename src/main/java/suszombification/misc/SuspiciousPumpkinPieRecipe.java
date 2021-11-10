@@ -15,12 +15,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ObjectHolder;
-import suszombification.SZItems;
 import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
 import suszombification.compat.TrickOrTreatCompat;
 import suszombification.item.CandyItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.registration.SZItems;
 
 public class SuspiciousPumpkinPieRecipe extends SpecialRecipe {
 	@ObjectHolder(SuspiciousZombification.MODID + ":suspicious_pumpkin_pie")

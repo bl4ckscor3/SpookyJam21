@@ -14,9 +14,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
-import suszombification.SZItems;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.registration.SZItems;
 
 public class AnimalUtil {
 	public static void tick(LivingEntity me) {

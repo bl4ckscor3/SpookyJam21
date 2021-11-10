@@ -1,4 +1,4 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -9,6 +9,7 @@ import net.minecraft.potion.Effects;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.effect.AmplifyingEffect;
 import suszombification.effect.DecomposingEffect;
 import suszombification.effect.VicinityAffectingEffect;

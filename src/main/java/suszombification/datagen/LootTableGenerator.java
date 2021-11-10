@@ -33,13 +33,13 @@ import net.minecraft.potion.Potions;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
-import suszombification.SZBlocks;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
 import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CurseGivenFunction;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class LootTableGenerator implements IDataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();

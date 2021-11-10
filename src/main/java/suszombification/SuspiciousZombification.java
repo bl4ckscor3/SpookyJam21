@@ -5,6 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import suszombification.registration.SZBlockEntityTypes;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZEffects;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
+import suszombification.registration.SZStructures;
 
 @Mod(SuspiciousZombification.MODID)
 public class SuspiciousZombification {

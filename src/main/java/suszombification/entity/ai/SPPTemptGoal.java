@@ -7,7 +7,7 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import suszombification.SZItems;
+import suszombification.registration.SZItems;
 
 public class SPPTemptGoal extends TemptGoal {
 	private final Ingredient ingredients;

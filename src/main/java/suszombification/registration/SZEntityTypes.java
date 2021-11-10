@@ -1,4 +1,4 @@
-package suszombification;
+package suszombification.registration;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import suszombification.SuspiciousZombification;
 import suszombification.entity.ThrownRottenEgg;
 import suszombification.entity.ZombifiedCat;
 import suszombification.entity.ZombifiedChicken;

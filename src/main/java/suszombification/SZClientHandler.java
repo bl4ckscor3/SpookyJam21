@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import suszombification.item.CustomSpawnEggItem;
+import suszombification.registration.SZBlockEntityTypes;
+import suszombification.registration.SZEntityTypes;
 import suszombification.renderer.TrophyRenderer;
 import suszombification.renderer.ZombieHorseRenderer;
 import suszombification.renderer.ZombifiedCatRenderer;

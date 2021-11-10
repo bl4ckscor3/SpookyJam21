@@ -6,8 +6,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import suszombification.SZBlockEntityTypes;
 import suszombification.block.TrophyBlock.TrophyType;
+import suszombification.registration.SZBlockEntityTypes;
 
 public class TrophyBlockEntity extends TileEntity {
 	private TrophyType trophyType;

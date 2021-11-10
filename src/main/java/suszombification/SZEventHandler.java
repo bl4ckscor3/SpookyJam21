@@ -42,6 +42,9 @@ import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.misc.SuspiciousRitual;
+import suszombification.registration.SZConfiguredStructures;
+import suszombification.registration.SZEffects;
+import suszombification.registration.SZItems;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {

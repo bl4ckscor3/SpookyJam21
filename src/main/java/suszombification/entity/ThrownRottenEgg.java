@@ -15,8 +15,8 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import suszombification.SZEntityTypes;
-import suszombification.SZItems;
+import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 public class ThrownRottenEgg extends ProjectileItemEntity {
 	public ThrownRottenEgg(EntityType<? extends ThrownRottenEgg> type, World level) {

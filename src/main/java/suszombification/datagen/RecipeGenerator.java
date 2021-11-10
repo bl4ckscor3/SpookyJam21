@@ -13,10 +13,10 @@ import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
-import suszombification.SZBlocks;
-import suszombification.SZItems;
 import suszombification.SuspiciousZombification;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
+import suszombification.registration.SZBlocks;
+import suszombification.registration.SZItems;
 
 public class RecipeGenerator extends RecipeProvider {
 	public RecipeGenerator(DataGenerator generator) {

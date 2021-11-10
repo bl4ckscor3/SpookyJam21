@@ -25,12 +25,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import suszombification.SZDamageSources;
-import suszombification.SZEffects;
 import suszombification.SZTags;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.misc.multiblock.StructureArea;
 import suszombification.misc.multiblock.StructurePart;
 import suszombification.misc.multiblock.StructurePosition;
+import suszombification.registration.SZEffects;
 
 public final class SuspiciousRitual {
 	private static final Predicate<BlockState> WOODEN_FENCE = state -> state.is(BlockTags.WOODEN_FENCES);

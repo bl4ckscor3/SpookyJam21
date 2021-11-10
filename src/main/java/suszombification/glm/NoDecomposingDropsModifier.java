@@ -1,4 +1,4 @@
-package suszombification.misc;
+package suszombification.glm;
 
 import java.util.ArrayList;
 import java.util.List;

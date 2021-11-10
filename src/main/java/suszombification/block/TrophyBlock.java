@@ -15,8 +15,8 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import suszombification.SZBlockEntityTypes;
 import suszombification.block.entity.TrophyBlockEntity;
+import suszombification.registration.SZBlockEntityTypes;
 
 public class TrophyBlock extends HorizontalBlock implements ITileEntityProvider {
 	private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(6.0D, 7.0D, 6.0D, 10.0D, 8.0D, 10.0D), Block.box(4.0D, 0.0D, 4.0D, 12.0D, 1.0D, 12.0D), Block.box(5.0D, 1.0D, 5.0D, 11.0D, 2.0D, 11.0D), Block.box(7.0D, 2.0D, 7.0D, 9.0D, 7.0D, 9.0D));
