@@ -3,6 +3,9 @@
 	"package": "suszombification.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"refmap": "suszombification.refmap.json",
+	"client": [
+		"UndeadHorseRendererMixin"
+	],
 	"mixins": [
 		"LeadItemMixin",
 		"ZombieHorseMixin"
