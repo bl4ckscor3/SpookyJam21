@@ -1,7 +1,6 @@
 package suszombification;
 
 import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,7 +13,6 @@ import suszombification.item.CustomSpawnEggItem;
 import suszombification.registration.SZBlockEntityTypes;
 import suszombification.registration.SZEntityTypes;
 import suszombification.renderer.TrophyRenderer;
-import suszombification.renderer.ZombieHorseRenderer;
 import suszombification.renderer.ZombifiedCatRenderer;
 import suszombification.renderer.ZombifiedChickenRenderer;
 import suszombification.renderer.ZombifiedCowRenderer;
@@ -31,7 +29,6 @@ public class SZClientHandler {
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_PIG.get(), ZombifiedPigRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ZOMBIFIED_SHEEP.get(), ZombifiedSheepRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SZEntityTypes.ROTTEN_EGG.get(), manager -> new SpriteRenderer<>(manager, event.getMinecraftSupplier().get().getItemRenderer()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityType.ZOMBIE_HORSE, ZombieHorseRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(SZBlockEntityTypes.TROPHY.get(), TrophyRenderer::new);
 	}
 
