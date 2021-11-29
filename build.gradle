@@ -17,7 +17,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 
-version = '1.1'
+version = '1.2'
 group = 'suszombification'
 archivesBaseName = 'suszombification-1.17.1'
 
