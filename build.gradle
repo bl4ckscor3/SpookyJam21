@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.104'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.1.1'
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
     implementation fg.deobf("curse.maven:trick-or-treat-535636:3497712")
