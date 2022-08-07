@@ -7,10 +7,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
-import suszombification.SZLootTables;
 import suszombification.SuspiciousZombification;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
+import suszombification.registration.SZLoot;
 
 public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 	public GlobalLootModifierGenerator(DataGenerator gen) {
@@ -24,7 +24,7 @@ public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 				LootItemRandomChanceCondition.randomChance(0.5F).build()
 		}));
 		add("no_decomposing_drops", NoDecomposingDropsModifier.serializer, new NoDecomposingDropsModifier(new LootItemCondition[]{
-				InvertedLootItemCondition.invert(LootTableIdCondition.builder(SZLootTables.DEATH_BY_DECOMPOSING)).build()
+				InvertedLootItemCondition.invert(LootTableIdCondition.builder(SZLoot.DEATH_BY_DECOMPOSING)).build()
 		}));
 	}
 }

@@ -37,10 +37,10 @@ public class TrophyBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag) {
+	public void saveAdditional(CompoundTag tag) {
 		tag.putInt("TrophyType", trophyType.ordinal());
 		tag.putBoolean("CurseGiven", curseGiven);
-		return super.save(tag);
+		super.saveAdditional(tag);
 	}
 
 	@Override
@@ -59,7 +59,10 @@ public class TrophyBlockEntity extends BlockEntity {
 
 	@Override
 	public CompoundTag getUpdateTag() {
-		return save(new CompoundTag());
+		CompoundTag tag = new CompoundTag();
+
+		saveAdditional(tag);
+		return tag;
 	}
 
 	@Override

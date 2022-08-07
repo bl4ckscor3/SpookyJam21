@@ -19,9 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.levelgen.feature.PillagerOutpostFeature;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
@@ -31,7 +29,6 @@ import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import suszombification.entity.ZombifiedAnimal;
@@ -42,7 +39,6 @@ import suszombification.entity.ZombifiedPig;
 import suszombification.entity.ZombifiedSheep;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.misc.SuspiciousRitual;
-import suszombification.registration.SZConfiguredStructures;
 import suszombification.registration.SZEffects;
 import suszombification.registration.SZItems;
 
@@ -158,16 +154,6 @@ public class SZEventHandler {
 
 			event.setStrength(Math.max(event.getOriginalStrength() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
 			event.getEntityLiving().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
-		}
-	}
-
-	@SubscribeEvent
-	public static void onBiomeLoad(BiomeLoadingEvent event) {
-		if(event.getGeneration().getStructures().stream().anyMatch(csf -> csf.get().feature instanceof PillagerOutpostFeature)) {
-			if(event.getCategory() == BiomeCategory.DESERT)
-				event.getGeneration().addStructureStart(SZConfiguredStructures.DESERT_ZOMBIE_COVE);
-			else
-				event.getGeneration().addStructureStart(SZConfiguredStructures.ZOMBIE_COVE);
 		}
 	}
 }

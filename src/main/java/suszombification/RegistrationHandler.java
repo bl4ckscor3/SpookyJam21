@@ -7,8 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,22 +18,15 @@ import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
-import suszombification.misc.CurseGivenFunction;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
-import suszombification.registration.SZConfiguredStructures;
 import suszombification.registration.SZEntityTypes;
-import suszombification.registration.SZStructures;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
-	public static final LootItemFunctionType CURSE_GIVEN_LOOT_FUNCTION = LootItemFunctions.register(SuspiciousZombification.MODID + ":curse_given", new CurseGivenFunction.Serializer());
-
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
-			SZStructures.setup();
-			SZConfiguredStructures.setup();
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.CAT, SZEntityTypes.ZOMBIFIED_CAT.get());
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.CHICKEN, SZEntityTypes.ZOMBIFIED_CHICKEN.get());
 			ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.put(EntityType.COW, SZEntityTypes.ZOMBIFIED_COW.get());

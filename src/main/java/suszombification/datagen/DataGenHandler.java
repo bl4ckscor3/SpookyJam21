@@ -18,6 +18,7 @@ public class DataGenHandler {
 		ExistingFileHelper existingFileHelper = new ExistingFileHelper(Collections.EMPTY_LIST, Collections.EMPTY_SET, false, null, null);
 		BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existingFileHelper);
 
+		generator.addProvider(new BiomeTagGenerator(generator, existingFileHelper));
 		generator.addProvider(new BlockModelAndStateGenerator(generator, existingFileHelper));
 		generator.addProvider(blockTagGenerator);
 		generator.addProvider(new EntityTypeTagGenerator(generator, existingFileHelper));

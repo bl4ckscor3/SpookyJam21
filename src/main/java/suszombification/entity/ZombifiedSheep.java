@@ -50,12 +50,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import suszombification.SZLootTables;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZLoot;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
@@ -124,22 +124,22 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 			return getType().getDefaultLootTable();
 		else {
 			return switch(getColor()) {
-				case WHITE -> SZLootTables.ZOMBIFIED_SHEEP_WHITE;
-				case ORANGE -> SZLootTables.ZOMBIFIED_SHEEP_ORANGE;
-				case MAGENTA -> SZLootTables.ZOMBIFIED_SHEEP_MAGENTA;
-				case LIGHT_BLUE -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_BLUE;
-				case YELLOW -> SZLootTables.ZOMBIFIED_SHEEP_YELLOW;
-				case LIME -> SZLootTables.ZOMBIFIED_SHEEP_LIME;
-				case PINK -> SZLootTables.ZOMBIFIED_SHEEP_PINK;
-				case GRAY -> SZLootTables.ZOMBIFIED_SHEEP_GRAY;
-				case LIGHT_GRAY -> SZLootTables.ZOMBIFIED_SHEEP_LIGHT_GRAY;
-				case CYAN -> SZLootTables.ZOMBIFIED_SHEEP_CYAN;
-				case PURPLE -> SZLootTables.ZOMBIFIED_SHEEP_PURPLE;
-				case BLUE -> SZLootTables.ZOMBIFIED_SHEEP_BLUE;
-				case BROWN -> SZLootTables.ZOMBIFIED_SHEEP_BROWN;
-				case GREEN -> SZLootTables.ZOMBIFIED_SHEEP_GREEN;
-				case RED -> SZLootTables.ZOMBIFIED_SHEEP_RED;
-				case BLACK -> SZLootTables.ZOMBIFIED_SHEEP_BLACK;
+				case WHITE -> SZLoot.ZOMBIFIED_SHEEP_WHITE;
+				case ORANGE -> SZLoot.ZOMBIFIED_SHEEP_ORANGE;
+				case MAGENTA -> SZLoot.ZOMBIFIED_SHEEP_MAGENTA;
+				case LIGHT_BLUE -> SZLoot.ZOMBIFIED_SHEEP_LIGHT_BLUE;
+				case YELLOW -> SZLoot.ZOMBIFIED_SHEEP_YELLOW;
+				case LIME -> SZLoot.ZOMBIFIED_SHEEP_LIME;
+				case PINK -> SZLoot.ZOMBIFIED_SHEEP_PINK;
+				case GRAY -> SZLoot.ZOMBIFIED_SHEEP_GRAY;
+				case LIGHT_GRAY -> SZLoot.ZOMBIFIED_SHEEP_LIGHT_GRAY;
+				case CYAN -> SZLoot.ZOMBIFIED_SHEEP_CYAN;
+				case PURPLE -> SZLoot.ZOMBIFIED_SHEEP_PURPLE;
+				case BLUE -> SZLoot.ZOMBIFIED_SHEEP_BLUE;
+				case BROWN -> SZLoot.ZOMBIFIED_SHEEP_BROWN;
+				case GREEN -> SZLoot.ZOMBIFIED_SHEEP_GREEN;
+				case RED -> SZLoot.ZOMBIFIED_SHEEP_RED;
+				case BLACK -> SZLoot.ZOMBIFIED_SHEEP_BLACK;
 			};
 		}
 	}

@@ -16,8 +16,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.event.ForgeEventFactory;
 import suszombification.SZDamageSources;
-import suszombification.SZLootTables;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.registration.SZLoot;
 
 public class DecomposingEffect extends MobEffect {
 	public DecomposingEffect(MobEffectCategory category, int color) {
@@ -55,7 +55,7 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	private void spawnDecomposingDrops(LivingEntity entity) {
-		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLootTables.DEATH_BY_DECOMPOSING);
+		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLoot.DEATH_BY_DECOMPOSING);
 		LootContext.Builder builder = new LootContext.Builder((ServerLevel)entity.level)
 				.withRandom(entity.getRandom())
 				.withParameter(LootContextParams.THIS_ENTITY, entity)

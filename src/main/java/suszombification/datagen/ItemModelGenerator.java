@@ -1,5 +1,6 @@
 package suszombification.datagen;
 
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -8,7 +9,6 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelBuilder.Perspective;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -41,10 +41,10 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 		flatItem(SZItems.HONEY_CANDY.get())
 		.transforms() //same transforms as item/handheld, but with a lower thirdperson scaling
-		.transform(Perspective.THIRDPERSON_RIGHT).rotation(0.0F, -90.0F, 55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
-		.transform(Perspective.THIRDPERSON_LEFT).rotation(0.0F, 90.0F, -55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
-		.transform(Perspective.FIRSTPERSON_RIGHT).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
-		.transform(Perspective.FIRSTPERSON_LEFT).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
+		.transform(TransformType.THIRD_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
+		.transform(TransformType.THIRD_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
+		.transform(TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
+		.transform(TransformType.FIRST_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.end();
 		handheldRodItem(SZItems.PORKCHOP_ON_A_STICK.get());
 	}
