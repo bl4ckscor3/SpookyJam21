@@ -21,6 +21,6 @@ public class ZombifiedPigRenderer extends PigRenderer {
 
 	@Override
 	protected boolean isShaking(Pig pig) {
-		return super.isShaking(pig) || ((ZombifiedPig)pig).isConverting();
+		return super.isShaking(pig) || ((ZombifiedPig) pig).isConverting();
 	}
 }

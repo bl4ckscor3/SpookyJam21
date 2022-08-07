@@ -28,6 +28,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	private static final Ingredient INGREDIENTS;
 
 	static {
+		//@formatter:off
 		Ingredient specialItems = Ingredient.of(
 				Items.GOLDEN_APPLE,
 				Items.ROTTEN_FLESH,
@@ -41,8 +42,9 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 				Items.GUNPOWDER,
 				SZItems.SPOILED_MILK_BUCKET.get(),
 				SZItems.ROTTEN_EGG.get());
+		//@formatter:on
 
-		if(ModList.get().isLoaded("trickortreat"))
+		if (ModList.get().isLoaded("trickortreat"))
 			specialItems = Ingredient.merge(List.of(specialItems, TrickOrTreatCompat.getCandies()));
 
 		INGREDIENTS = specialItems;
@@ -59,18 +61,18 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 		boolean hasSugar = false;
 		boolean hasPumpkin = false;
 
-		for(int i = 0; i < inv.getContainerSize(); ++i) {
+		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
-			if(!stack.isEmpty()) {
-				if(stack.is(Items.SUGAR) && !hasSugar)
+			if (!stack.isEmpty()) {
+				if (stack.is(Items.SUGAR) && !hasSugar)
 					hasSugar = true;
-				else if(stack.is(Items.EGG) && !hasEgg)
+				else if (stack.is(Items.EGG) && !hasEgg)
 					hasEgg = true;
-				else if(isIngredient(stack) && !hasSpecialIngredient)
+				else if (isIngredient(stack) && !hasSpecialIngredient)
 					hasSpecialIngredient = true;
 				else {
-					if(!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin)
+					if (!stack.is(Blocks.PUMPKIN.asItem()) || hasPumpkin)
 						return false;
 
 					hasPumpkin = true;
@@ -86,10 +88,10 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 		ItemStack ingredient = ItemStack.EMPTY;
 		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
-		for(int i = 0; i < inv.getContainerSize(); ++i) {
+		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
-			if(!stack.isEmpty() && isIngredient(stack)) {
+			if (!stack.isEmpty() && isIngredient(stack)) {
 				ingredient = stack.copy();
 				break;
 			}

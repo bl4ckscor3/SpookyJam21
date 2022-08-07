@@ -24,16 +24,16 @@ public class TrophyItem extends BlockItem {
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-		if(level.getDifficulty() != Difficulty.PEACEFUL) {
-			Player player = (Player)entity;
+		if (level.getDifficulty() != Difficulty.PEACEFUL) {
+			Player player = (Player) entity;
 
-			if(!player.getAbilities().instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE.get()) && !stack.getOrCreateTag().getBoolean("CurseGiven")) {
+			if (!player.getAbilities().instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE.get()) && !stack.getOrCreateTag().getBoolean("CurseGiven")) {
 				stack.getTag().putBoolean("CurseGiven", true);
 				player.playSound(SoundEvents.WITHER_SPAWN, 1.0F, 0.9F);
 				player.playSound(SoundEvents.ZOMBIE_AMBIENT, 0.5F, 0.8F);
 				player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
 
-				if(!level.isClientSide)
+				if (!level.isClientSide)
 					player.sendMessage(new TranslatableComponent("message.suszombification.curse.warning").withStyle(ChatFormatting.RED), Util.NIL_UUID);
 			}
 		}
@@ -41,7 +41,7 @@ public class TrophyItem extends BlockItem {
 
 	@Override
 	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
-		if(level.getBlockEntity(pos) instanceof TrophyBlockEntity trophy)
+		if (level.getBlockEntity(pos) instanceof TrophyBlockEntity trophy)
 			trophy.setCurseGiven(stack.getOrCreateTag().getBoolean("CurseGiven"));
 
 		return super.updateCustomBlockEntityTag(pos, level, player, stack, state);

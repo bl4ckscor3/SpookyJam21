@@ -15,6 +15,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
 
 	@Override
 	protected void addTags() {
+		//@formatter:off
 		tag(SZTags.Blocks.ROTTEN_WOOL).add(
 				SZBlocks.WHITE_ROTTEN_WOOl.get(),
 				SZBlocks.ORANGE_ROTTEN_WOOL.get(),
@@ -39,6 +40,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
 		tag(BlockTags.WOOL).addTag(SZTags.Blocks.ROTTEN_WOOL);
 		tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(SZTags.Blocks.TROPHIES);
 		tag(BlockTags.NEEDS_IRON_TOOL).addTag(SZTags.Blocks.TROPHIES);
+		//@formatter:on
 	}
 
 	@Override

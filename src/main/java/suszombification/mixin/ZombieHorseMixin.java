@@ -72,7 +72,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	@Inject(method="createAttributes", at=@At("HEAD"), cancellable=true)
+	@Inject(method = "createAttributes", at = @At("HEAD"), cancellable = true)
 	private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> callback) {
 		callback.setReturnValue(createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 15.0D).add(Attributes.MOVEMENT_SPEED, 0.2F).add(Attributes.ATTACK_DAMAGE, 2.0F));
 	}
@@ -90,17 +90,17 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 		super.tick();
 	}
 
-	@Inject(method="mobInteract", at=@At("HEAD"), cancellable=true)
+	@Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
 	private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> callback) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			callback.setReturnValue(returnValue);
 	}
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -118,7 +118,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 
 		entityData.set(DATA_ID_TYPE_VARIANT, tag.getInt("Variant"));
@@ -163,13 +163,13 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if(animal instanceof Horse horse)
+		if (animal instanceof Horse horse)
 			entityData.set(DATA_ID_TYPE_VARIANT, horse.getTypeVariant());
 	}
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if(animal instanceof Horse horse)
+		if (animal instanceof Horse horse)
 			horse.setTypeVariant(entityData.get(DATA_ID_TYPE_VARIANT));
 	}
 

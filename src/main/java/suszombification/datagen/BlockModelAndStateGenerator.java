@@ -17,10 +17,10 @@ public class BlockModelAndStateGenerator extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block instanceof TrophyBlock)
+			if (block instanceof TrophyBlock)
 				horizontalBlock(block, state -> new UncheckedModelFile(modLoc("block/trophy")));
 			else
 				simpleBlock(block);

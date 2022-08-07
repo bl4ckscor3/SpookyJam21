@@ -23,22 +23,23 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block.asItem() instanceof BlockItem)
+			if (block.asItem() instanceof BlockItem)
 				simpleParent(block);
 		}
 
-		for(RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
+		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
 			Item item = ro.get();
 
-			if(item instanceof SpawnEggItem)
+			if (item instanceof SpawnEggItem)
 				spawnEgg(item);
 			else
 				flatItem(item);
 		}
 
+		//@formatter:off
 		flatItem(SZItems.HONEY_CANDY.get())
 		.transforms() //same transforms as item/handheld, but with a lower thirdperson scaling
 		.transform(TransformType.THIRD_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
@@ -46,6 +47,7 @@ public class ItemModelGenerator extends ItemModelProvider {
 		.transform(TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.transform(TransformType.FIRST_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.end();
+		//@formatter:on
 		handheldRodItem(SZItems.PORKCHOP_ON_A_STICK.get());
 	}
 

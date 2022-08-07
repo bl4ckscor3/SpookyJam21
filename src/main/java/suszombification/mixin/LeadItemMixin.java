@@ -14,7 +14,7 @@ import suszombification.misc.SuspiciousRitual;
 
 @Mixin(LeadItem.class)
 public class LeadItemMixin {
-	@Redirect(method="bindPlayerMobs", at=@At(value="INVOKE", target="Lnet/minecraft/world/entity/Mob;setLeashedTo(Lnet/minecraft/world/entity/Entity;Z)V"))
+	@Redirect(method = "bindPlayerMobs", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;setLeashedTo(Lnet/minecraft/world/entity/Entity;Z)V"))
 	private static void bindPlayerMobs(Mob mob, Entity entity, boolean sendAttachNotification, Player player, Level level, BlockPos pos) {
 		SuspiciousRitual.maybeSendInfoMessages(mob, level, pos, player);
 		mob.setLeashedTo(entity, sendAttachNotification);

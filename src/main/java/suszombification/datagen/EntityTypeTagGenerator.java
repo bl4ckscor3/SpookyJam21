@@ -15,6 +15,7 @@ public class EntityTypeTagGenerator extends EntityTypeTagsProvider {
 
 	@Override
 	protected void addTags() {
+		//@formatter:off
 		tag(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE).add(
 				EntityType.DROWNED,
 				EntityType.HUSK,
@@ -28,6 +29,7 @@ public class EntityTypeTagGenerator extends EntityTypeTagsProvider {
 				SZEntityTypes.ZOMBIFIED_COW.get(),
 				SZEntityTypes.ZOMBIFIED_PIG.get(),
 				SZEntityTypes.ZOMBIFIED_SHEEP.get());
+		//@formatter:on
 	}
 
 	@Override

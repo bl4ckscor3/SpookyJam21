@@ -37,6 +37,6 @@ public class SZClientHandler {
 
 	@SubscribeEvent
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(ZOMBIFIED_CAT_ZOMBIE_LAYER, () ->  LayerDefinition.create(CatModel.createBodyMesh(new CubeDeformation(0.01F)), 64, 32));
+		event.registerLayerDefinition(ZOMBIFIED_CAT_ZOMBIE_LAYER, () -> LayerDefinition.create(CatModel.createBodyMesh(new CubeDeformation(0.01F)), 64, 32));
 	}
 }

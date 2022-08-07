@@ -17,12 +17,14 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 public class ZombieCoveFeature extends StructureFeature<JigsawConfiguration> {
+	//@formatter:off
 	public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> {
 		return codec.group(
 				StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
 				Codec.intRange(0, 30).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
 				).apply(codec, JigsawConfiguration::new);
 	});
+	//@formatter:on
 
 	public ZombieCoveFeature() {
 		super(CODEC, ZombieCoveFeature::createPiecesGenerator, PostPlacementProcessor.NONE);
@@ -34,7 +36,7 @@ public class ZombieCoveFeature extends StructureFeature<JigsawConfiguration> {
 	}
 
 	public static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> ctx) {
-		if(!PillagerOutpostFeature.checkLocation(ctx))
+		if (!PillagerOutpostFeature.checkLocation(ctx))
 			return Optional.empty();
 
 		return JigsawPlacement.addPieces(ctx, PoolElementStructurePiece::new, ctx.chunkPos().getMiddleBlockPosition(0), false, true);

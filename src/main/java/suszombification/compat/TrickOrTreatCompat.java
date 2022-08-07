@@ -21,17 +21,12 @@ public class TrickOrTreatCompat {
 	}
 
 	public static Ingredient getCandies() {
-		return Ingredient.of(/*ModItems.FIREFINGERS.get(),
-				ModItems.FIZZLERS.get(),
-				ModItems.DEADISH_FISH.get(),
-				ModItems.PEARL_POP.get(),
-				ModItems.SCREAMBURSTS.get(),
-				ModItems.EYECE_CREAM.get(),
-				ModItems.MEMBRANE_BUTTER_CUPS.get(),
-				ModItems.BONEBREAKER.get(),
-				ModItems.SLIME_GUM.get(),
-				ModItems.CHOCOLATE_SPIDER_EYE.get(),
-				ModItems.SOUR_PATCH_ZOMBIES.get()*/);
+		return Ingredient.of(/*
+								 * ModItems.FIREFINGERS.get(), ModItems.FIZZLERS.get(), ModItems.DEADISH_FISH.get(),
+								 * ModItems.PEARL_POP.get(), ModItems.SCREAMBURSTS.get(), ModItems.EYECE_CREAM.get(),
+								 * ModItems.MEMBRANE_BUTTER_CUPS.get(), ModItems.BONEBREAKER.get(), ModItems.SLIME_GUM.get(),
+								 * ModItems.CHOCOLATE_SPIDER_EYE.get(), ModItems.SOUR_PATCH_ZOMBIES.get()
+								 */);
 	}
 
 	public static boolean attemptCandyEffect(LivingEntity entity, Level level, ItemStack stack) {

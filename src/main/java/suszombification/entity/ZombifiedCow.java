@@ -93,7 +93,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if(stack.is(Items.BUCKET) && !isBaby()) {
+		if (stack.is(Items.BUCKET) && !isBaby()) {
 			ItemStack filledBucket = ItemUtils.createFilledResult(stack, player, SZItems.SPOILED_MILK_BUCKET.get().getDefaultInstance());
 
 			player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
@@ -103,7 +103,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -111,7 +111,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -134,7 +134,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 

@@ -23,7 +23,7 @@ public class CurseGivenFunction extends LootItemConditionalFunction {
 	protected ItemStack run(ItemStack stack, LootContext ctx) {
 		BlockEntity be = ctx.getParamOrNull(LootContextParams.BLOCK_ENTITY);
 
-		if(be instanceof TrophyBlockEntity trophy)
+		if (be instanceof TrophyBlockEntity trophy)
 			stack.getOrCreateTag().putBoolean("CurseGiven", trophy.isCurseGiven());
 
 		return stack;

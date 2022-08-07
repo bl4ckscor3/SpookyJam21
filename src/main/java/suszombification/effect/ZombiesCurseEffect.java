@@ -15,6 +15,7 @@ import suszombification.registration.SZEffects;
 public class ZombiesCurseEffect extends VicinityAffectingEffect {
 	public ZombiesCurseEffect(MobEffectCategory category, int color) {
 		super(category, color,
+		//@formatter:off
 				amplifier -> 15,
 				e -> { return
 						!e.getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE)
@@ -25,6 +26,7 @@ public class ZombiesCurseEffect extends VicinityAffectingEffect {
 								&& (!(a instanceof Bucketable b) || !b.fromBucket()))); //don't affect animals that were spawned from a bucket
 				},
 				() -> new MobEffectInstance(SZEffects.DECOMPOSING.get(), 300));
+		//@formatter:on
 	}
 
 	@Override

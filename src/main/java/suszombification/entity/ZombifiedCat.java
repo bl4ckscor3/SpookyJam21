@@ -82,7 +82,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(1, new NonTameRandomTargetGoal<>(this, Rabbit.class, false, null));
 		targetSelector.addGoal(1, new NonTameRandomTargetGoal<>(this, Turtle.class, false, Turtle.BABY_ON_LAND_SELECTOR));
-		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false, animal -> !((Cat)animal).isTame()));
+		targetSelector.addGoal(2, new NearestNormalVariantTargetGoal(this, true, false, animal -> !((Cat) animal).isTame()));
 		targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
@@ -111,7 +111,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -119,7 +119,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -137,7 +137,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
@@ -153,8 +153,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	protected void reassessTameGoals() {
-	}
+	protected void reassessTameGoals() {}
 
 	@Override
 	public int getRemainingPersistentAngerTime() {
@@ -188,7 +187,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if(animal instanceof Cat cat) {
+		if (animal instanceof Cat cat) {
 			setCatType(cat.getCatType());
 			setTame(cat.isTame());
 			setCollarColor(cat.getCollarColor());
@@ -198,7 +197,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if(animal instanceof Cat cat) {
+		if (animal instanceof Cat cat) {
 			cat.setCatType(getCatType());
 			cat.setTame(isTame());
 			cat.setCollarColor(getCollarColor());
@@ -236,17 +235,14 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 			Random random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
 			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
-			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel)cat.level)
-					.withParameter(LootContextParams.ORIGIN, cat.position())
-					.withParameter(LootContextParams.THIS_ENTITY, cat)
-					.withRandom(random);
+			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel) cat.level).withParameter(LootContextParams.ORIGIN, cat.position()).withParameter(LootContextParams.THIS_ENTITY, cat).withRandom(random);
 
 			catPos.set(cat.blockPosition());
 			cat.randomTeleport(catPos.getX() + random.nextInt(11) - 5, catPos.getY() + random.nextInt(5) - 2, catPos.getZ() + random.nextInt(11) - 5, false);
 			catPos.set(cat.blockPosition());
 
-			for(ItemStack stack : lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.GIFT))) {
-				cat.level.addFreshEntity(new ItemEntity(cat.level, (double)catPos.getX() - (double)Mth.sin(cat.yBodyRot * ((float)Math.PI / 180F)), catPos.getY(), (double)catPos.getZ() + (double)Mth.cos(cat.yBodyRot * ((float)Math.PI / 180F)), stack));
+			for (ItemStack stack : lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.GIFT))) {
+				cat.level.addFreshEntity(new ItemEntity(cat.level, (double) catPos.getX() - (double) Mth.sin(cat.yBodyRot * ((float) Math.PI / 180F)), catPos.getY(), (double) catPos.getZ() + (double) Mth.cos(cat.yBodyRot * ((float) Math.PI / 180F)), stack));
 			}
 		}
 	}
@@ -264,9 +260,9 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		public void tick() {
 			super.tick();
 
-			if(selectedPlayer == null && mob.getRandom().nextInt(600) == 0)
+			if (selectedPlayer == null && mob.getRandom().nextInt(600) == 0)
 				selectedPlayer = player;
-			else if(mob.getRandom().nextInt(500) == 0)
+			else if (mob.getRandom().nextInt(500) == 0)
 				selectedPlayer = null;
 		}
 

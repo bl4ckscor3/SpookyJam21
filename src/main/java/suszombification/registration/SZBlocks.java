@@ -15,7 +15,6 @@ import suszombification.block.TrophyBlock.TrophyType;
 
 public class SZBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SuspiciousZombification.MODID);
-
 	public static final RegistryObject<Block> WHITE_ROTTEN_WOOl = BLOCKS.register("white_rotten_wool", () -> new RottenWoolBlock(rottenWool(MaterialColor.SNOW)));
 	public static final RegistryObject<Block> ORANGE_ROTTEN_WOOL = BLOCKS.register("orange_rotten_wool", () -> new RottenWoolBlock(rottenWool(MaterialColor.COLOR_ORANGE)));
 	public static final RegistryObject<Block> MAGENTA_ROTTEN_WOOL = BLOCKS.register("magenta_rotten_wool", () -> new RottenWoolBlock(rottenWool(MaterialColor.COLOR_MAGENTA)));

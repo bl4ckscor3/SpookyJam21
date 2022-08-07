@@ -120,10 +120,10 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public ResourceLocation getDefaultLootTable() {
-		if(isSheared())
+		if (isSheared())
 			return getType().getDefaultLootTable();
 		else {
-			return switch(getColor()) {
+			return switch (getColor()) {
 				case WHITE -> SZLoot.ZOMBIFIED_SHEEP_WHITE;
 				case ORANGE -> SZLoot.ZOMBIFIED_SHEEP_ORANGE;
 				case MAGENTA -> SZLoot.ZOMBIFIED_SHEEP_MAGENTA;
@@ -153,7 +153,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -161,7 +161,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -172,17 +172,17 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 		int amount = 1 + random.nextInt(3);
 
-		for(int i = 0; i < amount; ++i) {
+		for (int i = 0; i < amount; ++i) {
 			ItemEntity item = spawnAtLocation(ITEM_BY_DYE.get(getColor()), 1);
 
-			if(item != null)
+			if (item != null)
 				item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
 		}
 	}
 
 	@Override
 	public Sheep getBreedOffspring(ServerLevel level, AgeableMob mob) {
-		Sheep sheep = (Sheep)mob;
+		Sheep sheep = (Sheep) mob;
 		Sheep newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level);
 
 		newSheep.setColor(getOffspringColor(this, sheep));
@@ -193,13 +193,13 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos, int fortune) {
 		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
 
-		if(!level.isClientSide) {
+		if (!level.isClientSide) {
 			setSheared(true);
 
 			int amount = 1 + random.nextInt(3);
 			List<ItemStack> items = new ArrayList<>();
 
-			for(int i = 0; i < amount; ++i) {
+			for (int i = 0; i < amount; ++i) {
 				items.add(new ItemStack(ITEM_BY_DYE.get(getColor())));
 			}
 
@@ -223,7 +223,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
@@ -270,7 +270,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if(animal instanceof Sheep sheep) {
+		if (animal instanceof Sheep sheep) {
 			setColor(sheep.getColor());
 			setSheared(sheep.isSheared());
 		}
@@ -278,7 +278,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if(animal instanceof Sheep sheep) {
+		if (animal instanceof Sheep sheep) {
 			sheep.setColor(getColor());
 			sheep.setSheared(isSheared());
 		}

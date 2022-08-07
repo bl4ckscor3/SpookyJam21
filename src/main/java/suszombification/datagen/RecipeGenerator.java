@@ -26,6 +26,7 @@ public class RecipeGenerator extends RecipeProvider {
 	@Override
 	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe.serializer).save(consumer, "suspicious_pumpkin_pie");
+		//@formatter:off
 		ShapedRecipeBuilder.shaped(SZItems.PORKCHOP_ON_A_STICK.get())
 		.pattern("R ")
 		.pattern(" P")
@@ -33,6 +34,7 @@ public class RecipeGenerator extends RecipeProvider {
 		.define('P', Items.PORKCHOP)
 		.unlockedBy("has_porkchop", has(Items.PORKCHOP))
 		.save(consumer);
+		//@formatter:on
 
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_BLACK, SZBlocks.BLACK_ROTTEN_WOOL.get());
 		addColoredWoolRecipe(consumer, Tags.Items.DYES_BLUE, SZBlocks.BLUE_ROTTEN_WOOL.get());
@@ -52,12 +54,14 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	protected final void addColoredWoolRecipe(Consumer<FinishedRecipe> consumer, TagKey<Item> dye, ItemLike result) {
+		//@formatter:off
 		ShapelessRecipeBuilder.shapeless(result)
 		.group("suszombification:rotten_wool")
 		.requires(dye)
 		.requires(SZBlocks.WHITE_ROTTEN_WOOl.get())
 		.unlockedBy("has_wool", has(SZBlocks.WHITE_ROTTEN_WOOl.get()))
 		.save(consumer);
+		//@formatter:on
 	}
 
 	@Override

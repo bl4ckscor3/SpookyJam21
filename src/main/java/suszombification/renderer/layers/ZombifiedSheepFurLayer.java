@@ -29,12 +29,12 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 
 	@Override
 	public void render(PoseStack pose, MultiBufferSource buffer, int packedLight, Sheep sheep, float limbSwing, float limbSwingAmount, float partialTicks, float age, float headYaw, float headPitch) {
-		if(!sheep.isSheared()) {
-			if(sheep.isInvisible()) {
+		if (!sheep.isSheared()) {
+			if (sheep.isInvisible()) {
 				Minecraft minecraft = Minecraft.getInstance();
 				boolean glowing = minecraft.shouldEntityAppearGlowing(sheep);
 
-				if(glowing) {
+				if (glowing) {
 					VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.outline(SHEEP_FUR_LOCATION));
 
 					getParentModel().copyPropertiesTo(model);
@@ -48,7 +48,7 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 				float green;
 				float blue;
 
-				if(sheep.hasCustomName() && "jeb_".equals(sheep.getName().getContents())) {
+				if (sheep.hasCustomName() && "jeb_".equals(sheep.getName().getContents())) {
 					int i = sheep.tickCount / 25 + sheep.getId();
 					int colorCount = DyeColor.values().length;
 					int firstColorId = i % colorCount;

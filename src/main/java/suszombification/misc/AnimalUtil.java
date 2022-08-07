@@ -22,14 +22,14 @@ import suszombification.registration.SZItems;
 
 public class AnimalUtil {
 	public static void tick(LivingEntity me) {
-		if(!me.level.isClientSide && me.isAlive()) {
-			ZombifiedAnimal zombifiedAnimal = (ZombifiedAnimal)me;
+		if (!me.level.isClientSide && me.isAlive()) {
+			ZombifiedAnimal zombifiedAnimal = (ZombifiedAnimal) me;
 
-			if(zombifiedAnimal.isConverting()) {
+			if (zombifiedAnimal.isConverting()) {
 				zombifiedAnimal.setConversionTime(zombifiedAnimal.getConversionTime() - zombifiedAnimal.getConversionProgress());
 
-				if(zombifiedAnimal.getConversionTime() <= 0 && ForgeEventFactory.canLivingConvert(me, zombifiedAnimal.getNormalVariant(), zombifiedAnimal::setConversionTime))
-					zombifiedAnimal.finishConversion((ServerLevel)me.level);
+				if (zombifiedAnimal.getConversionTime() <= 0 && ForgeEventFactory.canLivingConvert(me, zombifiedAnimal.getNormalVariant(), zombifiedAnimal::setConversionTime))
+					zombifiedAnimal.finishConversion((ServerLevel) me.level);
 			}
 		}
 	}
@@ -37,13 +37,13 @@ public class AnimalUtil {
 	public static InteractionResult mobInteract(LivingEntity me, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
-			if(me.hasEffect(MobEffects.WEAKNESS)) {
-				if(!player.getAbilities().instabuild)
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.GOLDEN_APPLE)) {
+			if (me.hasEffect(MobEffects.WEAKNESS)) {
+				if (!player.getAbilities().instabuild)
 					stack.shrink(1);
 
-				if(!me.level.isClientSide)
-					((ZombifiedAnimal)me).startConverting(me.getRandom().nextInt(2401) + 3600);
+				if (!me.level.isClientSide)
+					((ZombifiedAnimal) me).startConverting(me.getRandom().nextInt(2401) + 3600);
 
 				me.gameEvent(GameEvent.MOB_INTERACT, me.eyeBlockPosition());
 				return InteractionResult.SUCCESS;
@@ -56,8 +56,8 @@ public class AnimalUtil {
 	}
 
 	public static boolean handleEntityEvent(LivingEntity me, byte id) {
-		if(id == EntityEvent.ZOMBIE_CONVERTING) {
-			if(!me.isSilent())
+		if (id == EntityEvent.ZOMBIE_CONVERTING) {
+			if (!me.isSilent())
 				me.level.playLocalSound(me.position().x, me.getEyeY(), me.position().z, SoundEvents.ZOMBIE_VILLAGER_CURE, me.getSoundSource(), 1.0F + me.getRandom().nextFloat(), me.getRandom().nextFloat() * 0.7F + 0.3F, false);
 
 			return true;
@@ -71,7 +71,7 @@ public class AnimalUtil {
 	}
 
 	public static boolean isFood(ItemStack stack, Ingredient foodItems, Predicate<ItemStack> extraTest) {
-		if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
 			ItemStack ingredient = ItemStack.of(ingredientTag);
 

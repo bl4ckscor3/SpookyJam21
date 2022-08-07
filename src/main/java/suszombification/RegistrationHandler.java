@@ -39,10 +39,10 @@ public class RegistrationHandler {
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		//register block items from blocks
-		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(!(block instanceof TrophyBlock))
+			if (!(block instanceof TrophyBlock))
 				event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)).setRegistryName(block.getRegistryName()));
 		}
 	}

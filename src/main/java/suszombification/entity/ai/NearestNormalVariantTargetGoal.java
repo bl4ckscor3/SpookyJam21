@@ -17,14 +17,14 @@ public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<
 	}
 
 	public NearestNormalVariantTargetGoal(ZombifiedAnimal zombifiedAnimal, boolean mustSee, boolean mustReach, Predicate<Animal> predicate) {
-		super((Animal)zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
+		super((Animal) zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
 		targetType = zombifiedAnimal.getNormalVariant();
 		mobPredicate = predicate;
 	}
 
 	@Override
 	public boolean canUse() {
-		return !((ZombifiedAnimal)mob).isConverting() && mobPredicate.test((Animal)mob) && super.canUse();
+		return !((ZombifiedAnimal) mob).isConverting() && mobPredicate.test((Animal) mob) && super.canUse();
 	}
 
 	@Override

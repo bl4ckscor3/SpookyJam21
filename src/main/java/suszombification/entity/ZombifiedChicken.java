@@ -111,10 +111,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		super.aiStep();
 		previousFlap = flap;
 		previousFlapSpeed = flapSpeed;
-		flapSpeed = (float)(flapSpeed + (onGround ? -1 : 4) * 0.3D);
+		flapSpeed = (float) (flapSpeed + (onGround ? -1 : 4) * 0.3D);
 		flapSpeed = Mth.clamp(flapSpeed, 0.0F, 1.0F);
 
-		if(!onGround && flapping < 1.0F)
+		if (!onGround && flapping < 1.0F)
 			flapping = 1.0F;
 
 		flapping = flapping * 0.9F;
@@ -127,7 +127,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 		flap += flapping * 2.0F;
 
-		if(!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
+		if (!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
@@ -138,7 +138,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -146,7 +146,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -210,10 +210,10 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		super.readAdditionalSaveData(tag);
 		isChickenJockey = tag.getBoolean("IsChickenJockey");
 
-		if(tag.contains("EggLayTime"))
+		if (tag.contains("EggLayTime"))
 			this.eggTime = tag.getInt("EggLayTime");
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 
@@ -234,12 +234,12 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	public void positionRider(Entity passenger) {
 		super.positionRider(passenger);
 
-		float f = Mth.sin(yBodyRot * ((float)Math.PI / 180F));
-		float f1 = Mth.cos(yBodyRot * ((float)Math.PI / 180F));
+		float f = Mth.sin(yBodyRot * ((float) Math.PI / 180F));
+		float f1 = Mth.cos(yBodyRot * ((float) Math.PI / 180F));
 
 		passenger.setPos(getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
 
-		if(passenger instanceof LivingEntity entity)
+		if (passenger instanceof LivingEntity entity)
 			entity.yBodyRot = yBodyRot;
 	}
 
@@ -288,13 +288,13 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public void readFromVanilla(Animal animal) {
-		if(animal instanceof Chicken chicken)
+		if (animal instanceof Chicken chicken)
 			setChickenJockey(chicken.isChickenJockey());
 	}
 
 	@Override
 	public void writeToVanilla(Animal animal) {
-		if(animal instanceof Chicken chicken)
+		if (animal instanceof Chicken chicken)
 			chicken.setChickenJockey(isChickenJockey());
 	}
 

@@ -49,7 +49,7 @@ public class TrophyBlockEntity extends BlockEntity {
 
 		int savedOrdinal = tag.getInt("TrophyType");
 
-		if(savedOrdinal < 0 || savedOrdinal >= TrophyType.values().length)
+		if (savedOrdinal < 0 || savedOrdinal >= TrophyType.values().length)
 			trophyType = TrophyType.CARROT;
 		else
 			trophyType = TrophyType.values()[savedOrdinal];

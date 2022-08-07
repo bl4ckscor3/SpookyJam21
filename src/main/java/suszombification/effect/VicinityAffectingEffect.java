@@ -12,12 +12,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class VicinityAffectingEffect extends MobEffect {
-	private final Function<Integer,Integer> areaSize;
+	private final Function<Integer, Integer> areaSize;
 	private final Predicate<LivingEntity> filter;
 	private final Supplier<MobEffectInstance>[] effects;
 
 	@SafeVarargs
-	public VicinityAffectingEffect(MobEffectCategory category, int color, Function<Integer,Integer> areaSize, Predicate<LivingEntity> filter, Supplier<MobEffectInstance>... effects) {
+	public VicinityAffectingEffect(MobEffectCategory category, int color, Function<Integer, Integer> areaSize, Predicate<LivingEntity> filter, Supplier<MobEffectInstance>... effects) {
 		super(category, color);
 
 		this.areaSize = areaSize;
@@ -29,10 +29,10 @@ public class VicinityAffectingEffect extends MobEffect {
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
 		List<Entity> nearbyEntities = entity.level.getEntities(entity, entity.getBoundingBox().inflate(areaSize.apply(amplifier)), e -> e instanceof LivingEntity target && filter.test(target));
 
-		for(Entity nearbyEntity : nearbyEntities) {
-			LivingEntity nearby = (LivingEntity)nearbyEntity; //the filter parameter in getEntities makes sure this is true
+		for (Entity nearbyEntity : nearbyEntities) {
+			LivingEntity nearby = (LivingEntity) nearbyEntity; //the filter parameter in getEntities makes sure this is true
 
-			for(Supplier<MobEffectInstance> effect : effects) {
+			for (Supplier<MobEffectInstance> effect : effects) {
 				nearby.addEffect(effect.get());
 			}
 		}

@@ -16,12 +16,14 @@ public class BiomeTagGenerator extends BiomeTagsProvider {
 	@Override
 	protected void addTags() {
 		tag(SZTags.Biomes.HAS_DESERT_ZOMBIE_COVE).add(Biomes.DESERT);
+		//@formatter:off
 		tag(SZTags.Biomes.HAS_ZOMBIE_COVE).addTag(BiomeTags.IS_MOUNTAIN).add(
 				Biomes.PLAINS,
 				Biomes.SAVANNA,
 				Biomes.SNOWY_PLAINS,
 				Biomes.TAIGA,
 				Biomes.GROVE);
+		//@formatter:on
 	}
 
 	@Override

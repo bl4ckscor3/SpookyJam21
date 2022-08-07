@@ -34,7 +34,7 @@ public class RottenEggItem extends Item {
 
 		level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
-		if(!level.isClientSide) {
+		if (!level.isClientSide) {
 			ThrownRottenEgg egg = new ThrownRottenEgg(level, player);
 
 			egg.setItem(stack);
@@ -44,7 +44,7 @@ public class RottenEggItem extends Item {
 
 		player.awardStat(Stats.ITEM_USED.get(this));
 
-		if(!player.getAbilities().instabuild)
+		if (!player.getAbilities().instabuild)
 			stack.shrink(1);
 
 		return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());

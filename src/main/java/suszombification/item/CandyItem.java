@@ -11,7 +11,7 @@ public class CandyItem extends Item {
 		super(properties);
 		this.suspiciousPumpkinPieEffect = effect;
 
-		if(effect.isInstantenous())
+		if (effect.isInstantenous())
 			this.effectDuration = effectDuration;
 		else
 			this.effectDuration = effectDuration * 20;

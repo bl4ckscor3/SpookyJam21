@@ -20,14 +20,14 @@ public class PorkchopOnAStickItem extends Item {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if(!level.isClientSide) {
+		if (!level.isClientSide) {
 			Entity entity = player.getVehicle();
 
-			if(player.isPassenger() && entity instanceof ZombifiedPig pig) {
-				if(pig.boost()) {
+			if (player.isPassenger() && entity instanceof ZombifiedPig pig) {
+				if (pig.boost()) {
 					stack.hurtAndBreak(7, player, e -> e.broadcastBreakEvent(hand));
 
-					if(stack.isEmpty()) {
+					if (stack.isEmpty()) {
 						ItemStack fishingRodStack = new ItemStack(Items.FISHING_ROD);
 
 						fishingRodStack.setTag(stack.getTag());

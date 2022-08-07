@@ -52,12 +52,12 @@ public class LootTableGenerator implements DataProvider {
 	private Map<ResourceLocation, LootTable.Builder> generateBlockLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
-		for(RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 			Block block = ro.get();
 
-			if(block instanceof TrophyBlock)
+			if (block instanceof TrophyBlock)
 				lootTables.put(block.getLootTable(), createTrophyLootTable(block));
-			else if(block.asItem() instanceof BlockItem)
+			else if (block.asItem() instanceof BlockItem)
 				lootTables.put(block.getLootTable(), createStandardBlockLootTable(block));
 		}
 
@@ -69,6 +69,7 @@ public class LootTableGenerator implements DataProvider {
 		CompoundTag rottenFleshSppTag = new CompoundTag();
 		CompoundTag weaknessPotionTag = new CompoundTag();
 
+		//@formatter:off
 		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
 		weaknessPotionTag.putString("Potion", Potions.WEAKNESS.getRegistryName().toString());
 		lootTables.put(SZLoot.PEN_BARREL, LootTable.lootTable()
@@ -176,12 +177,14 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()))
 						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()))
 						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()))));
+		//@formatter:on
 		return lootTables;
 	}
 
 	private Map<ResourceLocation, LootTable.Builder> generateEntityLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
+		//@formatter:off
 		//gameplay
 		lootTables.put(SZLoot.DEATH_BY_DECOMPOSING, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
@@ -202,6 +205,7 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(Items.LEATHER)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
 								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+		//@formatter:on
 		lootTables.put(SZEntityTypes.ZOMBIFIED_PIG.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_BLACK, createSheepTable(SZBlocks.BLACK_ROTTEN_WOOL.get()));
@@ -226,6 +230,7 @@ public class LootTableGenerator implements DataProvider {
 	private Map<ResourceLocation, LootTable.Builder> generateGiftLootTable() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
+		//@formatter:off
 		lootTables.put(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -237,10 +242,12 @@ public class LootTableGenerator implements DataProvider {
 						.add(LootItem.lootTableItem(SZItems.PEPPERMINT_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.PUMPKIN_CANDY.get()).setWeight(10))
 						.add(LootItem.lootTableItem(SZItems.VANILLA_CREAM_CANDY.get()).setWeight(10))));
+		//@formatter:on
 		return lootTables;
 	}
 
 	private LootTable.Builder createSheepTable(ItemLike wool) {
+		//@formatter:off
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -248,32 +255,38 @@ public class LootTableGenerator implements DataProvider {
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootTableReference.lootTableReference(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable())));
+		//@formatter:on
 	}
 
-	private final LootTable.Builder createStandardBlockLootTable(ItemLike drop)
-	{
+	private final LootTable.Builder createStandardBlockLootTable(ItemLike drop) {
+		//@formatter:off
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(drop))
 						.when(ExplosionCondition.survivesExplosion()));
+		//@formatter:on
 	}
 
 	private final LootTable.Builder createTrophyLootTable(ItemLike drop) {
+		//@formatter:off
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(drop)
 								.apply(CurseGivenFunction.create()))
 						.when(ExplosionCondition.survivesExplosion()));
+		//@formatter:on
 	}
 
 	private final LootPool.Builder rottenFleshDrop(float max) {
+		//@formatter:off
 		return LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1.0F))
 				.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 						.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, max)))
 						.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))));
+		//@formatter:on
 	}
 
 	@Override
@@ -288,7 +301,7 @@ public class LootTableGenerator implements DataProvider {
 			try {
 				DataProvider.save(GSON, cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
 			}
-			catch(IOException e) {
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 		});

@@ -86,7 +86,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public boolean canBeControlledByRider() {
-		if(getControllingPassenger() instanceof Player player)
+		if (getControllingPassenger() instanceof Player player)
 			return player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
 		else
 			return false;
@@ -101,7 +101,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
-		if(returnValue != InteractionResult.PASS)
+		if (returnValue != InteractionResult.PASS)
 			return returnValue;
 
 		return super.mobInteract(player, hand);
@@ -109,7 +109,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public void handleEntityEvent(byte id) {
-		if(!AnimalUtil.handleEntityEvent(this, id))
+		if (!AnimalUtil.handleEntityEvent(this, id))
 			super.handleEntityEvent(id);
 	}
 
@@ -132,7 +132,7 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
-		if(tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
+		if (tag.contains("ConversionTime", Tag.TAG_ANY_NUMERIC) && tag.getInt("ConversionTime") > -1)
 			startConverting(tag.getInt("ConversionTime"));
 	}
 

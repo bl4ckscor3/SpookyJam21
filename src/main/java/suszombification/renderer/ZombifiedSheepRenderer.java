@@ -25,6 +25,6 @@ public class ZombifiedSheepRenderer extends MobRenderer<Sheep, SheepModel<Sheep>
 
 	@Override
 	protected boolean isShaking(Sheep sheep) {
-		return super.isShaking(sheep) || ((ZombifiedSheep)sheep).isConverting();
+		return super.isShaking(sheep) || ((ZombifiedSheep) sheep).isConverting();
 	}
 }

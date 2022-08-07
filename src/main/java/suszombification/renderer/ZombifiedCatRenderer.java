@@ -20,6 +20,6 @@ public class ZombifiedCatRenderer extends CatRenderer {
 
 	@Override
 	protected boolean isShaking(Cat cat) {
-		return super.isShaking(cat) || ((ZombifiedCat)cat).isConverting();
+		return super.isShaking(cat) || ((ZombifiedCat) cat).isConverting();
 	}
 }

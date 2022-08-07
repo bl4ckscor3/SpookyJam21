@@ -27,10 +27,10 @@ public class SPPTemptGoal extends TemptGoal {
 
 	@Override
 	public boolean shouldFollow(LivingEntity entity) {
-		for(InteractionHand hand : InteractionHand.values()) {
+		for (InteractionHand hand : InteractionHand.values()) {
 			ItemStack stack = entity.getItemInHand(hand);
 
-			if(stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
+			if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
 				CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
 				ItemStack ingredient = ItemStack.of(ingredientTag);
 

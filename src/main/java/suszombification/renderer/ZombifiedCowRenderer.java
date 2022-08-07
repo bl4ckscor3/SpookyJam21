@@ -21,6 +21,6 @@ public class ZombifiedCowRenderer extends CowRenderer {
 
 	@Override
 	protected boolean isShaking(Cow cow) {
-		return super.isShaking(cow) || ((ZombifiedCow)cow).isConverting();
+		return super.isShaking(cow) || ((ZombifiedCow) cow).isConverting();
 	}
 }

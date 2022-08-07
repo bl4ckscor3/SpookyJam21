@@ -35,9 +35,10 @@ public final class SuspiciousRitual {
 	private static final Predicate<BlockState> PUMPKIN = state -> state.is(Blocks.PUMPKIN);
 	private static final Predicate<BlockState> REDSTONE_TORCH = state -> state.is(Blocks.REDSTONE_TORCH);
 	private static final BiPredicate<BlockState, Direction> CARVED_PUMPKIN = (state, dir) -> state.is(Blocks.CARVED_PUMPKIN) && state.getValue(BlockStateProperties.HORIZONTAL_FACING) == dir;
+	//@formatter:off
 	private static final List<StructurePart> STRUCTURE_PARTS = List.of(
 			new StructurePosition(0, 0, 0, WOODEN_FENCE),
-			//technically part of the structure, but handled seperately in isStructurePresent to allow ritual structures without a trophy to show the nighttime info text
+			//technically part of the structure, but handled separately in isStructurePresent to allow ritual structures without a trophy to show the nighttime info text
 			//new StructurePosition(0, 1, 0, state -> state.is(SZTags.Blocks.TROPHIES)),
 			new StructurePosition(0, -1, 0, CHISELED_STONE_BRICKS),
 			new StructureArea(-2, -1, -2, 2, -1, -1, ANY_OTHER_STONE_BRICKS),
@@ -61,19 +62,21 @@ public final class SuspiciousRitual {
 			new StructurePosition(0, 1, -3, state -> CARVED_PUMPKIN.test(state, Direction.SOUTH)),
 			new StructurePosition(0, 1, 3, state -> CARVED_PUMPKIN.test(state, Direction.NORTH))
 			);
+	//@formatter:on
 
 	/**
 	 * Checks if the block structure of the suspicious ritual is built correctly at the given position.
 	 *
 	 * @param level The level the structure is built in
-	 * @param structureOrigin The origin block position of the structure, in this case the position of the fence block in the middle
+	 * @param structureOrigin The origin block position of the structure, in this case the position of the fence block in the
+	 *            middle
 	 * @param includeTrophy Whether to check for the trophy placed on top of the fence
 	 * @return true if the structure has been built correctly, false otherwise
 	 */
 	public static boolean isStructurePresent(Level level, BlockPos structureOrigin, boolean includeTrophy) {
 		boolean isStructurePresent = STRUCTURE_PARTS.stream().allMatch(part -> part.checkPart(level, structureOrigin));
 
-		if(includeTrophy)
+		if (includeTrophy)
 			isStructurePresent &= level.getBlockState(structureOrigin.above()).is(SZTags.Blocks.TROPHIES);
 
 		return isStructurePresent;
@@ -87,17 +90,16 @@ public final class SuspiciousRitual {
 	 * @return true if the ritual was performed successfully, false otherwise
 	 */
 	public static boolean performRitual(Level level, Player player) {
-		if(level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
-			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal)
-					.stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
+		if (level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
+			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal).stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
 
-			if(potentialSacrifice.isPresent()) {
+			if (potentialSacrifice.isPresent()) {
 				Animal sacrifice = potentialSacrifice.get();
 				Entity leashHolder = sacrifice.getLeashHolder();
 				BlockPos ritualOrigin = leashHolder.blockPosition();
 
 				//the player is within the ritual structure and also not under it
-				if(player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
+				if (player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
 					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
 					leashHolder.remove(RemovalReason.DISCARDED);
 					level.removeBlock(ritualOrigin.above(), false); //remove the trophy
@@ -115,44 +117,45 @@ public final class SuspiciousRitual {
 
 	/**
 	 * Checks if the given animal is an eligible sacrifice for use in the ritual
+	 *
 	 * @param animal The animal to check
 	 * @return true if the given animal can be used in the ritual, false otherwise
 	 */
 	public static boolean isGoodSacrifice(Animal animal) {
-		if(!animal.isLeashed())
+		if (!animal.isLeashed())
 			return false;
 
 		//the animal is leashed to a fence
-		if(!(animal.getLeashHolder() instanceof LeashFenceKnotEntity leashKnot))
+		if (!(animal.getLeashHolder() instanceof LeashFenceKnotEntity leashKnot))
 			return false;
 
 		//the animal is within the ritual structure
-		if(animal.distanceTo(leashKnot) > 3.0F)
+		if (animal.distanceTo(leashKnot) > 3.0F)
 			return false;
 
 		//the animal should not be under the ritual
-		if(Math.floor(animal.position().y) < Math.floor(leashKnot.position().y))
+		if (Math.floor(animal.position().y) < Math.floor(leashKnot.position().y))
 			return false;
 
 		//the animal needs to be leashed to a fence that is part of a correctly built ritual structure
 		return isStructurePresent(animal.level, leashKnot.blockPosition(), true);
 	}
 
-	private static interface StructurePart {
-		public boolean checkPart(Level level, BlockPos structureOrigin);
-	}
-
 	public static void maybeSendInfoMessages(Mob leashedMob, Level level, BlockPos pos, Player player) {
-		if(!level.isClientSide && (leashedMob != null || !level.isNight())) {
+		if (!level.isClientSide && (leashedMob != null || !level.isNight())) {
 			BlockState state = level.getBlockState(pos);
 
-			if(state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
-				if(!(leashedMob instanceof ZombifiedAnimal))
+			if (state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
+				if (!(leashedMob instanceof ZombifiedAnimal))
 					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
 				else
 					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
 			}
 		}
+	}
+
+	private static interface StructurePart {
+		public boolean checkPart(Level level, BlockPos structureOrigin);
 	}
 
 	private static record StructurePosition(int x, int y, int z, Predicate<BlockState> check) implements StructurePart {
@@ -165,10 +168,10 @@ public final class SuspiciousRitual {
 	private static record StructureArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Predicate<BlockState> check) implements StructurePart {
 		@Override
 		public boolean checkPart(Level level, BlockPos structureOrigin) {
-			for(int x = minX; x <= maxX; x++) {
-				for(int y = minY; y <= maxY; y++) {
-					for(int z = minZ; z <= maxZ; z++) {
-						if(!check.test(level.getBlockState(structureOrigin.offset(x, y, z))))
+			for (int x = minX; x <= maxX; x++) {
+				for (int y = minY; y <= maxY; y++) {
+					for (int z = minZ; z <= maxZ; z++) {
+						if (!check.test(level.getBlockState(structureOrigin.offset(x, y, z))))
 							return false;
 					}
 				}

@@ -50,7 +50,9 @@ public class TrophyBlock extends HorizontalDirectionalBlock implements EntityBlo
 	}
 
 	public static enum TrophyType {
-		CARROT(new ItemStack(Items.CARROT)), POTATO(new ItemStack(Items.POTATO)), IRON_INGOT(new ItemStack(Items.IRON_INGOT));
+		CARROT(new ItemStack(Items.CARROT)),
+		POTATO(new ItemStack(Items.POTATO)),
+		IRON_INGOT(new ItemStack(Items.IRON_INGOT));
 
 		public final ItemStack displayItem;
 
