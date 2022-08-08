@@ -3,12 +3,16 @@
     {
       "structure": "suszombification:zombie_cove",
       "weight": 1
+    },
+    {
+      "structure": "suszombification:desert_zombie_cove",
+      "weight": 1
     }
   ],
   "placement": {
-    "type": "minecraft:random_spread",
+    "salt": 339211746,
     "spacing": 32,
     "separation": 8,
-    "salt": 339211746
+    "type": "minecraft:random_spread"
   }
 }

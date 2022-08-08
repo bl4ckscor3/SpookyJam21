@@ -1,5 +1,5 @@
 {
-  "type": "suszombification:desert_zombie_cove",
+  "type": "suszombification:zombie_cove",
   "config": {
     "start_pool": "suszombification:zombie_cove/desert_start",
     "size": 10

@@ -11,5 +11,4 @@ import suszombification.structure.ZombieCoveFeature;
 public class SZStructures {
 	public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SuspiciousZombification.MODID);
 	public static final RegistryObject<StructureFeature<JigsawConfiguration>> ZOMBIE_COVE = STRUCTURES.register("zombie_cove", ZombieCoveFeature::new);
-	public static final RegistryObject<StructureFeature<JigsawConfiguration>> DESERT_ZOMBIE_COVE = STRUCTURES.register("desert_zombie_cove", ZombieCoveFeature::new);
 }
