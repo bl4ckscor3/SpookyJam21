@@ -1,6 +1,7 @@
 {
 	"pack": {
-		"description": "Suspicious Zombification resources",
-		"pack_format": 8
+		"description": "Suspicious Zombification resources & data",
+        "pack_format": 9,
+        "forge:data_pack_format": 10
 	}
 }

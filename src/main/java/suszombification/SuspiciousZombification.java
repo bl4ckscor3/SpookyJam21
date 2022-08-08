@@ -11,7 +11,7 @@ import suszombification.registration.SZEffects;
 import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
-import suszombification.registration.SZStructures;
+import suszombification.registration.SZRecipeSerializers;
 
 @Mod(SuspiciousZombification.MODID)
 public class SuspiciousZombification {
@@ -32,6 +32,6 @@ public class SuspiciousZombification {
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);
 		SZLoot.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
-		SZStructures.STRUCTURES.register(modEventBus);
+		SZRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
 	}
 }

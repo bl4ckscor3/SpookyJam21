@@ -21,7 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -45,7 +45,7 @@ import suszombification.registration.SZItems;
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
 	@SubscribeEvent
-	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
 		Entity entity = event.getEntity();
 
 		if (entity instanceof PathfinderMob mob) {
@@ -69,7 +69,7 @@ public class SZEventHandler {
 	@SubscribeEvent
 	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
 		Entity entity = event.getTarget();
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 
 		if (entity instanceof Animal animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
 			ItemStack stack = player.getItemInHand(event.getHand());
@@ -88,27 +88,27 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 
 		if (player.getItemInHand(event.getHand()).is(Items.LEAD))
-			SuspiciousRitual.maybeSendInfoMessages(null, event.getWorld(), event.getPos(), player);
+			SuspiciousRitual.maybeSendInfoMessages(null, event.getLevel(), event.getPos(), player);
 	}
 
 	@SubscribeEvent
 	public static void onEntityConvert(LivingConversionEvent.Pre event) {
-		if (event.getEntityLiving() instanceof ZombifiedPig && event.getOutcome() == EntityType.ZOMBIFIED_PIGLIN)
+		if (event.getEntity() instanceof ZombifiedPig && event.getOutcome() == EntityType.ZOMBIFIED_PIGLIN)
 			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public static void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) {
-		if (event.getTarget() != null && event.getTarget().hasEffect(SZEffects.ZOMBIES_GRACE.get()) && event.getEntityLiving().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
-			((Mob) event.getEntityLiving()).setTarget(null);
+		if (event.getTarget() != null && event.getTarget().hasEffect(SZEffects.ZOMBIES_GRACE.get()) && event.getEntity().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
+			((Mob) event.getEntity()).setTarget(null);
 	}
 
 	@SubscribeEvent
 	public static void onLivingDeath(LivingDeathEvent event) {
-		LivingEntity livingEntity = event.getEntityLiving();
+		LivingEntity livingEntity = event.getEntity();
 		Entity killer = event.getSource().getEntity();
 		Level level = livingEntity.level;
 
@@ -134,26 +134,26 @@ public class SZEventHandler {
 	@SubscribeEvent
 	public static void onPlayerClone(PlayerEvent.Clone event) {
 		if (event.getOriginal().hasEffect(SZEffects.ZOMBIES_CURSE.get()))
-			event.getPlayer().addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
+			event.getEntity().addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
 	}
 
 	@SubscribeEvent
 	public static void onLivingFall(LivingFallEvent event) {
-		if (event.getEntityLiving().hasEffect(SZEffects.CUSHION.get()) && event.getDistance() > 3.0F) {
-			MobEffectInstance cushionEffect = event.getEntityLiving().getEffect(SZEffects.CUSHION.get());
+		if (event.getEntity().hasEffect(SZEffects.CUSHION.get()) && event.getDistance() > 3.0F) {
+			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION.get());
 
 			event.setDamageMultiplier(Math.max(event.getDamageMultiplier() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
-			event.getEntityLiving().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
+			event.getEntity().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
 		}
 	}
 
 	@SubscribeEvent
 	public static void onKnockback(LivingKnockBackEvent event) {
-		if (event.getEntityLiving().hasEffect(SZEffects.CUSHION.get())) {
-			MobEffectInstance cushionEffect = event.getEntityLiving().getEffect(SZEffects.CUSHION.get());
+		if (event.getEntity().hasEffect(SZEffects.CUSHION.get())) {
+			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION.get());
 
 			event.setStrength(Math.max(event.getOriginalStrength() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
-			event.getEntityLiving().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
+			event.getEntity().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
 		}
 	}
 }

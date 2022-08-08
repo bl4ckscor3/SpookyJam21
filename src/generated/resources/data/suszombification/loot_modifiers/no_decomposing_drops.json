@@ -1,4 +1,5 @@
 {
+  "type": "suszombification:no_decomposing_drops",
   "conditions": [
     {
       "condition": "minecraft:inverted",
@@ -7,6 +8,5 @@
         "loot_table_id": "suszombification:gameplay/death_by_decomposing"
       }
     }
-  ],
-  "type": "suszombification:no_decomposing_drops"
+  ]
 }

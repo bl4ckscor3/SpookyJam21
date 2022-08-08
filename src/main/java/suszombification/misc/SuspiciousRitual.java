@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -147,9 +147,9 @@ public final class SuspiciousRitual {
 
 			if (state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
 				if (!(leashedMob instanceof ZombifiedAnimal))
-					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
+					player.displayClientMessage(Component.translatable("message.suszombification.ritual.need_zombified_animal"), true);
 				else
-					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
+					player.displayClientMessage(Component.translatable("message.suszombification.ritual.need_night"), true);
 			}
 		}
 	}

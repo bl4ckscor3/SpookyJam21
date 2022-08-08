@@ -8,7 +8,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.block.entity.TrophyBlockEntity;
 
 public class SZBlockEntityTypes {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, SuspiciousZombification.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SuspiciousZombification.MODID);
 	//@formatter:off
 	public static final RegistryObject<BlockEntityType<TrophyBlockEntity>> TROPHY = BLOCK_ENTITY_TYPES.register("trophy", () -> BlockEntityType.Builder.of(TrophyBlockEntity::new,
 			SZBlocks.CARROT_TROPHY.get(),

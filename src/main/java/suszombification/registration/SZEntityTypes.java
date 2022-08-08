@@ -19,7 +19,7 @@ import suszombification.entity.ZombifiedSheep;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class SZEntityTypes {
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, SuspiciousZombification.MODID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, SuspiciousZombification.MODID);
 	//@formatter:off
 	public static final RegistryObject<EntityType<ZombifiedCat>> ZOMBIFIED_CAT = ENTITY_TYPES.register("zombified_cat", () -> EntityType.Builder.of(ZombifiedCat::new, MobCategory.CREATURE)
 			.sized(0.6F, 0.7F)

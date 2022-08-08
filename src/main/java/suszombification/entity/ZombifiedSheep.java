@@ -210,8 +210,8 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
-		return super.getExperienceReward(player) + 5;
+	public int getExperienceReward() {
+		return super.getExperienceReward() + 5;
 	}
 
 	@Override

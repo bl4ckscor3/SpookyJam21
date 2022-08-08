@@ -13,6 +13,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
@@ -85,8 +86,14 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public boolean canBeControlledByRider() {
-		if (getControllingPassenger() instanceof Player player)
+	public Entity getControllingPassenger() {
+		Entity entity = getFirstPassenger();
+
+		return entity != null && canBeControlledBy(entity) ? entity : null;
+	}
+
+	public boolean canBeControlledBy(Entity entity) {
+		if (entity instanceof Player player)
 			return player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
 		else
 			return false;
@@ -119,8 +126,8 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	protected int getExperienceReward(Player player) {
-		return super.getExperienceReward(player) + 5;
+	public int getExperienceReward() {
+		return super.getExperienceReward() + 5;
 	}
 
 	@Override

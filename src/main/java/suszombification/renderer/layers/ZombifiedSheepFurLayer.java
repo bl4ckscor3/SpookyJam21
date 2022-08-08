@@ -48,7 +48,7 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 				float green;
 				float blue;
 
-				if (sheep.hasCustomName() && "jeb_".equals(sheep.getName().getContents())) {
+				if (sheep.hasCustomName() && "jeb_".equals(sheep.getName().getString())) {
 					int i = sheep.tickCount / 25 + sheep.getId();
 					int colorCount = DyeColor.values().length;
 					int firstColorId = i % colorCount;

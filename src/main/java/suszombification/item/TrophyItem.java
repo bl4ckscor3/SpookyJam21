@@ -1,9 +1,8 @@
 package suszombification.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,7 +33,7 @@ public class TrophyItem extends BlockItem {
 				player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
 
 				if (!level.isClientSide)
-					player.sendMessage(new TranslatableComponent("message.suszombification.curse.warning").withStyle(ChatFormatting.RED), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable("message.suszombification.curse.warning").withStyle(ChatFormatting.RED));
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package suszombification.entity;
 
-import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
@@ -11,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -188,7 +188,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	@Override
 	public void readFromVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
-			setCatType(cat.getCatType());
+			setCatVariant(getCatVariant());
 			setTame(cat.isTame());
 			setCollarColor(cat.getCollarColor());
 			setOwnerUUID(cat.getOwnerUUID());
@@ -198,7 +198,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	@Override
 	public void writeToVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
-			cat.setCatType(getCatType());
+			cat.setCatVariant(getCatVariant());
 			cat.setTame(isTame());
 			cat.setCollarColor(getCollarColor());
 			cat.setOwnerUUID(getOwnerUUID());
@@ -232,7 +232,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 		@Override
 		public void giveMorningGift() {
-			Random random = cat.getRandom();
+			RandomSource random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
 			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
 			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel) cat.level).withParameter(LootContextParams.ORIGIN, cat.position()).withParameter(LootContextParams.THIS_ENTITY, cat).withRandom(random);

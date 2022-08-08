@@ -45,7 +45,7 @@ public class AnimalUtil {
 				if (!me.level.isClientSide)
 					((ZombifiedAnimal) me).startConverting(me.getRandom().nextInt(2401) + 3600);
 
-				me.gameEvent(GameEvent.MOB_INTERACT, me.eyeBlockPosition());
+				me.level.gameEvent(me, GameEvent.ENTITY_INTERACT, me.getEyePosition());
 				return InteractionResult.SUCCESS;
 			}
 

@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "minecraft:porkchop"
+    },
+    "R": {
+      "item": "minecraft:fishing_rod"
+    }
+  },
   "pattern": [
     "R ",
     " P"
   ],
-  "key": {
-    "R": {
-      "item": "minecraft:fishing_rod"
-    },
-    "P": {
-      "item": "minecraft:porkchop"
-    }
-  },
   "result": {
     "item": "suszombification:porkchop_on_a_stick"
   }

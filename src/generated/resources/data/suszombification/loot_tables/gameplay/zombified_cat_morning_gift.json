@@ -2,50 +2,50 @@
   "type": "minecraft:gift",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:caramel_candy"
+          "name": "suszombification:caramel_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:chocolate_cream_candy"
+          "name": "suszombification:chocolate_cream_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:cinnamon_candy"
+          "name": "suszombification:cinnamon_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:honey_candy"
+          "name": "suszombification:honey_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:melon_candy"
+          "name": "suszombification:melon_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:peppermint_candy"
+          "name": "suszombification:peppermint_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:pumpkin_candy"
+          "name": "suszombification:pumpkin_candy",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "name": "suszombification:vanilla_cream_candy"
+          "name": "suszombification:vanilla_cream_candy",
+          "weight": 10
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

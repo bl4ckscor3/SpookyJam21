@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -32,6 +29,7 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
@@ -42,7 +40,6 @@ import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
 
 public class LootTableGenerator implements DataProvider {
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	private final DataGenerator generator;
 
 	public LootTableGenerator(DataGenerator generator) {
@@ -71,7 +68,7 @@ public class LootTableGenerator implements DataProvider {
 
 		//@formatter:off
 		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
-		weaknessPotionTag.putString("Potion", Potions.WEAKNESS.getRegistryName().toString());
+		weaknessPotionTag.putString("Potion", ForgeRegistries.POTIONS.getKey(Potions.WEAKNESS).toString());
 		lootTables.put(SZLoot.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -290,7 +287,7 @@ public class LootTableGenerator implements DataProvider {
 	}
 
 	@Override
-	public void run(HashCache cache) {
+	public void run(CachedOutput cache) {
 		Map<ResourceLocation, LootTable> tables = new HashMap<>();
 
 		generateBlockLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.BLOCK).build()));
@@ -299,7 +296,7 @@ public class LootTableGenerator implements DataProvider {
 		generateGiftLootTable().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.GIFT).build()));
 		tables.forEach((key, lootTable) -> {
 			try {
-				DataProvider.save(GSON, cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
+				DataProvider.saveStable(cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
 			}
 			catch (IOException e) {
 				e.printStackTrace();

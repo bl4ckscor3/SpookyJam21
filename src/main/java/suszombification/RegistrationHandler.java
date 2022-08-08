@@ -1,24 +1,20 @@
 package suszombification;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
-import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
 
@@ -37,24 +33,19 @@ public class RegistrationHandler {
 	}
 
 	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		//register block items from blocks
-		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			Block block = ro.get();
+	public static void registerItems(RegisterEvent event) {
+		event.register(Keys.ITEMS, helper -> {
+			//register block items from blocks
+			for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+				Block block = ro.get();
 
-			if (!(block instanceof TrophyBlock))
-				event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)).setRegistryName(block.getRegistryName()));
-		}
-	}
-
-	@SubscribeEvent
-	public static void registerRecipeSerializer(RegistryEvent.Register<RecipeSerializer<?>> event) {
-		event.getRegistry().register(new SimpleRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new).setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie")));
-	}
-
-	@SubscribeEvent
-	public static void registerGlobalLootModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
-		event.getRegistry().register(new CatMorningGiftModifier.Serializer().setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "cat_morning_gift")));
-		event.getRegistry().register(new NoDecomposingDropsModifier.Serializer().setRegistryName(new ResourceLocation(SuspiciousZombification.MODID, "no_decomposing_drops")));
+				if (!(block instanceof TrophyBlock))
+					helper.register(ro.getId().getPath(), new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)));
+			}
+		});
+		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
+			helper.register("cat_morning_gift", CatMorningGiftModifier.CODEC.get());
+			helper.register("no_decomposing_drops", NoDecomposingDropsModifier.CODEC.get());
+		});
 	}
 }

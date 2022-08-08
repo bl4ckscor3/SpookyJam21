@@ -1,42 +1,33 @@
 package suszombification.glm;
 
-import java.util.List;
+import java.util.function.Supplier;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.resources.ResourceLocation;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.registries.ObjectHolder;
-import suszombification.SuspiciousZombification;
 import suszombification.registration.SZLoot;
 
 public class CatMorningGiftModifier extends LootModifier {
-	@ObjectHolder(SuspiciousZombification.MODID + ":cat_morning_gift")
-	public static GlobalLootModifierSerializer<CatMorningGiftModifier> serializer = null;
+	public static final Supplier<Codec<CatMorningGiftModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(instance -> codecStart(instance).apply(instance, CatMorningGiftModifier::new)));
 
 	public CatMorningGiftModifier(LootItemCondition[] conditions) {
 		super(conditions);
 	}
 
 	@Override
-	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		return Lists.newArrayList(context.getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context));
+	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+		return context.getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context);
 	}
 
-	public static class Serializer extends GlobalLootModifierSerializer<CatMorningGiftModifier> {
-		@Override
-		public CatMorningGiftModifier read(ResourceLocation name, JsonObject json, LootItemCondition[] conditions) {
-			return new CatMorningGiftModifier(conditions);
-		}
-
-		@Override
-		public JsonObject write(CatMorningGiftModifier instance) {
-			return makeConditions(instance.conditions);
-		}
+	@Override
+	public Codec<? extends IGlobalLootModifier> codec() {
+		return CODEC.get();
 	}
 }

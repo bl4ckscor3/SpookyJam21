@@ -11,6 +11,7 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import suszombification.SuspiciousZombification;
 import suszombification.registration.SZBlocks;
@@ -52,23 +53,23 @@ public class ItemModelGenerator extends ItemModelProvider {
 	}
 
 	private ItemModelBuilder flatItem(Item item) {
-		String name = item.getRegistryName().getPath();
+		String name = ForgeRegistries.ITEMS.getKey(item).getPath();
 
 		return getBuilder(name).parent(new UncheckedModelFile("item/generated")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
 	private void handheldRodItem(Item item) {
-		String name = item.getRegistryName().getPath();
+		String name = ForgeRegistries.ITEMS.getKey(item).getPath();
 
 		getBuilder(name).parent(new UncheckedModelFile("item/handheld_rod")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
 	private void spawnEgg(Item item) {
-		getBuilder(item.getRegistryName().getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
+		getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
 	}
 
 	public void simpleParent(Block block) {
-		String name = block.getRegistryName().getPath();
+		String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
 
 		getBuilder(name).parent(new UncheckedModelFile(modLoc(BLOCK_FOLDER + "/" + name)));
 	}

@@ -6,10 +6,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.SZDamageSources;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
@@ -96,7 +96,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
 			boolean foundEffect = false;
 
-			messageSuffix = ingredient.getItem().getRegistryName().getPath();
+			messageSuffix = ForgeRegistries.ITEMS.getKey(ingredient.getItem()).getPath();
 			color = ChatFormatting.GOLD;
 
 			for (PieEffect pieEffect : PIE_EFFECTS) {
@@ -144,7 +144,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 		}
 
 		if (!level.isClientSide)
-			entity.sendMessage(new TranslatableComponent("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color), Util.NIL_UUID);
+			entity.sendSystemMessage(Component.translatable("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color));
 
 		return super.finishUsingItem(stack, level, entity);
 	}
