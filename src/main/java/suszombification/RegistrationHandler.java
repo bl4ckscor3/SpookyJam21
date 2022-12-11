@@ -1,5 +1,8 @@
 package suszombification;
 
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -7,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
@@ -22,6 +26,7 @@ import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
+import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.misc.CurseGivenFunction;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
@@ -75,8 +80,22 @@ public class RegistrationHandler {
 							output.accept(block);
 					}
 
+					List<Item> ingredients = SuspiciousPumpkinPieItem.getAllDifferentIngredients();
+					Set<ItemStack> differentPumpkinPies = ItemStackLinkedSet.createTypeAndTagSet();
+
+					for(Item ingredient : ingredients) {
+						ItemStack pumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get());
+						SuspiciousPumpkinPieItem.saveIngredient(pumpkinPie, new ItemStack(ingredient));
+						differentPumpkinPies.add(pumpkinPie);
+					}
+
+					output.acceptAll(differentPumpkinPies);
+
 					for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
-						output.accept(ro.get());
+						Item item = ro.get();
+
+						if (item != SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
+							output.accept(ro.get());
 					}
 				}));
 		//@formatter:on

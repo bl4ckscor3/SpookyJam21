@@ -2,6 +2,7 @@ package suszombification.item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -18,14 +19,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import suszombification.SZDamageSources;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
 import suszombification.misc.SuspiciousRitual;
+import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEffects;
 import suszombification.registration.SZItems;
 
@@ -69,8 +74,43 @@ public class SuspiciousPumpkinPieItem extends Item {
 		return false;
 	}
 
+	public static List<Item> getAllDifferentIngredients() {
+		List<Item> ingredients = new ArrayList<>();
+
+		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
+			Item item = ro.get();
+
+			if (item instanceof CandyItem candy)
+				ingredients.add(candy);
+		}
+
+		ingredients.add(SZItems.SPOILED_MILK_BUCKET.get());
+		ingredients.add(SZItems.ROTTEN_EGG.get());
+		ingredients.add(SZBlocks.WHITE_ROTTEN_WOOl.get().asItem());
+		ingredients.add(Items.GOLDEN_APPLE);
+		ingredients.add(Items.ROTTEN_FLESH);
+		ingredients.add(Items.CHICKEN); //vanilla mob drops
+		return ingredients;
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+		super.appendHoverText(stack, level, tooltip, flag);
+
+		if (flag.isCreative()) {
+			List<MobEffectInstance> effects = new ArrayList<>();
+			listPotionEffects(stack, effects::add, null);
+			PotionUtils.addPotionTooltip(effects, tooltip, 1.0F);
+		}
+	}
+
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+		listPotionEffects(stack, entity::addEffect, entity);
+		return super.finishUsingItem(stack, level, entity);
+	}
+
+	private static void listPotionEffects(ItemStack stack, Consumer<MobEffectInstance> consumer, LivingEntity entity) {
 		CompoundTag tag = stack.getTag();
 		String messageSuffix = "air";
 		ChatFormatting color = ChatFormatting.GRAY;
@@ -87,7 +127,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 					duration = effectTag.getInt("EffectDuration");
 
 				if (effect != null)
-					entity.addEffect(new MobEffectInstance(effect, duration));
+					consumer.accept(new MobEffectInstance(effect, duration));
 			}
 		}
 
@@ -104,10 +144,10 @@ public class SuspiciousPumpkinPieItem extends Item {
 					MobEffectInstance extraEffect = pieEffect.extraEffect.get();
 
 					if (mainEffect != null)
-						entity.addEffect(mainEffect);
+						consumer.accept(mainEffect);
 
 					if (extraEffect != null)
-						entity.addEffect(extraEffect);
+						consumer.accept(extraEffect);
 
 					if (!pieEffect.messageSuffix.isEmpty())
 						messageSuffix = pieEffect.messageSuffix;
@@ -118,31 +158,29 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			if (!foundEffect && !(ingredient.getItem() instanceof CandyItem)) {
-				if (ModList.get().isLoaded("trickortreat") && TrickOrTreatCompat.attemptCandyEffect(entity, level, ingredient)) {
+				if (ModList.get().isLoaded("trickortreat") && entity != null && TrickOrTreatCompat.attemptCandyEffect(entity, entity.level, ingredient)) {
 					messageSuffix = "trickortreat";
 					color = ChatFormatting.GOLD;
 				}
 				else if (ingredient.is(Items.GUNPOWDER)) {
-					if (!level.isClientSide)
-						level.explode(null, SZDamageSources.SPP_EXPLOSION, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
+					if (entity != null && !entity.level.isClientSide)
+						entity.level.explode(null, SZDamageSources.SPP_EXPLOSION, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}
 				else { //vanilla mob drop
-					entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));
+					consumer.accept(new MobEffectInstance(MobEffects.POISON, 300));
 					messageSuffix = "mob_drop";
 					color = ChatFormatting.DARK_GREEN;
 				}
 			}
 
 			//ritual
-			if (ingredient.is(Items.GOLDEN_APPLE) && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(level, player)) {
+			if (ingredient.is(Items.GOLDEN_APPLE) && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(player.level, player)) {
 				color = ChatFormatting.AQUA;
 				messageSuffix = "cured_by_ritual";
 			}
 		}
 
-		if (!level.isClientSide)
+		if (entity != null && !entity.level.isClientSide)
 			entity.sendSystemMessage(Component.translatable("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color));
-
-		return super.finishUsingItem(stack, level, entity);
 	}
 }
