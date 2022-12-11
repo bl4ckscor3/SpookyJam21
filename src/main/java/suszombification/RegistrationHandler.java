@@ -1,13 +1,16 @@
 package suszombification;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -23,6 +26,7 @@ import suszombification.misc.CurseGivenFunction;
 import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
+import suszombification.registration.SZItems;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
@@ -55,5 +59,26 @@ public class RegistrationHandler {
 		});
 		event.register(Registries.LOOT_FUNCTION_TYPE, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "curse_given"), new LootItemFunctionType(new CurseGivenFunction.Serializer())));
 		event.register(Registries.RECIPE_SERIALIZER, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie"), new SimpleCraftingRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new)));
+	}
+
+	@SubscribeEvent
+	public static void onCreativeModeTabRegister(CreativeModeTabEvent.Register event) {
+		//@formatter:off
+		SuspiciousZombification.tab = event.registerCreativeModeTab(new ResourceLocation(SuspiciousZombification.MODID, "tab"), builder -> builder
+				.icon(() -> new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()))
+				.title(Component.translatable("itemGroup.suszombification"))
+				.displayItems((features, output, hasPermissions) -> {
+					for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
+						Block block = ro.get();
+
+						if (!(block instanceof TrophyBlock))
+							output.accept(block);
+					}
+
+					for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
+						output.accept(ro.get());
+					}
+				}));
+		//@formatter:on
 	}
 }
