@@ -8,9 +8,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackLinkedSet;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
@@ -95,9 +97,41 @@ public class RegistrationHandler {
 						Item item = ro.get();
 
 						if (item != SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
-							output.accept(ro.get());
+							output.accept(item);
 					}
 				}));
 		//@formatter:on
+	}
+
+	@SubscribeEvent
+	public static void onCreativeModeTabBuildContents(CreativeModeTabEvent.BuildContents event) {
+		if (event.getTab() == CreativeModeTabs.COLORED_BLOCKS) {
+			event.acceptAll(List.of( //@formatter:off
+					new ItemStack(SZBlocks.WHITE_ROTTEN_WOOl.get()),
+					new ItemStack(SZBlocks.LIGHT_GRAY_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.GRAY_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.BLACK_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.BROWN_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.RED_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.ORANGE_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.YELLOW_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.LIME_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.GREEN_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.CYAN_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.LIGHT_BLUE_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.BLUE_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.PURPLE_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.MAGENTA_ROTTEN_WOOL.get()),
+					new ItemStack(SZBlocks.PINK_ROTTEN_WOOL.get())));
+			//@formatter:on
+		}
+		else if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+			for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
+				Item item = ro.get();
+
+				if (item instanceof SpawnEggItem)
+					event.accept(item);
+			}
+		}
 	}
 }
