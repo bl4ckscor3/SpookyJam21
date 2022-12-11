@@ -35,7 +35,7 @@ public class DataGenHandler {
 		generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(generator));
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator, existingFileHelper));
-		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(LootTableGenerator::new, LootContextParamSets.BLOCK)))); //TODO: multiple sub providers for param sets?
+		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTableGenerator::new, LootContextParamSets.CHEST), new SubProviderEntry(EntityLootTableGenerator::new, LootContextParamSets.ENTITY), new SubProviderEntry(GiftLootTableGenerator::new, LootContextParamSets.GIFT))));
 		generator.addProvider(event.includeServer(), new RecipeGenerator(output));
 	}
 }
