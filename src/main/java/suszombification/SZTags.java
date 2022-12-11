@@ -1,6 +1,6 @@
 package suszombification;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -25,7 +25,7 @@ public class SZTags {
 		public static final TagKey<Biome> HAS_DESERT_ZOMBIE_COVE = tag("has_structure/desert_zombie_cove");
 
 		private static TagKey<Biome> tag(String name) {
-			return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(SuspiciousZombification.MODID, name));
+			return TagKey.create(Registries.BIOME, new ResourceLocation(SuspiciousZombification.MODID, name));
 		}
 	}
 
@@ -41,7 +41,7 @@ public class SZTags {
 		public static final TagKey<EntityType<?>> AFFECTED_BY_ZOMBIES_GRACE = tag("affected_by_zombies_grace");
 
 		private static TagKey<EntityType<?>> tag(String name) {
-			return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(SuspiciousZombification.MODID, name));
+			return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(SuspiciousZombification.MODID, name));
 		}
 	}
 }

@@ -19,7 +19,7 @@ apply plugin: 'eclipse'
 
 version = '1.2'
 group = 'suszombification'
-archivesBaseName = 'suszombification-1.19.2'
+archivesBaseName = 'suszombification-1.19.3'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -34,7 +34,7 @@ sourceSets.main.resources {
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '1.18.2-2022.08.07-1.19.2'
+    mappings channel: 'parchment', version: '1.19.2-2022.11.27-1.19.3'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.0.0'
+    minecraft 'net.minecraftforge:forge:1.19.3-44.0.6'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 

@@ -40,7 +40,7 @@ public class RegistrationHandler {
 				Block block = ro.get();
 
 				if (!(block instanceof TrophyBlock))
-					helper.register(ro.getId().getPath(), new BlockItem(block, new Item.Properties().tab(SuspiciousZombification.TAB)));
+					helper.register(ro.getId().getPath(), new BlockItem(block, new Item.Properties()));
 			}
 		});
 		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {

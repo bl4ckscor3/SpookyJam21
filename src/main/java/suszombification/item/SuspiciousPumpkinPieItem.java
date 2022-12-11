@@ -18,9 +18,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import suszombification.SZDamageSources;
@@ -124,10 +123,8 @@ public class SuspiciousPumpkinPieItem extends Item {
 					color = ChatFormatting.GOLD;
 				}
 				else if (ingredient.is(Items.GUNPOWDER)) {
-					boolean mobGriefing = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
-
 					if (!level.isClientSide)
-						level.explode(null, SZDamageSources.SPP_EXPLOSION, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, !(entity instanceof Player) && !mobGriefing ? Explosion.BlockInteraction.NONE : Explosion.BlockInteraction.DESTROY);
+						level.explode(null, SZDamageSources.SPP_EXPLOSION, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}
 				else { //vanilla mob drop
 					entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300));

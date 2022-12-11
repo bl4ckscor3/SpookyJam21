@@ -1,7 +1,6 @@
 package suszombification.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,7 +27,7 @@ public class TrophyRenderer implements BlockEntityRenderer<TrophyBlockEntity> {
 		pose.pushPose();
 		pose.translate(0.5D, 0.6D, 0.5D);
 		pose.scale(0.7F, 0.7F, 0.7F);
-		pose.mulPose(Vector3f.YP.rotationDegrees(direction.toYRot() + additionalRotation));
+		pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(direction.toYRot() + additionalRotation));
 		Minecraft.getInstance().getItemRenderer().render(stackToRender, TransformType.GROUND, false, pose, bufferSource, packedLight, packedOverlay, model);
 		pose.popPose();
 	}

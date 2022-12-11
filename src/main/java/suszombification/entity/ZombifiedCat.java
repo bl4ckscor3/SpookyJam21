@@ -188,7 +188,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	@Override
 	public void readFromVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
-			setCatVariant(getCatVariant());
+			setVariant(getVariant());
 			setTame(cat.isTame());
 			setCollarColor(cat.getCollarColor());
 			setOwnerUUID(cat.getOwnerUUID());
@@ -198,7 +198,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	@Override
 	public void writeToVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
-			cat.setCatVariant(getCatVariant());
+			cat.setVariant(getVariant());
 			cat.setTame(isTame());
 			cat.setCollarColor(getCollarColor());
 			cat.setOwnerUUID(getOwnerUUID());

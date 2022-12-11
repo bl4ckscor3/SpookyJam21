@@ -7,6 +7,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -46,8 +47,8 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 		INGREDIENTS = specialItems;
 	}
 
-	public SuspiciousPumpkinPieRecipe(ResourceLocation id) {
-		super(id);
+	public SuspiciousPumpkinPieRecipe(ResourceLocation id, CraftingBookCategory craftingBookCategory) {
+		super(id, craftingBookCategory);
 	}
 
 	@Override
