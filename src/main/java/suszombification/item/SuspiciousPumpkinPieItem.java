@@ -66,12 +66,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 	}
 
 	public static boolean hasIngredient(ItemStack pie, Item test) {
-		if (pie.hasTag() && pie.getTag().contains("Ingredient")) {
-			ItemStack ingredient = ItemStack.of(pie.getTag().getCompound("Ingredient"));
-			return ingredient.getItem() == test;
-		}
-
-		return false;
+		return pie.hasTag() && pie.getTag().contains("Ingredient") && ItemStack.of(pie.getTag().getCompound("Ingredient")).is(test);
 	}
 
 	public static List<Item> getAllDifferentIngredients() {
@@ -99,6 +94,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 		if (flag.isCreative()) {
 			List<MobEffectInstance> effects = new ArrayList<>();
+
 			listPotionEffects(stack, effects::add, null);
 			PotionUtils.addPotionTooltip(effects, tooltip, 1.0F);
 		}

@@ -75,6 +75,7 @@ public class RegistrationHandler {
 				.icon(() -> new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()))
 				.title(Component.translatable("itemGroup.suszombification"))
 				.displayItems((features, output, hasPermissions) -> {
+		//@formatter:on
 					for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 						Block block = ro.get();
 
@@ -85,8 +86,9 @@ public class RegistrationHandler {
 					List<Item> ingredients = SuspiciousPumpkinPieItem.getAllDifferentIngredients();
 					Set<ItemStack> differentPumpkinPies = ItemStackLinkedSet.createTypeAndTagSet();
 
-					for(Item ingredient : ingredients) {
+					for (Item ingredient : ingredients) {
 						ItemStack pumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get());
+
 						SuspiciousPumpkinPieItem.saveIngredient(pumpkinPie, new ItemStack(ingredient));
 						differentPumpkinPies.add(pumpkinPie);
 					}
@@ -100,7 +102,6 @@ public class RegistrationHandler {
 							output.accept(item);
 					}
 				}));
-		//@formatter:on
 	}
 
 	@SubscribeEvent
