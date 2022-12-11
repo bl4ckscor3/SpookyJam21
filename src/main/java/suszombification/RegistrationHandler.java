@@ -1,9 +1,13 @@
 package suszombification;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -15,6 +19,8 @@ import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
+import suszombification.misc.CurseGivenFunction;
+import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
 
@@ -47,5 +53,7 @@ public class RegistrationHandler {
 			helper.register("cat_morning_gift", CatMorningGiftModifier.CODEC.get());
 			helper.register("no_decomposing_drops", NoDecomposingDropsModifier.CODEC.get());
 		});
+		event.register(Registries.LOOT_FUNCTION_TYPE, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "curse_given"), new LootItemFunctionType(new CurseGivenFunction.Serializer())));
+		event.register(Registries.RECIPE_SERIALIZER, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie"), new SimpleCraftingRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new)));
 	}
 }

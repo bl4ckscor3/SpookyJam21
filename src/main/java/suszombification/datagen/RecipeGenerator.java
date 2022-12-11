@@ -14,9 +14,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
-import suszombification.registration.SZRecipeSerializers;
 
 public class RecipeGenerator extends RecipeProvider {
 	public RecipeGenerator(PackOutput output) {
@@ -25,7 +25,7 @@ public class RecipeGenerator extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
-		SpecialRecipeBuilder.special(SZRecipeSerializers.SUSPICIOUS_PUMPKIN_PIE.get()).save(consumer, "suspicious_pumpkin_pie");
+		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe.SERIALIZER).save(consumer, "suspicious_pumpkin_pie");
 		//@formatter:off
 		ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
 		.pattern("R ")

@@ -14,14 +14,16 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ObjectHolder;
 import suszombification.SZTags;
 import suszombification.compat.TrickOrTreatCompat;
 import suszombification.item.CandyItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZItems;
-import suszombification.registration.SZRecipeSerializers;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
+	@ObjectHolder(registryName = "minecraft:recipe_serializer", value = "suszombification:suspicious_pumpkin_pie")
+	public static final RecipeSerializer<SuspiciousPumpkinPieRecipe> SERIALIZER = null;
 	private static final Ingredient INGREDIENTS;
 
 	static {
@@ -109,6 +111,6 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return SZRecipeSerializers.SUSPICIOUS_PUMPKIN_PIE.get();
+		return SERIALIZER;
 	}
 }

@@ -1,16 +1,9 @@
 package suszombification.registration;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 import suszombification.SuspiciousZombification;
-import suszombification.misc.CurseGivenFunction;
 
 public class SZLoot {
-	public static final DeferredRegister<LootItemFunctionType> LOOT_ITEM_FUNCTION_TYPES = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, SuspiciousZombification.MODID);
-	public static final RegistryObject<LootItemFunctionType> CURSE_GIVEN_LOOT_FUNCTION = LOOT_ITEM_FUNCTION_TYPES.register("curse_given", () -> new LootItemFunctionType(new CurseGivenFunction.Serializer()));
 	//gameplay
 	public static final ResourceLocation DEATH_BY_DECOMPOSING = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/death_by_decomposing");
 	public static final ResourceLocation ZOMBIFIED_CAT_MORNING_GIFT = new ResourceLocation(SuspiciousZombification.MODID, "gameplay/zombified_cat_morning_gift");
