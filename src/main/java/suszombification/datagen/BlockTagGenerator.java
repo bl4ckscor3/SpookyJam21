@@ -1,20 +1,24 @@
 package suszombification.datagen;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
 import suszombification.registration.SZBlocks;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-	public BlockTagGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, SuspiciousZombification.MODID, existingFileHelper);
+	public BlockTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, SuspiciousZombification.MODID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(HolderLookup.Provider provider) {
 		//@formatter:off
 		tag(SZTags.Blocks.ROTTEN_WOOL).add(
 				SZBlocks.WHITE_ROTTEN_WOOl.get(),

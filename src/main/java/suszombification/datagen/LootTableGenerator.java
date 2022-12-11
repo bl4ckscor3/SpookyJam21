@@ -1,12 +1,10 @@
 package suszombification.datagen;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
@@ -31,7 +28,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CurseGivenFunction;
 import suszombification.registration.SZBlocks;
@@ -39,13 +35,7 @@ import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
 
-public class LootTableGenerator implements DataProvider {
-	private final DataGenerator generator;
-
-	public LootTableGenerator(DataGenerator generator) {
-		this.generator = generator;
-	}
-
+public class LootTableGenerator implements LootTableSubProvider {
 	private Map<ResourceLocation, LootTable.Builder> generateBlockLootTables() {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
@@ -287,25 +277,10 @@ public class LootTableGenerator implements DataProvider {
 	}
 
 	@Override
-	public void run(CachedOutput cache) {
-		Map<ResourceLocation, LootTable> tables = new HashMap<>();
-
-		generateBlockLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.BLOCK).build()));
-		generateChestLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.CHEST).build()));
-		generateEntityLootTables().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.ENTITY).build()));
-		generateGiftLootTable().forEach((path, loot) -> tables.put(path, loot.setParamSet(LootContextParamSets.GIFT).build()));
-		tables.forEach((key, lootTable) -> {
-			try {
-				DataProvider.saveStable(cache, LootTables.serialize(lootTable), generator.getOutputFolder().resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json"));
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
-	@Override
-	public String getName() {
-		return "Loot Tables: " + SuspiciousZombification.MODID;
+	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+		generateBlockLootTables().forEach((path, loot) -> consumer.accept(path, loot.setParamSet(LootContextParamSets.BLOCK)));
+		generateChestLootTables().forEach((path, loot) -> consumer.accept(path, loot.setParamSet(LootContextParamSets.CHEST)));
+		generateEntityLootTables().forEach((path, loot) -> consumer.accept(path, loot.setParamSet(LootContextParamSets.ENTITY)));
+		generateGiftLootTable().forEach((path, loot) -> consumer.accept(path, loot.setParamSet(LootContextParamSets.GIFT)));
 	}
 }

@@ -1,6 +1,10 @@
 package suszombification.datagen;
 
-import net.minecraft.data.DataGenerator;
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -9,12 +13,12 @@ import suszombification.SuspiciousZombification;
 import suszombification.registration.SZEntityTypes;
 
 public class EntityTypeTagGenerator extends EntityTypeTagsProvider {
-	public EntityTypeTagGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, SuspiciousZombification.MODID, existingFileHelper);
+	public EntityTypeTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, SuspiciousZombification.MODID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(HolderLookup.Provider provider) {
 		//@formatter:off
 		tag(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE).add(
 				EntityType.DROWNED,

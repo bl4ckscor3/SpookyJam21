@@ -1,6 +1,10 @@
 package suszombification.datagen;
 
-import net.minecraft.data.DataGenerator;
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
@@ -9,12 +13,12 @@ import suszombification.SZTags;
 import suszombification.SuspiciousZombification;
 
 public class BiomeTagGenerator extends BiomeTagsProvider {
-	public BiomeTagGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, SuspiciousZombification.MODID, existingFileHelper);
+	public BiomeTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, SuspiciousZombification.MODID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(HolderLookup.Provider provider) {
 		tag(SZTags.Biomes.HAS_DESERT_ZOMBIE_COVE).add(Biomes.DESERT);
 		//@formatter:off
 		tag(SZTags.Biomes.HAS_ZOMBIE_COVE).addTag(BiomeTags.IS_MOUNTAIN).add(

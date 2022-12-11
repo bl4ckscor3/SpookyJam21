@@ -2,8 +2,9 @@ package suszombification.datagen;
 
 import java.util.function.Consumer;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -13,21 +14,20 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
-import suszombification.SuspiciousZombification;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZRecipeSerializers;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(DataGenerator generator) {
-		super(generator);
+	public RecipeGenerator(PackOutput output) {
+		super(output);
 	}
 
 	@Override
-	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+	protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
 		SpecialRecipeBuilder.special(SZRecipeSerializers.SUSPICIOUS_PUMPKIN_PIE.get()).save(consumer, "suspicious_pumpkin_pie");
 		//@formatter:off
-		ShapedRecipeBuilder.shaped(SZItems.PORKCHOP_ON_A_STICK.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
 		.pattern("R ")
 		.pattern(" P")
 		.define('R', Items.FISHING_ROD)
@@ -55,17 +55,12 @@ public class RecipeGenerator extends RecipeProvider {
 
 	protected final void addColoredWoolRecipe(Consumer<FinishedRecipe> consumer, TagKey<Item> dye, ItemLike result) {
 		//@formatter:off
-		ShapelessRecipeBuilder.shapeless(result)
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, result)
 		.group("suszombification:rotten_wool")
 		.requires(dye)
 		.requires(SZBlocks.WHITE_ROTTEN_WOOl.get())
 		.unlockedBy("has_wool", has(SZBlocks.WHITE_ROTTEN_WOOl.get()))
 		.save(consumer);
 		//@formatter:on
-	}
-
-	@Override
-	public String getName() {
-		return "Recipes: " + SuspiciousZombification.MODID;
 	}
 }
