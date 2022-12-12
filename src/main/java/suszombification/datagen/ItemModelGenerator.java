@@ -1,7 +1,7 @@
 package suszombification.datagen;
 
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,8 +18,8 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
-	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, SuspiciousZombification.MODID, existingFileHelper);
+	public ItemModelGenerator(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, SuspiciousZombification.MODID, existingFileHelper);
 	}
 
 	@Override

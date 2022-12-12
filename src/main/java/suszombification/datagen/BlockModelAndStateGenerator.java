@@ -1,6 +1,6 @@
 package suszombification.datagen;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
@@ -11,8 +11,8 @@ import suszombification.block.TrophyBlock;
 import suszombification.registration.SZBlocks;
 
 public class BlockModelAndStateGenerator extends BlockStateProvider {
-	public BlockModelAndStateGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, SuspiciousZombification.MODID, existingFileHelper);
+	public BlockModelAndStateGenerator(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, SuspiciousZombification.MODID, existingFileHelper);
 	}
 
 	@Override

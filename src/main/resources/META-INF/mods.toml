@@ -14,7 +14,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 [[dependencies.suszombification]]
 	modId="forge"
 	mandatory=true
-	versionRange="[44,)"
+	versionRange="[44.0.18,)"
 	ordering="NONE"
 	side="BOTH"
 

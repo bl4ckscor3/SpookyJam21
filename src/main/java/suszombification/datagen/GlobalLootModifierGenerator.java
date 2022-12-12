@@ -1,6 +1,6 @@
 package suszombification.datagen;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -13,8 +13,8 @@ import suszombification.glm.NoDecomposingDropsModifier;
 import suszombification.registration.SZLoot;
 
 public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
-	public GlobalLootModifierGenerator(DataGenerator gen) {
-		super(gen, SuspiciousZombification.MODID);
+	public GlobalLootModifierGenerator(PackOutput output) {
+		super(output, SuspiciousZombification.MODID);
 	}
 
 	@Override
