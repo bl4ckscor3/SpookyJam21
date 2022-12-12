@@ -11,13 +11,10 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.registries.ObjectHolder;
 import suszombification.block.entity.TrophyBlockEntity;
+import suszombification.registration.SZLoot;
 
 public class CurseGivenFunction extends LootItemConditionalFunction {
-	@ObjectHolder(registryName = "minecraft:loot_function_type", value = "suszombification:curse_given")
-	public static final LootItemFunctionType TYPE = null;
-
 	CurseGivenFunction(LootItemCondition[] conditions) {
 		super(conditions);
 	}
@@ -38,7 +35,7 @@ public class CurseGivenFunction extends LootItemConditionalFunction {
 
 	@Override
 	public LootItemFunctionType getType() {
-		return TYPE;
+		return SZLoot.CURSE_GIVEN_LOOT_FUNCTION.get();
 	}
 
 	public static class Serializer extends LootItemConditionalFunction.Serializer<CurseGivenFunction> {

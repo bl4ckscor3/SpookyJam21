@@ -3,7 +3,6 @@ package suszombification;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -13,9 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -29,8 +26,6 @@ import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
 import suszombification.glm.NoDecomposingDropsModifier;
 import suszombification.item.SuspiciousPumpkinPieItem;
-import suszombification.misc.CurseGivenFunction;
-import suszombification.misc.SuspiciousPumpkinPieRecipe;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZItems;
@@ -64,8 +59,6 @@ public class RegistrationHandler {
 			helper.register("cat_morning_gift", CatMorningGiftModifier.CODEC.get());
 			helper.register("no_decomposing_drops", NoDecomposingDropsModifier.CODEC.get());
 		});
-		event.register(Registries.LOOT_FUNCTION_TYPE, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "curse_given"), new LootItemFunctionType(new CurseGivenFunction.Serializer())));
-		event.register(Registries.RECIPE_SERIALIZER, helper -> helper.register(new ResourceLocation(SuspiciousZombification.MODID, "suspicious_pumpkin_pie"), new SimpleCraftingRecipeSerializer<>(SuspiciousPumpkinPieRecipe::new)));
 	}
 
 	@SubscribeEvent
