@@ -148,7 +148,7 @@ public final class SuspiciousRitual {
 			if (state.is(BlockTags.WOODEN_FENCES) && isStructurePresent(level, pos, false)) {
 				if (!(leashedMob instanceof ZombifiedAnimal))
 					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_zombified_animal"), true);
-				else
+				else if (!level.isNight())
 					player.displayClientMessage(new TranslatableComponent("message.suszombification.ritual.need_night"), true);
 			}
 		}
