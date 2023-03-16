@@ -30,7 +30,7 @@ public class TrophyItem extends BlockItem {
 				stack.getTag().putBoolean("CurseGiven", true);
 				player.playSound(SoundEvents.WITHER_SPAWN, 1.0F, 0.9F);
 				player.playSound(SoundEvents.ZOMBIE_AMBIENT, 0.5F, 0.8F);
-				player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
+				player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), -1));
 
 				if (!level.isClientSide)
 					player.sendSystemMessage(Component.translatable("message.suszombification.curse.warning").withStyle(ChatFormatting.RED));

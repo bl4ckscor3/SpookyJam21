@@ -160,7 +160,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 				}
 				else if (ingredient.is(Items.GUNPOWDER)) {
 					if (entity != null && !entity.level.isClientSide)
-						entity.level.explode(null, SZDamageSources.SPP_EXPLOSION, null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
+						entity.level.explode(null, SZDamageSources.sppExplosion(entity.level.registryAccess()), null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}
 				else { //vanilla mob drop
 					consumer.accept(new MobEffectInstance(MobEffects.POISON, 300));

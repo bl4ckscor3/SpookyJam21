@@ -15,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.NeutralMob;
@@ -86,10 +87,10 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public Entity getControllingPassenger() {
+	public LivingEntity getControllingPassenger() {
 		Entity entity = getFirstPassenger();
 
-		return entity != null && canBeControlledBy(entity) ? entity : null;
+		return entity instanceof LivingEntity firstPassenger && canBeControlledBy(firstPassenger) ? firstPassenger : null;
 	}
 
 	public boolean canBeControlledBy(Entity entity) {

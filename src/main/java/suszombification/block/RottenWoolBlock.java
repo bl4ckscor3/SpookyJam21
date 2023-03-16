@@ -2,7 +2,6 @@ package suszombification.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +14,7 @@ public class RottenWoolBlock extends Block {
 
 	@Override
 	public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-		entity.causeFallDamage(fallDistance, 0.5F, DamageSource.FALL);
+		entity.causeFallDamage(fallDistance, 0.5F, entity.damageSources().fall());
 		entity.playSound(SoundEvents.SLIME_SQUISH, 0.3F, 1.5F);
 	}
 }

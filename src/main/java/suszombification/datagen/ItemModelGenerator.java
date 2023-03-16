@@ -1,10 +1,10 @@
 package suszombification.datagen;
 
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -43,10 +43,10 @@ public class ItemModelGenerator extends ItemModelProvider {
 		//@formatter:off
 		flatItem(SZItems.HONEY_CANDY.get())
 		.transforms() //same transforms as item/handheld, but with a lower thirdperson scaling
-		.transform(TransformType.THIRD_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
-		.transform(TransformType.THIRD_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
-		.transform(TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
-		.transform(TransformType.FIRST_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
+		.transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
+		.transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -55.0F).translation(0.0F, 4.0F, 0.5F).scale(0.66F).end()
+		.transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, -90.0F, 25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
+		.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).rotation(0.0F, 90.0F, -25.0F).translation(1.13F, 3.2F, 1.13F).scale(0.68F).end()
 		.end();
 		//@formatter:on
 		handheldRodItem(SZItems.PORKCHOP_ON_A_STICK.get());

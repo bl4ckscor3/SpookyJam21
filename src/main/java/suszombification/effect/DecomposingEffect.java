@@ -41,14 +41,14 @@ public class DecomposingEffect extends MobEffect {
 						animal.level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
 				}
 				else {
-					entity.hurt(SZDamageSources.DECOMPOSING, Float.MAX_VALUE);
+					entity.hurt(SZDamageSources.decomposing(entity.level.registryAccess()), Float.MAX_VALUE);
 
 					if (entity.isDeadOrDying())
 						spawnDecomposingDrops(entity);
 				}
 			}
 			else if (entity instanceof Player player && !player.getAbilities().instabuild) {
-				entity.hurt(SZDamageSources.DECOMPOSING, Float.MAX_VALUE);
+				entity.hurt(SZDamageSources.decomposing(entity.level.registryAccess()), Float.MAX_VALUE);
 				spawnDecomposingDrops(entity);
 			}
 		}
@@ -56,7 +56,13 @@ public class DecomposingEffect extends MobEffect {
 
 	private void spawnDecomposingDrops(LivingEntity entity) {
 		LootTable lootTable = entity.level.getServer().getLootTables().get(SZLoot.DEATH_BY_DECOMPOSING);
-		LootContext.Builder builder = new LootContext.Builder((ServerLevel) entity.level).withRandom(entity.getRandom()).withParameter(LootContextParams.THIS_ENTITY, entity).withParameter(LootContextParams.ORIGIN, entity.position()).withParameter(LootContextParams.DAMAGE_SOURCE, SZDamageSources.DECOMPOSING);
+		//@formatter:off
+		LootContext.Builder builder = new LootContext.Builder((ServerLevel) entity.level)
+				.withRandom(entity.getRandom())
+				.withParameter(LootContextParams.THIS_ENTITY, entity)
+				.withParameter(LootContextParams.ORIGIN, entity.position())
+				.withOptionalParameter(LootContextParams.DAMAGE_SOURCE, SZDamageSources.decomposing(entity.level.registryAccess()));
+		//@formatter:on
 		LootContext ctx = builder.create(LootContextParamSets.ENTITY);
 
 		lootTable.getRandomItems(ctx).forEach(entity::spawnAtLocation);

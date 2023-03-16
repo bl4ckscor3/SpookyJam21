@@ -2,7 +2,6 @@ package suszombification.entity;
 
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +43,7 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 
 		Entity entity = result.getEntity();
 
-		result.getEntity().hurt(DamageSource.thrown(this, getOwner()), 0.0F);
+		result.getEntity().hurt(damageSources().thrown(this, getOwner()), 0.0F);
 
 		if (entity instanceof LivingEntity livingEntity && random.nextInt(8) == 0)
 			livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200));

@@ -67,7 +67,7 @@ public class RegistrationHandler {
 		SuspiciousZombification.tab = event.registerCreativeModeTab(new ResourceLocation(SuspiciousZombification.MODID, "tab"), builder -> builder
 				.icon(() -> new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()))
 				.title(Component.translatable("itemGroup.suszombification"))
-				.displayItems((features, output, hasPermissions) -> {
+				.displayItems((displayParameters, output) -> {
 		//@formatter:on
 					for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
 						Block block = ro.get();

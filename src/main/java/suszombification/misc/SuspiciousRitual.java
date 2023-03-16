@@ -100,7 +100,7 @@ public final class SuspiciousRitual {
 
 				//the player is within the ritual structure and also not under it
 				if (player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
-					sacrifice.hurt(SZDamageSources.RITUAL_SACRIFICE, Float.MAX_VALUE);
+					sacrifice.hurt(SZDamageSources.ritualSacrifice(player, level.registryAccess()), Float.MAX_VALUE);
 					leashHolder.remove(RemovalReason.DISCARDED);
 					level.removeBlock(ritualOrigin.above(), false); //remove the trophy
 					player.removeAllEffects();
