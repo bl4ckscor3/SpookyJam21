@@ -22,14 +22,14 @@ import suszombification.registration.SZItems;
 
 public class AnimalUtil {
 	public static void tick(LivingEntity me) {
-		if (!me.level.isClientSide && me.isAlive()) {
+		if (!me.level().isClientSide && me.isAlive()) {
 			ZombifiedAnimal zombifiedAnimal = (ZombifiedAnimal) me;
 
 			if (zombifiedAnimal.isConverting()) {
 				zombifiedAnimal.setConversionTime(zombifiedAnimal.getConversionTime() - zombifiedAnimal.getConversionProgress());
 
 				if (zombifiedAnimal.getConversionTime() <= 0 && ForgeEventFactory.canLivingConvert(me, zombifiedAnimal.getNormalVariant(), zombifiedAnimal::setConversionTime))
-					zombifiedAnimal.finishConversion((ServerLevel) me.level);
+					zombifiedAnimal.finishConversion((ServerLevel) me.level());
 			}
 		}
 	}
@@ -42,10 +42,10 @@ public class AnimalUtil {
 				if (!player.getAbilities().instabuild)
 					stack.shrink(1);
 
-				if (!me.level.isClientSide)
+				if (!me.level().isClientSide)
 					((ZombifiedAnimal) me).startConverting(me.getRandom().nextInt(2401) + 3600);
 
-				me.level.gameEvent(me, GameEvent.ENTITY_INTERACT, me.getEyePosition());
+				me.level().gameEvent(me, GameEvent.ENTITY_INTERACT, me.getEyePosition());
 				return InteractionResult.SUCCESS;
 			}
 
@@ -58,7 +58,7 @@ public class AnimalUtil {
 	public static boolean handleEntityEvent(LivingEntity me, byte id) {
 		if (id == EntityEvent.ZOMBIE_CONVERTING) {
 			if (!me.isSilent())
-				me.level.playLocalSound(me.position().x, me.getEyeY(), me.position().z, SoundEvents.ZOMBIE_VILLAGER_CURE, me.getSoundSource(), 1.0F + me.getRandom().nextFloat(), me.getRandom().nextFloat() * 0.7F + 0.3F, false);
+				me.level().playLocalSound(me.position().x, me.getEyeY(), me.position().z, SoundEvents.ZOMBIE_VILLAGER_CURE, me.getSoundSource(), 1.0F + me.getRandom().nextFloat(), me.getRandom().nextFloat() * 0.7F + 0.3F, false);
 
 			return true;
 		}

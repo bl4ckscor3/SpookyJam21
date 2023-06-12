@@ -138,7 +138,7 @@ public final class SuspiciousRitual {
 			return false;
 
 		//the animal needs to be leashed to a fence that is part of a correctly built ritual structure
-		return isStructurePresent(animal.level, leashKnot.blockPosition(), true);
+		return isStructurePresent(animal.level(), leashKnot.blockPosition(), true);
 	}
 
 	public static void maybeSendInfoMessages(Mob leashedMob, Level level, BlockPos pos, Player player) {

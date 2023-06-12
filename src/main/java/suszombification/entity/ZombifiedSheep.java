@@ -167,7 +167,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public void shear(SoundSource category) {
-		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
+		level().playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
 		setSheared(true);
 
 		int amount = 1 + random.nextInt(3);

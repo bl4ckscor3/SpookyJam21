@@ -1,6 +1,5 @@
 package suszombification;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -15,13 +14,13 @@ import suszombification.registration.SZRecipeSerializers;
 @Mod(SuspiciousZombification.MODID)
 public class SuspiciousZombification {
 	public static final String MODID = "suszombification";
-	public static CreativeModeTab tab;
 
 	public SuspiciousZombification() {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		SZBlocks.BLOCKS.register(modEventBus);
 		SZBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
+		SZCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 		SZEffects.EFFECTS.register(modEventBus);
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);

@@ -98,7 +98,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 
 			player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 			player.setItemInHand(hand, filledBucket);
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.sidedSuccess(level().isClientSide);
 		}
 
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);

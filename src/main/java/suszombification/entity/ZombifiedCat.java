@@ -43,7 +43,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -234,15 +234,20 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		public void giveMorningGift() {
 			RandomSource random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
-			LootTable lootTable = cat.level.getServer().getLootTables().get(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
-			LootContext.Builder lootContextBuilder = new LootContext.Builder((ServerLevel) cat.level).withParameter(LootContextParams.ORIGIN, cat.position()).withParameter(LootContextParams.THIS_ENTITY, cat).withRandom(random);
+			LootTable lootTable = cat.level().getServer().getLootData().getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
+			//@formatter:off
+			LootParams lootParams = new LootParams.Builder((ServerLevel) cat.level())
+					.withParameter(LootContextParams.ORIGIN, cat.position())
+					.withParameter(LootContextParams.THIS_ENTITY, cat)
+					.create(LootContextParamSets.GIFT);
+			//@formatter:on
 
 			catPos.set(cat.blockPosition());
 			cat.randomTeleport(catPos.getX() + random.nextInt(11) - 5, catPos.getY() + random.nextInt(5) - 2, catPos.getZ() + random.nextInt(11) - 5, false);
 			catPos.set(cat.blockPosition());
 
-			for (ItemStack stack : lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.GIFT))) {
-				cat.level.addFreshEntity(new ItemEntity(cat.level, (double) catPos.getX() - (double) Mth.sin(cat.yBodyRot * ((float) Math.PI / 180F)), catPos.getY(), (double) catPos.getZ() + (double) Mth.cos(cat.yBodyRot * ((float) Math.PI / 180F)), stack));
+			for (ItemStack stack : lootTable.getRandomItems(lootParams)) {
+				cat.level().addFreshEntity(new ItemEntity(cat.level(), (double) catPos.getX() - (double) Mth.sin(cat.yBodyRot * ((float) Math.PI / 180F)), catPos.getY(), (double) catPos.getZ() + (double) Mth.cos(cat.yBodyRot * ((float) Math.PI / 180F)), stack));
 			}
 		}
 	}

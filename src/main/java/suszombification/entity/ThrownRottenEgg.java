@@ -32,7 +32,7 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 	public void handleEntityEvent(byte id) {
 		if (id == 3) {
 			for (int i = 0; i < 8; ++i) {
-				level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, getItem()), getX(), getY(), getZ(), (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D);
+				level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, getItem()), getX(), getY(), getZ(), (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D, (random.nextFloat() - 0.5D) * 0.08D);
 			}
 		}
 	}
@@ -53,8 +53,8 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 	protected void onHit(HitResult result) {
 		super.onHit(result);
 
-		if (!level.isClientSide) {
-			level.broadcastEntityEvent(this, (byte) 3);
+		if (!level().isClientSide) {
+			level().broadcastEntityEvent(this, (byte) 3);
 			discard();
 		}
 	}

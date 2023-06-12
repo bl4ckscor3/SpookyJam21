@@ -110,7 +110,7 @@ public class SZEventHandler {
 	public static void onLivingDeath(LivingDeathEvent event) {
 		LivingEntity livingEntity = event.getEntity();
 		Entity killer = event.getSource().getEntity();
-		Level level = livingEntity.level;
+		Level level = livingEntity.level();
 
 		if (!level.isClientSide && (level.getDifficulty() == Difficulty.NORMAL || level.getDifficulty() == Difficulty.HARD) && killer instanceof ZombifiedAnimal zombifiedAnimal) {
 			EntityType<? extends Mob> conversionType = (EntityType<? extends Mob>) killer.getType();

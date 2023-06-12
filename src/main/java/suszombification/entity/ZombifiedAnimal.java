@@ -40,8 +40,8 @@ public interface ZombifiedAnimal {
 		setConversionTime(conversionTime);
 		setConverting();
 		animal.removeEffect(MobEffects.WEAKNESS);
-		animal.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, conversionTime, Math.min(animal.level.getDifficulty().getId() - 1, 0)));
-		animal.level.broadcastEntityEvent(animal, EntityEvent.ZOMBIE_CONVERTING);
+		animal.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, conversionTime, Math.min(animal.level().getDifficulty().getId() - 1, 0)));
+		animal.level().broadcastEntityEvent(animal, EntityEvent.ZOMBIE_CONVERTING);
 	}
 
 	default void finishConversion(ServerLevel level) {
@@ -69,7 +69,7 @@ public interface ZombifiedAnimal {
 			for (int x = (int) animal.getX() - 4; x < animal.getX() + 4 && buffCount < 14; ++x) {
 				for (int y = (int) animal.getY() - 4; y < animal.getY() + 4 && buffCount < 14; ++y) {
 					for (int z = (int) animal.getZ() - 4; z < animal.getZ() + 4 && buffCount < 14; ++z) {
-						BlockState state = animal.level.getBlockState(pos.set(x, y, z));
+						BlockState state = animal.level().getBlockState(pos.set(x, y, z));
 
 						if (state.is(BlockTags.WOODEN_FENCES) || state.is(Blocks.HAY_BLOCK)) {
 							if (animal.getRandom().nextFloat() < 0.3F)

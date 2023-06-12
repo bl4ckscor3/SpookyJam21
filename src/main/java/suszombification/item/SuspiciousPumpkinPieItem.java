@@ -154,13 +154,13 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			if (!foundEffect && !(ingredient.getItem() instanceof CandyItem)) {
-				if (ModList.get().isLoaded("trickortreat") && entity != null && TrickOrTreatCompat.attemptCandyEffect(entity, entity.level, ingredient)) {
+				if (ModList.get().isLoaded("trickortreat") && entity != null && TrickOrTreatCompat.attemptCandyEffect(entity, entity.level(), ingredient)) {
 					messageSuffix = "trickortreat";
 					color = ChatFormatting.GOLD;
 				}
 				else if (ingredient.is(Items.GUNPOWDER)) {
-					if (entity != null && !entity.level.isClientSide)
-						entity.level.explode(null, SZDamageSources.sppExplosion(entity.level.registryAccess()), null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
+					if (entity != null && !entity.level().isClientSide)
+						entity.level().explode(null, SZDamageSources.sppExplosion(entity.level().registryAccess()), null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}
 				else { //vanilla mob drop
 					consumer.accept(new MobEffectInstance(MobEffects.POISON, 300));
@@ -170,13 +170,13 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			//ritual
-			if (ingredient.is(Items.GOLDEN_APPLE) && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(player.level, player)) {
+			if (ingredient.is(Items.GOLDEN_APPLE) && entity instanceof Player player && player.hasEffect(MobEffects.WEAKNESS) && SuspiciousRitual.performRitual(player.level(), player)) {
 				color = ChatFormatting.AQUA;
 				messageSuffix = "cured_by_ritual";
 			}
 		}
 
-		if (entity != null && !entity.level.isClientSide)
+		if (entity != null && !entity.level().isClientSide)
 			entity.sendSystemMessage(Component.translatable("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color));
 	}
 }

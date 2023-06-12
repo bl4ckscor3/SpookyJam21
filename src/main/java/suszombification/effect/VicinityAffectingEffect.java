@@ -27,7 +27,7 @@ public class VicinityAffectingEffect extends MobEffect {
 
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		List<Entity> nearbyEntities = entity.level.getEntities(entity, entity.getBoundingBox().inflate(areaSize.apply(amplifier)), e -> e instanceof LivingEntity target && filter.test(target));
+		List<Entity> nearbyEntities = entity.level().getEntities(entity, entity.getBoundingBox().inflate(areaSize.apply(amplifier)), e -> e instanceof LivingEntity target && filter.test(target));
 
 		for (Entity nearbyEntity : nearbyEntities) {
 			LivingEntity nearby = (LivingEntity) nearbyEntity; //the filter parameter in getEntities makes sure this is true

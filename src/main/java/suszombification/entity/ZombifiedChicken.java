@@ -111,23 +111,23 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		super.aiStep();
 		previousFlap = flap;
 		previousFlapSpeed = flapSpeed;
-		flapSpeed = (float) (flapSpeed + (onGround ? -1 : 4) * 0.3D);
+		flapSpeed = (float) (flapSpeed + (onGround() ? -1 : 4) * 0.3D);
 		flapSpeed = Mth.clamp(flapSpeed, 0.0F, 1.0F);
 
-		if (!onGround && flapping < 1.0F)
+		if (!onGround() && flapping < 1.0F)
 			flapping = 1.0F;
 
 		flapping = flapping * 0.9F;
 
 		Vec3 deltaMovement = getDeltaMovement();
 
-		if (!onGround && deltaMovement.y < 0.0D) {
+		if (!onGround() && deltaMovement.y < 0.0D) {
 			setDeltaMovement(deltaMovement.multiply(1.0D, 0.6D, 1.0D));
 		}
 
 		flap += flapping * 2.0F;
 
-		if (!level.isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
+		if (!level().isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			spawnAtLocation(SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
@@ -231,13 +231,13 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public void positionRider(Entity passenger) {
+	public void positionRider(Entity passenger, MoveFunction moveFunction) {
 		super.positionRider(passenger);
 
 		float f = Mth.sin(yBodyRot * ((float) Math.PI / 180F));
 		float f1 = Mth.cos(yBodyRot * ((float) Math.PI / 180F));
 
-		passenger.setPos(getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
+		moveFunction.accept(passenger, getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
 
 		if (passenger instanceof LivingEntity entity)
 			entity.yBodyRot = yBodyRot;
