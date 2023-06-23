@@ -6,6 +6,7 @@ import java.util.Set;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackLinkedSet;
@@ -21,6 +22,7 @@ import suszombification.registration.SZItems;
 public class SZCreativeModeTabs {
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SuspiciousZombification.MODID);
 	public static final RegistryObject<CreativeModeTab> TAB = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
+			.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
 			.icon(() -> new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()))
 			.title(Component.translatable("itemGroup.suszombification"))
 			.displayItems((displayParameters, output) -> {
