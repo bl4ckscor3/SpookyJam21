@@ -30,5 +30,6 @@
     "recipes": [
       "suszombification:light_gray_rotten_wool"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
