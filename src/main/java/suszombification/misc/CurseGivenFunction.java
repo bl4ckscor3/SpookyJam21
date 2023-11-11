@@ -1,8 +1,9 @@
 package suszombification.misc;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import java.util.List;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,7 +16,9 @@ import suszombification.block.entity.TrophyBlockEntity;
 import suszombification.registration.SZLoot;
 
 public class CurseGivenFunction extends LootItemConditionalFunction {
-	CurseGivenFunction(LootItemCondition[] conditions) {
+	public static final Codec<CurseGivenFunction> CODEC = RecordCodecBuilder.create(instance -> commonFields(instance).apply(instance, CurseGivenFunction::new));
+
+	CurseGivenFunction(List<LootItemCondition> conditions) {
 		super(conditions);
 	}
 
@@ -36,17 +39,5 @@ public class CurseGivenFunction extends LootItemConditionalFunction {
 	@Override
 	public LootItemFunctionType getType() {
 		return SZLoot.CURSE_GIVEN_LOOT_FUNCTION.get();
-	}
-
-	public static class Serializer extends LootItemConditionalFunction.Serializer<CurseGivenFunction> {
-		@Override
-		public void serialize(JsonObject json, CurseGivenFunction function, JsonSerializationContext ctx) {
-			super.serialize(json, function, ctx);
-		}
-
-		@Override
-		public CurseGivenFunction deserialize(JsonObject json, JsonDeserializationContext ctx, LootItemCondition[] conditions) {
-			return new CurseGivenFunction(conditions);
-		}
 	}
 }

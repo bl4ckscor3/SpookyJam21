@@ -237,7 +237,7 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 		float f = Mth.sin(yBodyRot * ((float) Math.PI / 180F));
 		float f1 = Mth.cos(yBodyRot * ((float) Math.PI / 180F));
 
-		moveFunction.accept(passenger, getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, getZ() - 0.1F * f1);
+		moveFunction.accept(passenger, getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset(this) + 0.0D, getZ() - 0.1F * f1);
 
 		if (passenger instanceof LivingEntity entity)
 			entity.yBodyRot = yBodyRot;

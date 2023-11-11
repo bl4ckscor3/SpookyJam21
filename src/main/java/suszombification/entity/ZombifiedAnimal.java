@@ -15,7 +15,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 public interface ZombifiedAnimal {
 	Map<EntityType<?>, EntityType<? extends Animal>> VANILLA_TO_ZOMBIFIED = new HashMap<>();
@@ -55,7 +55,7 @@ public interface ZombifiedAnimal {
 		if (!zombifiedAnimal.isSilent())
 			level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, zombifiedAnimal.blockPosition(), 0);
 
-		ForgeEventFactory.onLivingConvert(zombifiedAnimal, vanillaAnimal);
+		EventHooks.onLivingConvert(zombifiedAnimal, vanillaAnimal);
 	}
 
 	default int getConversionProgress() {

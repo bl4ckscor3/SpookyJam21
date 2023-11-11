@@ -23,12 +23,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.RegistryObject;
 import suszombification.SZDamageSources;
 import suszombification.SZTags;
-import suszombification.compat.TrickOrTreatCompat;
 import suszombification.misc.SuspiciousRitual;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEffects;
@@ -45,9 +43,6 @@ public class SuspiciousPumpkinPieItem extends Item {
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(SZTags.Items.ROTTEN_WOOL), () -> new MobEffectInstance(SZEffects.CUSHION.get(), 2400), () -> new MobEffectInstance(MobEffects.CONFUSION, 100), ChatFormatting.DARK_PURPLE, "rotten_wool"));
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.GOLDEN_APPLE), () -> new MobEffectInstance(MobEffects.REGENERATION, 200, 1), () -> new MobEffectInstance(MobEffects.ABSORPTION, 2400), ChatFormatting.AQUA, ""));
 		PIE_EFFECTS.add(new PieEffect(stack -> stack.is(Items.ROTTEN_FLESH), () -> new MobEffectInstance(SZEffects.DECOMPOSING.get(), 600), () -> null, ChatFormatting.AQUA, ""));
-
-		if (ModList.get().isLoaded("trickortreat"))
-			TrickOrTreatCompat.addEffects(PIE_EFFECTS);
 	}
 
 	public SuspiciousPumpkinPieItem(Properties properties) {
@@ -154,11 +149,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 
 			if (!foundEffect && !(ingredient.getItem() instanceof CandyItem)) {
-				if (ModList.get().isLoaded("trickortreat") && entity != null && TrickOrTreatCompat.attemptCandyEffect(entity, entity.level(), ingredient)) {
-					messageSuffix = "trickortreat";
-					color = ChatFormatting.GOLD;
-				}
-				else if (ingredient.is(Items.GUNPOWDER)) {
+				if (ingredient.is(Items.GUNPOWDER)) {
 					if (entity != null && !entity.level().isClientSide)
 						entity.level().explode(null, SZDamageSources.sppExplosion(entity.level().registryAccess()), null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}

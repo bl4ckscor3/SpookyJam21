@@ -1,9 +1,6 @@
 package suszombification.misc;
 
-import java.util.List;
-
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -14,42 +11,31 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fml.ModList;
 import suszombification.SZTags;
-import suszombification.compat.TrickOrTreatCompat;
 import suszombification.item.CandyItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZRecipeSerializers;
 
 public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
-	private static final Ingredient INGREDIENTS;
+	//@formatter:off
+	private static final Ingredient INGREDIENTS = Ingredient.of(
+			Items.GOLDEN_APPLE,
+			Items.ROTTEN_FLESH,
+			Items.CHICKEN,
+			Items.FEATHER,
+			Items.BEEF,
+			Items.LEATHER,
+			Items.PORKCHOP,
+			Items.MUTTON,
+			Items.STRING,
+			Items.GUNPOWDER,
+			SZItems.SPOILED_MILK_BUCKET.get(),
+			SZItems.ROTTEN_EGG.get());
+	//@formatter:on
 
-	static {
-		//@formatter:off
-		Ingredient specialItems = Ingredient.of(
-				Items.GOLDEN_APPLE,
-				Items.ROTTEN_FLESH,
-				Items.CHICKEN,
-				Items.FEATHER,
-				Items.BEEF,
-				Items.LEATHER,
-				Items.PORKCHOP,
-				Items.MUTTON,
-				Items.STRING,
-				Items.GUNPOWDER,
-				SZItems.SPOILED_MILK_BUCKET.get(),
-				SZItems.ROTTEN_EGG.get());
-		//@formatter:on
-
-		if (ModList.get().isLoaded("trickortreat"))
-			specialItems = Ingredient.merge(List.of(specialItems, TrickOrTreatCompat.getCandies()));
-
-		INGREDIENTS = specialItems;
-	}
-
-	public SuspiciousPumpkinPieRecipe(ResourceLocation id, CraftingBookCategory craftingBookCategory) {
-		super(id, craftingBookCategory);
+	public SuspiciousPumpkinPieRecipe(CraftingBookCategory craftingBookCategory) {
+		super(craftingBookCategory);
 	}
 
 	@Override

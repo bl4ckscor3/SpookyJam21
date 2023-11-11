@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZItems;
@@ -28,7 +28,7 @@ public class AnimalUtil {
 			if (zombifiedAnimal.isConverting()) {
 				zombifiedAnimal.setConversionTime(zombifiedAnimal.getConversionTime() - zombifiedAnimal.getConversionProgress());
 
-				if (zombifiedAnimal.getConversionTime() <= 0 && ForgeEventFactory.canLivingConvert(me, zombifiedAnimal.getNormalVariant(), zombifiedAnimal::setConversionTime))
+				if (zombifiedAnimal.getConversionTime() <= 0 && EventHooks.canLivingConvert(me, zombifiedAnimal.getNormalVariant(), zombifiedAnimal::setConversionTime))
 					zombifiedAnimal.finishConversion((ServerLevel) me.level());
 			}
 		}

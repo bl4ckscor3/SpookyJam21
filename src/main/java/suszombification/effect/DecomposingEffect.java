@@ -14,7 +14,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import suszombification.SZDamageSources;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.registration.SZLoot;
@@ -30,12 +30,12 @@ public class DecomposingEffect extends MobEffect {
 			if (entity instanceof Animal animal) {
 				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
-				if (conversionType != null && ForgeEventFactory.canLivingConvert(animal, conversionType, timer -> {})) {
+				if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
 					Mob convertedAnimal = animal.convertTo(conversionType, false);
 
 					convertedAnimal.finalizeSpawn((ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
 					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
-					ForgeEventFactory.onLivingConvert(animal, convertedAnimal);
+					EventHooks.onLivingConvert(animal, convertedAnimal);
 
 					if (!animal.isSilent())
 						animal.level().levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
@@ -68,7 +68,7 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	@Override
-	public boolean isDurationEffectTick(int duration, int amplifier) {
+	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 		return duration == 1;
 	}
 }

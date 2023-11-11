@@ -1,27 +1,16 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://repo.spongepowered.org/maven' }
-        mavenCentral()
-    }
-    dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '[6.0,6.2)', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
-        classpath 'org.parchmentmc:librarian:1.+'
-    }
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'net.neoforged.gradle.userdev' version '[7.0,7.1)'
+//	id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
-
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'eclipse'
 
 version = '1.2.1'
 group = 'suszombification'
 
 base {
-	archivesName = 'suszombification-1.20'
+	archivesName = 'suszombification-1.20.2'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -36,66 +25,31 @@ sourceSets.main.resources {
     srcDir 'src/generated/resources' //include generated files
 }
 
-minecraft {
-	mappings channel: 'parchment', version: '1.19.3-2023.03.12-1.20'
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-	copyIdeResources = true
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    runs {
-        client {
-            workingDirectory project.file('run/client')
-            property 'forge.logging.console.level', 'debug'
-            args '-mixin.config=suszombification.mixins.json'
-
-            mods {
-                suszombification {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run/server')
-            property 'forge.logging.console.level', 'debug'
-            args '-nogui', '-mixin.config=suszombification.mixins.json'
-
-            mods {
-                suszombification {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run/data')
-            property 'forge.logging.console.level', 'debug'
-            args '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/')
-
-            mods {
-                suszombification {
-                    source sourceSets.main
-                }
-            }
-        }
+runs {
+    configureEach {
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
     }
-}
 
-repositories {
-    maven {
-    	url "https://cursemaven.com/"
-        content {
-            includeGroup "curse.maven"
-        }
+    client {
+        workingDirectory project.file('run/client')
     }
+
+    server {
+        workingDirectory project.file('run/server')
+        programArgument '-nogui'
+    }
+	
+	data {
+		workingDirectory project.file('run/data')
+		programArguments.addAll '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+	}
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.20-46.0.12'
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-}
-
-mixin {
-    add sourceSets.main, "suszombification.refmap.json"
+    implementation 'net.neoforged:neoforge:20.2.47-beta'
 }
 
 tasks.named('jar', Jar).configure {
@@ -108,8 +62,7 @@ tasks.named('jar', Jar).configure {
                 "Specification-Version"   : "${version}",
                 "Implementation-Title"    : "Suspicious Zombification",
                 "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "Redstone_Dubstep, bl4ckscor3",
-                "MixinConfigs": "suszombification.mixins.json"
+                "Implementation-Vendor"   : "Redstone_Dubstep, bl4ckscor3"
         ])
     }
 }

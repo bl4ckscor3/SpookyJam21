@@ -11,11 +11,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import suszombification.SuspiciousZombification;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
@@ -37,6 +37,6 @@ public class DataGenHandler {
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTableGenerator::new, LootContextParamSets.CHEST), new SubProviderEntry(EntityLootTableGenerator::new, LootContextParamSets.ENTITY), new SubProviderEntry(GiftLootTableGenerator::new, LootContextParamSets.GIFT))));
-		generator.addProvider(event.includeServer(), new RecipeGenerator(output));
+		generator.addProvider(event.includeServer(), new RecipeGenerator(output, lookupProvider));
 	}
 }

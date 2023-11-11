@@ -1,6 +1,6 @@
 modLoader="javafml"
-loaderVersion="[46,)"
-license="MIT License https://github.com/bl4ckscor3/SuspiciousZombification/blob/1.20/LICENSE"
+loaderVersion="[1,)"
+license="MIT License https://github.com/bl4ckscor3/SuspiciousZombification/blob/1.20.2/LICENSE"
 issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 
 [[mods]]
@@ -12,15 +12,15 @@ issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 	description='''A mod about zombifying animals, fighting off the zombie's curse, eating suspicious pies, and benefiting from their effects.'''
 
 [[dependencies.suszombification]]
-	modId="forge"
+	modId="neoforge"
 	mandatory=true
-	versionRange="[46,)"
+	versionRange="[20.2,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.suszombification]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.20,1.21)"
+	versionRange="[1.20.2,1.21)"
 	ordering="NONE"
 	side="BOTH"
