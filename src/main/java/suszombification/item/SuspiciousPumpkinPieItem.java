@@ -8,9 +8,8 @@ import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +22,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.RegistryObject;
 import suszombification.SZDamageSources;
@@ -53,7 +53,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 		CompoundTag ingredientTag = new CompoundTag();
 
 		if (ingredient.getItem() instanceof CandyItem candy)
-			SuspiciousStewItem.saveMobEffect(suspiciousPumpkinPie, candy.getEffect(), candy.getEffectDuration());
+			SuspiciousStewItem.saveMobEffects(suspiciousPumpkinPie, candy.getEffect());
 
 		ingredient.setCount(1);
 		ingredient.save(ingredientTag);
@@ -106,20 +106,22 @@ public class SuspiciousPumpkinPieItem extends Item {
 		String messageSuffix = "air";
 		ChatFormatting color = ChatFormatting.GRAY;
 
-		if (tag != null && tag.contains("Effects", 9)) {
-			ListTag effects = tag.getList("Effects", 10);
+		if (tag != null && tag.contains("Effects", 9) && tag.contains("Ingredient", 10)) { //old effect data, needs to be upgraded
+			ItemStack ingredientStack = ItemStack.of(tag.getCompound("Ingredient"));
 
-			for (int i = 0; i < effects.size(); ++i) {
-				int duration = 160;
-				CompoundTag effectTag = effects.getCompound(i);
-				MobEffect effect = MobEffect.byId(effectTag.getByte("EffectId"));
-
-				if (effectTag.contains("EffectDuration", 3))
-					duration = effectTag.getInt("EffectDuration");
-
-				if (effect != null)
-					consumer.accept(new MobEffectInstance(effect, duration));
+			if (!ingredientStack.isEmpty()) {
+				saveIngredient(stack, ingredientStack);
+				tag.remove("Effects");
 			}
+		}
+
+		if (tag != null && tag.contains("effects", 9)) {
+			//@formatter:off
+			SuspiciousEffectHolder.EffectEntry.LIST_CODEC
+					.parse(NbtOps.INSTANCE, tag.getList("effects", 10))
+					.result()
+					.ifPresent(effectEntryList -> effectEntryList.forEach(entry -> consumer.accept(entry.createEffectInstance())));
+			//@formatter:on
 		}
 
 		if (tag != null && tag.contains("Ingredient")) {
