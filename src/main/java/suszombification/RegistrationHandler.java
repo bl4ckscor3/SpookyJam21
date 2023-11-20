@@ -2,6 +2,7 @@ package suszombification;
 
 import java.util.List;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -14,9 +15,9 @@ import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.registries.ForgeRegistries.Keys;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.NeoForgeRegistries.Keys;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import net.neoforged.neoforge.registries.RegistryObject;
 import suszombification.block.TrophyBlock;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.glm.CatMorningGiftModifier;
@@ -41,13 +42,13 @@ public class RegistrationHandler {
 
 	@SubscribeEvent
 	public static void registerItems(RegisterEvent event) {
-		event.register(Keys.ITEMS, helper -> {
+		event.register(Registries.ITEM, helper -> {
 			//register block items from blocks
-			for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-				Block block = ro.get();
+			for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
+				Block block = holder.get();
 
 				if (!(block instanceof TrophyBlock))
-					helper.register(ro.getId().getPath(), new BlockItem(block, new Item.Properties()));
+					helper.register(holder.getId().getPath(), new BlockItem(block, new Item.Properties()));
 			}
 		});
 		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
@@ -79,8 +80,8 @@ public class RegistrationHandler {
 			//@formatter:on
 		}
 		else if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
-			for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
-				Item item = ro.get();
+			for (DeferredHolder<Item, ? extends Item> holder : SZItems.ITEMS.getEntries()) {
+				Item item = holder.get();
 
 				if (item instanceof SpawnEggItem)
 					event.accept(item);

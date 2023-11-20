@@ -11,8 +11,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegistryObject;
 import suszombification.block.TrophyBlock;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZBlocks;
@@ -21,13 +21,13 @@ import suszombification.registration.SZItems;
 //@formatter:off
 public class SZCreativeModeTabs {
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SuspiciousZombification.MODID);
-	public static final RegistryObject<CreativeModeTab> TAB = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
+	public static final DeferredHolder<CreativeModeTab,CreativeModeTab> TAB = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
 			.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
 			.icon(() -> new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()))
 			.title(Component.translatable("itemGroup.suszombification"))
 			.displayItems((displayParameters, output) -> {
-				for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-					Block block = ro.get();
+				for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
+					Block block = holder.get();
 
 					if (!(block instanceof TrophyBlock))
 						output.accept(block);
@@ -45,8 +45,8 @@ public class SZCreativeModeTabs {
 
 				output.acceptAll(differentPumpkinPies);
 
-				for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
-					Item item = ro.get();
+				for (DeferredHolder<Item, ? extends Item> holder : SZItems.ITEMS.getEntries()) {
+					Item item = holder.get();
 
 					if (item != SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
 						output.accept(item);

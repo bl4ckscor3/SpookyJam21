@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -23,8 +24,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.block.SuspiciousEffectHolder;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.SZDamageSources;
 import suszombification.SZTags;
 import suszombification.misc.SuspiciousRitual;
@@ -67,8 +67,8 @@ public class SuspiciousPumpkinPieItem extends Item {
 	public static List<Item> getAllDifferentIngredients() {
 		List<Item> ingredients = new ArrayList<>();
 
-		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
-			Item item = ro.get();
+		for (DeferredHolder<Item, ? extends Item> holder : SZItems.ITEMS.getEntries()) {
+			Item item = holder.get();
 
 			if (item instanceof CandyItem candy)
 				ingredients.add(candy);
@@ -128,7 +128,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
 			boolean foundEffect = false;
 
-			messageSuffix = ForgeRegistries.ITEMS.getKey(ingredient.getItem()).getPath();
+			messageSuffix = BuiltInRegistries.ITEM.getKey(ingredient.getItem()).getPath();
 			color = ChatFormatting.GOLD;
 
 			for (PieEffect pieEffect : PIE_EFFECTS) {

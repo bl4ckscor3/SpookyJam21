@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.SuspiciousZombification;
 import suszombification.block.TrophyBlock;
 import suszombification.registration.SZBlocks;
@@ -17,8 +17,8 @@ public class BlockModelAndStateGenerator extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			Block block = ro.get();
+		for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
+			Block block = holder.get();
 
 			if (block instanceof TrophyBlock)
 				horizontalBlock(block, state -> new UncheckedModelFile(modLoc("block/trophy")));

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
@@ -35,7 +35,7 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 
 		//@formatter:off
 		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
-		weaknessPotionTag.putString("Potion", ForgeRegistries.POTIONS.getKey(Potions.WEAKNESS).toString());
+		weaknessPotionTag.putString("Potion", BuiltInRegistries.POTION.getKey(Potions.WEAKNESS).toString());
 		lootTables.put(SZLoot.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))

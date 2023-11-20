@@ -1,5 +1,6 @@
 package suszombification.datagen;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -11,8 +12,7 @@ import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.SuspiciousZombification;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
@@ -24,15 +24,15 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			Block block = ro.get();
+		for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
+			Block block = holder.get();
 
 			if (block.asItem() instanceof BlockItem)
 				simpleParent(block);
 		}
 
-		for (RegistryObject<Item> ro : SZItems.ITEMS.getEntries()) {
-			Item item = ro.get();
+		for (DeferredHolder<Item, ? extends Item> holder : SZItems.ITEMS.getEntries()) {
+			Item item = holder.get();
 
 			if (item instanceof SpawnEggItem)
 				spawnEgg(item);
@@ -53,23 +53,23 @@ public class ItemModelGenerator extends ItemModelProvider {
 	}
 
 	private ItemModelBuilder flatItem(Item item) {
-		String name = ForgeRegistries.ITEMS.getKey(item).getPath();
+		String name = BuiltInRegistries.ITEM.getKey(item).getPath();
 
 		return getBuilder(name).parent(new UncheckedModelFile("item/generated")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
 	private void handheldRodItem(Item item) {
-		String name = ForgeRegistries.ITEMS.getKey(item).getPath();
+		String name = BuiltInRegistries.ITEM.getKey(item).getPath();
 
 		getBuilder(name).parent(new UncheckedModelFile("item/handheld_rod")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
 	}
 
 	private void spawnEgg(Item item) {
-		getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
+		getBuilder(BuiltInRegistries.ITEM.getKey(item).getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
 	}
 
 	public void simpleParent(Block block) {
-		String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
+		String name = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
 		getBuilder(name).parent(new UncheckedModelFile(modLoc(BLOCK_FOLDER + "/" + name)));
 	}

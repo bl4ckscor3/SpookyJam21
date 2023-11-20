@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.block.TrophyBlock;
 import suszombification.misc.CurseGivenFunction;
 import suszombification.registration.SZBlocks;
@@ -26,8 +26,8 @@ public class BlockLootTableGenerator implements LootTableSubProvider {
 	public void generate(BiConsumer<ResourceLocation, Builder> consumer) {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 
-		for (RegistryObject<Block> ro : SZBlocks.BLOCKS.getEntries()) {
-			Block block = ro.get();
+		for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
+			Block block = holder.get();
 
 			if (block instanceof TrophyBlock)
 				lootTables.put(block.getLootTable(), createTrophyLootTable(block));
