@@ -1,15 +1,23 @@
 package suszombification.datagen;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import net.minecraft.DetectedVersion;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod.EventBusSubscriber;
@@ -37,6 +45,12 @@ public class DataGenHandler {
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTableGenerator::new, LootContextParamSets.CHEST), new SubProviderEntry(EntityLootTableGenerator::new, LootContextParamSets.ENTITY), new SubProviderEntry(GiftLootTableGenerator::new, LootContextParamSets.GIFT))));
+		//@formatter:off
+		generator.addProvider(true, new PackMetadataGenerator(output)
+                .add(PackMetadataSection.TYPE, new PackMetadataSection(Component.literal("Suspicious Zombification resources & data"),
+                        DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
+                        Arrays.stream(PackType.values()).collect(Collectors.toMap(Function.identity(), DetectedVersion.BUILT_IN::getPackVersion)))));
+		//@formatter:on
 		generator.addProvider(event.includeServer(), new RecipeGenerator(output, lookupProvider));
 	}
 }

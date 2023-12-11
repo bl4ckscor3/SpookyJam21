@@ -91,7 +91,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			List<MobEffectInstance> effects = new ArrayList<>();
 
 			listPotionEffects(stack, effects::add, null);
-			PotionUtils.addPotionTooltip(effects, tooltip, 1.0F);
+			PotionUtils.addPotionTooltip(effects, tooltip, 1.0F, level == null ? 20.0F : level.tickRateManager().tickrate());
 		}
 	}
 

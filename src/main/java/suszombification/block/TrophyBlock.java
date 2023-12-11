@@ -1,5 +1,7 @@
 package suszombification.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -59,5 +61,10 @@ public class TrophyBlock extends HorizontalDirectionalBlock implements EntityBlo
 		TrophyType(ItemStack displayItem) {
 			this.displayItem = displayItem;
 		}
+	}
+
+	@Override
+	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+		return null;
 	}
 }
