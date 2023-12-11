@@ -59,7 +59,6 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
-	private SPPTemptGoal temptGoal;
 	private int conversionTime;
 
 	public ZombifiedCat(EntityType<? extends Cat> type, Level level) {
@@ -68,10 +67,9 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	protected void registerGoals() {
-		temptGoal = new ZombifiedCatTemptGoal(this, 0.6D, TEMPT_INGREDIENT, true);
 		goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 		goalSelector.addGoal(2, new ZombifiedCatRelaxOnOwnerGoal(this));
-		goalSelector.addGoal(3, temptGoal);
+		goalSelector.addGoal(3, new ZombifiedCatTemptGoal(this, 0.6D, TEMPT_INGREDIENT, true));
 		goalSelector.addGoal(5, new CatLieOnBedGoal(this, 1.1D, 8));
 		goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 5.0F, false));
 		goalSelector.addGoal(7, new CatSitOnBlockGoal(this, 0.8D));

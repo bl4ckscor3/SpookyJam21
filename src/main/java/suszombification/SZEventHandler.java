@@ -44,6 +44,8 @@ import suszombification.registration.SZItems;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID)
 public class SZEventHandler {
+	private SZEventHandler() {}
+
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
 		Entity entity = event.getEntity();

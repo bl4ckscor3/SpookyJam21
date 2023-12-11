@@ -91,7 +91,7 @@ public final class SuspiciousRitual {
 	 */
 	public static boolean performRitual(Level level, Player player) {
 		if (level.isNight() || player.getAbilities().instabuild) { //allow players in creative mode to bypass the night restriction
-			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), e -> e instanceof ZombifiedAnimal).stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
+			Optional<Animal> potentialSacrifice = level.getEntitiesOfClass(Animal.class, new AABB(player.position(), player.position()).inflate(3), ZombifiedAnimal.class::isInstance).stream().filter(SuspiciousRitual::isGoodSacrifice).findFirst();
 
 			if (potentialSacrifice.isPresent()) {
 				Animal sacrifice = potentialSacrifice.get();
@@ -99,7 +99,7 @@ public final class SuspiciousRitual {
 				BlockPos ritualOrigin = leashHolder.blockPosition();
 
 				//the player is within the ritual structure and also not under it
-				if (player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= Math.floor(ritualOrigin.getY())) {
+				if (player.distanceTo(leashHolder) <= 3.0F && Math.floor(player.position().y) >= ritualOrigin.getY()) {
 					sacrifice.hurt(SZDamageSources.ritualSacrifice(player, level.registryAccess()), Float.MAX_VALUE);
 					leashHolder.remove(RemovalReason.DISCARDED);
 					level.removeBlock(ritualOrigin.above(), false); //remove the trophy

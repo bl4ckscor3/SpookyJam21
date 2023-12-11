@@ -29,6 +29,8 @@ import suszombification.registration.SZItems;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD)
 public class RegistrationHandler {
+	private RegistrationHandler() {}
+
 	@SubscribeEvent
 	public static void setup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {

@@ -42,4 +42,6 @@ public class SZItems {
 	public static final DeferredItem<TrophyItem> CARROT_TROPHY = ITEMS.register("carrot_trophy", () -> new TrophyItem(SZBlocks.CARROT_TROPHY.get(), new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<TrophyItem> POTATO_TROPHY = ITEMS.register("potato_trophy", () -> new TrophyItem(SZBlocks.POTATO_TROPHY.get(), new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<TrophyItem> IRON_INGOT_TROPHY = ITEMS.register("iron_ingot_trophy", () -> new TrophyItem(SZBlocks.IRON_INGOT_TROPHY.get(), new Item.Properties().stacksTo(1)));
+
+	private SZItems() {}
 }

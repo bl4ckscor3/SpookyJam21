@@ -35,4 +35,6 @@ public class SZLoot {
 	public static final ResourceLocation PEN_BARREL = new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/pen_barrel");
 	public static final ResourceLocation RITUAL_BARREL = new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/ritual_barrel");
 	public static final ResourceLocation TREASURE = new ResourceLocation(SuspiciousZombification.MODID, "zombie_cove/treasure");
+
+	private SZLoot() {}
 }

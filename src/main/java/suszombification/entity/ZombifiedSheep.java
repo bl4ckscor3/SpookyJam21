@@ -95,11 +95,12 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	protected void registerGoals() {
+		eatBlockGoal = new EatBlockGoal(this);
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
 		goalSelector.addGoal(2, new SPPTemptGoal(this, 1.0D, FOOD_ITEMS, false, stack -> stack.is(ItemTags.WOOL)));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
 		goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-		goalSelector.addGoal(5, eatBlockGoal = new EatBlockGoal(this));
+		goalSelector.addGoal(5, eatBlockGoal);
 		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		goalSelector.addGoal(8, new RandomLookAroundGoal(this));

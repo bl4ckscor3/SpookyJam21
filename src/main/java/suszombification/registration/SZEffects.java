@@ -30,4 +30,6 @@ public class SZEffects {
 	//@formatter:on
 	public static final DeferredHolder<MobEffect, MobEffect> ZOMBIES_GRACE = EFFECTS.register("zombies_grace", () -> new MobEffect(MobEffectCategory.BENEFICIAL, 0x009E9E));
 	public static final DeferredHolder<MobEffect, ZombiesCurseEffect> ZOMBIES_CURSE = EFFECTS.register("zombies_curse", () -> new ZombiesCurseEffect(MobEffectCategory.HARMFUL, 0xAE1A1A));
+
+	private SZEffects() {}
 }

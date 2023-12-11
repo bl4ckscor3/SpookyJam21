@@ -17,6 +17,6 @@ public abstract class UndeadHorseRendererMixin extends AbstractHorseRenderer<Abs
 
 	@Override
 	public boolean isShaking(AbstractHorse horse) {
-		return super.isShaking(horse) || (horse instanceof ZombifiedAnimal && ((ZombifiedAnimal) horse).isConverting());
+		return super.isShaking(horse) || (horse instanceof ZombifiedAnimal zombifiedAnimal && zombifiedAnimal.isConverting());
 	}
 }

@@ -1,9 +1,9 @@
 package suszombification.effect;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -12,12 +12,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class VicinityAffectingEffect extends MobEffect {
-	private final Function<Integer, Integer> areaSize;
+	private final UnaryOperator<Integer> areaSize;
 	private final Predicate<LivingEntity> filter;
 	private final Supplier<MobEffectInstance>[] effects;
 
 	@SafeVarargs
-	public VicinityAffectingEffect(MobEffectCategory category, int color, Function<Integer, Integer> areaSize, Predicate<LivingEntity> filter, Supplier<MobEffectInstance>... effects) {
+	public VicinityAffectingEffect(MobEffectCategory category, int color, UnaryOperator<Integer> areaSize, Predicate<LivingEntity> filter, Supplier<MobEffectInstance>... effects) {
 		super(category, color);
 
 		this.areaSize = areaSize;

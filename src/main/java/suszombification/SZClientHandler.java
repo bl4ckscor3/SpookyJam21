@@ -1,6 +1,6 @@
 package suszombification;
 
-import net.minecraft.client.model.CatModel;
+import net.minecraft.client.model.OcelotModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -24,6 +24,8 @@ import suszombification.renderer.ZombifiedSheepRenderer;
 public class SZClientHandler {
 	public static final ModelLayerLocation ZOMBIFIED_CAT_ZOMBIE_LAYER = new ModelLayerLocation(new ResourceLocation("cat"), "zombie");
 
+	private SZClientHandler() {}
+
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(SZEntityTypes.ZOMBIFIED_CAT.get(), ZombifiedCatRenderer::new);
@@ -37,6 +39,6 @@ public class SZClientHandler {
 
 	@SubscribeEvent
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(ZOMBIFIED_CAT_ZOMBIE_LAYER, () -> LayerDefinition.create(CatModel.createBodyMesh(new CubeDeformation(0.01F)), 64, 32));
+		event.registerLayerDefinition(ZOMBIFIED_CAT_ZOMBIE_LAYER, () -> LayerDefinition.create(OcelotModel.createBodyMesh(new CubeDeformation(0.01F)), 64, 32));
 	}
 }

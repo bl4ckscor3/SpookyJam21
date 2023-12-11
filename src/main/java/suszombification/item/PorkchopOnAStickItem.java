@@ -23,19 +23,17 @@ public class PorkchopOnAStickItem extends Item {
 		if (!level.isClientSide) {
 			Entity entity = player.getVehicle();
 
-			if (player.isPassenger() && entity instanceof ZombifiedPig pig) {
-				if (pig.boost()) {
-					stack.hurtAndBreak(7, player, e -> e.broadcastBreakEvent(hand));
+			if (player.isPassenger() && entity instanceof ZombifiedPig pig && pig.boost()) {
+				stack.hurtAndBreak(7, player, e -> e.broadcastBreakEvent(hand));
 
-					if (stack.isEmpty()) {
-						ItemStack fishingRodStack = new ItemStack(Items.FISHING_ROD);
+				if (stack.isEmpty()) {
+					ItemStack fishingRodStack = new ItemStack(Items.FISHING_ROD);
 
-						fishingRodStack.setTag(stack.getTag());
-						return InteractionResultHolder.success(fishingRodStack);
-					}
-
-					return InteractionResultHolder.success(stack);
+					fishingRodStack.setTag(stack.getTag());
+					return InteractionResultHolder.success(fishingRodStack);
 				}
+
+				return InteractionResultHolder.success(stack);
 			}
 
 			player.awardStat(Stats.ITEM_USED.get(this));

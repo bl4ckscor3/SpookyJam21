@@ -21,6 +21,8 @@ import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZItems;
 
 public class AnimalUtil {
+	private AnimalUtil() {}
+
 	public static void tick(LivingEntity me) {
 		if (!me.level().isClientSide && me.isAlive()) {
 			ZombifiedAnimal zombifiedAnimal = (ZombifiedAnimal) me;

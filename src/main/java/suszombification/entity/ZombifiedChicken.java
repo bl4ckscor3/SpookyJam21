@@ -56,14 +56,14 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedChicken.class, EntityDataSerializers.BOOLEAN);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	private int conversionTime;
-	public float flap;
-	public float flapSpeed;
-	public float previousFlapSpeed;
-	public float previousFlap;
-	public float flapping = 1.0F;
+	private float flap;
+	private float flapSpeed;
+	private float previousFlapSpeed;
+	private float previousFlap;
+	private float flapping = 1.0F;
 	private float nextFlap = 1.0F;
-	public int eggTime = random.nextInt(6000) + 6000;
-	public boolean isChickenJockey;
+	private int eggTime = random.nextInt(6000) + 6000;
+	private boolean isChickenJockey;
 	private int remainingPersistentAngerTime;
 	private UUID persistentAngerTarget;
 
@@ -316,5 +316,21 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	@Override
 	public int getConversionTime() {
 		return conversionTime;
+	}
+
+	public float getPreviousFlap() {
+		return previousFlap;
+	}
+
+	public float getPreviousFlapSpeed() {
+		return previousFlapSpeed;
+	}
+
+	public float getFlap() {
+		return flap;
+	}
+
+	public float getFlapSpeed() {
+		return flapSpeed;
 	}
 }

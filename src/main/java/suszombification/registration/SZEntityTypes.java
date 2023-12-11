@@ -47,6 +47,7 @@ public class SZEntityTypes {
 			.updateInterval(10)
 			.build(SuspiciousZombification.MODID + ":rotten_egg"));
 	//@formatter:on
+	private SZEntityTypes() {}
 
 	@SubscribeEvent
 	public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {

@@ -13,6 +13,8 @@ public class SZDamageSources {
 	public static final ResourceKey<DamageType> RITUAL_SACRIFICE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(SuspiciousZombification.MODID, "ritual_sacrifice"));
 	public static final ResourceKey<DamageType> SPP_EXPLOSION = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(SuspiciousZombification.MODID, "spp_explosion"));
 
+	private SZDamageSources() {}
+
 	public static DamageSource decomposing(RegistryAccess registryAccess) {
 		return new DamageSource(registryAccess.registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DECOMPOSING));
 	}

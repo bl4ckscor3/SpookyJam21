@@ -32,6 +32,8 @@ public class SZBlocks {
 	public static final DeferredBlock<TrophyBlock> POTATO_TROPHY = BLOCKS.register("potato_trophy", () -> new TrophyBlock(TrophyType.POTATO, trophies()));
 	public static final DeferredBlock<TrophyBlock> IRON_INGOT_TROPHY = BLOCKS.register("iron_ingot_trophy", () -> new TrophyBlock(TrophyType.IRON_INGOT, trophies()));
 
+	private SZBlocks() {}
+
 	private static BlockBehaviour.Properties rottenWool(MapColor mapColor) {
 		return BlockBehaviour.Properties.of().mapColor(mapColor).strength(0.8F).sound(SoundType.WOOL);
 	}

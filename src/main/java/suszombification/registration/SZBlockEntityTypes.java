@@ -15,4 +15,6 @@ public class SZBlockEntityTypes {
 			SZBlocks.POTATO_TROPHY.get(),
 			SZBlocks.IRON_INGOT_TROPHY.get()).build(null));
 	//@formatter:on
+
+	private SZBlockEntityTypes() {}
 }

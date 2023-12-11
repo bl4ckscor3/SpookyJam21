@@ -9,7 +9,7 @@ import net.minecraft.world.entity.animal.Animal;
 import suszombification.entity.ZombifiedAnimal;
 
 public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<LivingEntity> {
-	protected final EntityType<? extends Animal> targetType;
+	protected final EntityType<? extends Animal> animalTargetType;
 	protected final Predicate<Animal> mobPredicate;
 
 	public NearestNormalVariantTargetGoal(ZombifiedAnimal zombifiedAnimal, boolean mustSee, boolean mustReach) {
@@ -18,7 +18,7 @@ public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<
 
 	public NearestNormalVariantTargetGoal(ZombifiedAnimal zombifiedAnimal, boolean mustSee, boolean mustReach, Predicate<Animal> predicate) {
 		super((Animal) zombifiedAnimal, LivingEntity.class, mustSee, mustReach);
-		targetType = zombifiedAnimal.getNormalVariant();
+		animalTargetType = zombifiedAnimal.getNormalVariant();
 		mobPredicate = predicate;
 	}
 
@@ -29,6 +29,6 @@ public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<
 
 	@Override
 	protected void findTarget() {
-		target = mob.level().getNearestEntity(mob.level().getEntities(targetType, getTargetSearchArea(getFollowDistance()), e -> true), targetConditions, mob, mob.getX(), mob.getEyeY(), mob.getZ());
+		target = mob.level().getNearestEntity(mob.level().getEntities(animalTargetType, getTargetSearchArea(getFollowDistance()), e -> true), targetConditions, mob, mob.getX(), mob.getEyeY(), mob.getZ());
 	}
 }

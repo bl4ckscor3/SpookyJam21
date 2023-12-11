@@ -52,4 +52,6 @@ public class SZCreativeModeTabs {
 						output.accept(item);
 				}
 			}).build());
+
+	private SZCreativeModeTabs() {}
 }
