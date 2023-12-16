@@ -2,7 +2,6 @@ package suszombification;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import suszombification.registration.SZBlockEntityTypes;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEffects;
@@ -15,9 +14,7 @@ import suszombification.registration.SZRecipeSerializers;
 public class SuspiciousZombification {
 	public static final String MODID = "suszombification";
 
-	public SuspiciousZombification() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+	public SuspiciousZombification(IEventBus modEventBus) {
 		SZBlocks.BLOCKS.register(modEventBus);
 		SZBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
 		SZCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);

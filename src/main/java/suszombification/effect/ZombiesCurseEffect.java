@@ -1,6 +1,6 @@
 package suszombification.effect;
 
-import java.util.List;
+import java.util.Set;
 
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -8,7 +8,7 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.EffectCure;
 import suszombification.SZTags;
 import suszombification.registration.SZEffects;
 
@@ -30,7 +30,5 @@ public class ZombiesCurseEffect extends VicinityAffectingEffect {
 	}
 
 	@Override
-	public List<ItemStack> getCurativeItems() {
-		return List.of();
-	}
+	public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {}
 }

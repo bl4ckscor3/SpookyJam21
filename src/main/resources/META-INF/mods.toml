@@ -14,13 +14,13 @@ issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 [[dependencies.suszombification]]
 	modId="neoforge"
 	mandatory=true
-	versionRange="[20.3,)"
+	versionRange="[20.4.33,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.suszombification]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.20.3,1.21)"
+	versionRange="[1.20.4,1.21)"
 	ordering="NONE"
 	side="BOTH"
