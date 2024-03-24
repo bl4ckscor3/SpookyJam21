@@ -52,6 +52,6 @@ public class DataGenHandler {
                         DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
                         Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));
 		//@formatter:on
-		generator.addProvider(event.includeServer(), new RecipeGenerator(output, lookupProvider));
+		generator.addProvider(event.includeServer(), new RecipeGenerator(output));
 	}
 }

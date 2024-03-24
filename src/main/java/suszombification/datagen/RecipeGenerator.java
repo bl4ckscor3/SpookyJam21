@@ -1,8 +1,5 @@
 package suszombification.datagen;
 
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -20,8 +17,8 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(output, lookupProvider);
+	public RecipeGenerator(PackOutput output) {
+		super(output);
 	}
 
 	@Override
