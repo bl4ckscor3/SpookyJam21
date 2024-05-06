@@ -34,7 +34,7 @@ public class SZCreativeModeTabs {
 				}
 
 				List<Item> ingredients = SuspiciousPumpkinPieItem.getAllDifferentIngredients();
-				Set<ItemStack> differentPumpkinPies = ItemStackLinkedSet.createTypeAndTagSet();
+				Set<ItemStack> differentPumpkinPies = ItemStackLinkedSet.createTypeAndComponentsSet();
 
 				for (Item ingredient : ingredients) {
 					ItemStack pumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get());

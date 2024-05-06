@@ -78,10 +78,10 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		entityData.define(DATA_CONVERTING_ID, false);
-		entityData.define(DATA_ID_TYPE_VARIANT, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_CONVERTING_ID, false);
+		builder.define(DATA_ID_TYPE_VARIANT, 0);
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package suszombification.glm;
 
-import java.util.function.Supplier;
-
-import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -16,7 +13,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import suszombification.SZDamageSources;
 
 public class NoDecomposingDropsModifier extends LootModifier {
-	public static final Supplier<Codec<NoDecomposingDropsModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(instance -> codecStart(instance).apply(instance, NoDecomposingDropsModifier::new)));
+	public static final MapCodec<NoDecomposingDropsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance).apply(instance, NoDecomposingDropsModifier::new));
 
 	public NoDecomposingDropsModifier(LootItemCondition[] conditions) {
 		super(conditions);
@@ -30,7 +27,7 @@ public class NoDecomposingDropsModifier extends LootModifier {
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
-		return CODEC.get();
+	public MapCodec<? extends IGlobalLootModifier> codec() {
+		return CODEC;
 	}
 }

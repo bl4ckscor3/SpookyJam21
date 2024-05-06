@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
@@ -24,8 +24,8 @@ import suszombification.registration.SZLoot;
 
 public class EntityLootTableGenerator implements LootTableSubProvider {
 	@Override
-	public void generate(BiConsumer<ResourceLocation, Builder> consumer) {
-		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
+	public void generate(HolderLookup.Provider lookupProvider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
 
 		//@formatter:off
 		//gameplay

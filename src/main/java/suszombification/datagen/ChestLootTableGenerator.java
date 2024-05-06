@@ -13,7 +13,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
@@ -28,7 +27,7 @@ import suszombification.registration.SZLoot;
 
 public class ChestLootTableGenerator implements LootTableSubProvider {
 	@Override
-	public void generate(BiConsumer<ResourceLocation, Builder> consumer) {
+	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
 		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
 		CompoundTag rottenFleshSppTag = new CompoundTag();
 		CompoundTag weaknessPotionTag = new CompoundTag();

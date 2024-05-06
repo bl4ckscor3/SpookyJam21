@@ -1,5 +1,8 @@
 package suszombification.datagen;
 
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
@@ -13,15 +16,15 @@ import suszombification.glm.NoDecomposingDropsModifier;
 import suszombification.registration.SZLoot;
 
 public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
-	public GlobalLootModifierGenerator(PackOutput output) {
-		super(output, SuspiciousZombification.MODID);
+	public GlobalLootModifierGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(output, lookupProvider, SuspiciousZombification.MODID);
 	}
 
 	@Override
 	protected void start() {
 		add("cat_morning_gift", new CatMorningGiftModifier(new LootItemCondition[] {
 				//@formatter:off
-				LootTableIdCondition.builder(BuiltInLootTables.CAT_MORNING_GIFT).build(),
+				LootTableIdCondition.builder(BuiltInLootTables.CAT_MORNING_GIFT.location()).build(),
 				LootItemRandomChanceCondition.randomChance(0.5F).build()
 				//@formatter:on
 		}));

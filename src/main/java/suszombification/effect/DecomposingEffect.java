@@ -1,5 +1,6 @@
 package suszombification.effect;
 
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -27,7 +28,7 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	@Override
-	public void applyEffectTick(LivingEntity entity, int amplifier) {
+	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
 		if (!entity.level().isClientSide) {
 			if (entity instanceof Animal animal) {
 				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
@@ -35,7 +36,7 @@ public class DecomposingEffect extends MobEffect {
 				if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
 					Mob convertedAnimal = animal.convertTo(conversionType, false);
 
-					convertedAnimal.finalizeSpawn((ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+					EventHooks.onFinalizeSpawn(convertedAnimal, (ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
 					EventHooks.onLivingConvert(animal, convertedAnimal);
 
@@ -54,10 +55,12 @@ public class DecomposingEffect extends MobEffect {
 				spawnDecomposingDrops(entity);
 			}
 		}
+
+		return true;
 	}
 
 	private void spawnDecomposingDrops(LivingEntity entity) {
-		LootTable lootTable = entity.level().getServer().getLootData().getLootTable(SZLoot.DEATH_BY_DECOMPOSING);
+		LootTable lootTable = entity.level().getServer().reloadableRegistries().getLootTable(SZLoot.DEATH_BY_DECOMPOSING);
 		//@formatter:off
 		LootParams lootParams = new LootParams.Builder((ServerLevel) entity.level())
 				.withParameter(LootContextParams.THIS_ENTITY, entity)
@@ -75,7 +78,7 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	@Override
-	public DecomposingEffect addAttributeModifier(Attribute attribute, String uuid, double value, Operation operation) {
+	public DecomposingEffect addAttributeModifier(Holder<Attribute> attribute, String uuid, double value, Operation operation) {
 		super.addAttributeModifier(attribute, uuid, value, operation);
 		return this;
 	}

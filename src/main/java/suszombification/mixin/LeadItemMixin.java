@@ -2,10 +2,13 @@ package suszombification.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.LeadItem;
@@ -14,9 +17,9 @@ import suszombification.misc.SuspiciousRitual;
 
 @Mixin(LeadItem.class)
 public class LeadItemMixin {
-	@Redirect(method = "bindPlayerMobs", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;setLeashedTo(Lnet/minecraft/world/entity/Entity;Z)V"))
-	private static void bindPlayerMobs(Mob mob, Entity entity, boolean sendAttachNotification, Player player, Level level, BlockPos pos) {
+	//TODO Does this work?
+	@Inject(method = "bindPlayerMobs", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;setLeashedTo(Lnet/minecraft/world/entity/Entity;Z)V"))
+	private static void bindPlayerMobs(Player player, Level level, BlockPos pos, CallbackInfoReturnable<InteractionResult> cir, @Local Mob mob) {
 		SuspiciousRitual.maybeSendInfoMessages(mob, level, pos, player);
-		mob.setLeashedTo(entity, sendAttachNotification);
 	}
 }

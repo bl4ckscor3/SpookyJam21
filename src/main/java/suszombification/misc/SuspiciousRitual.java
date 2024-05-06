@@ -104,7 +104,7 @@ public final class SuspiciousRitual {
 					leashHolder.remove(RemovalReason.DISCARDED);
 					level.removeBlock(ritualOrigin.above(), false); //remove the trophy
 					player.removeAllEffects();
-					player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_GRACE.get(), 24000, 0, false, false, true));
+					player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_GRACE, 24000, 0, false, false, true));
 					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.0F);
 					level.playSound(null, ritualOrigin, SoundEvents.ZOMBIE_AMBIENT, SoundSource.NEUTRAL, 2.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
 					return true;

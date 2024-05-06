@@ -23,7 +23,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -52,6 +51,7 @@ import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZItems;
 
 public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAnimal { //can't extend Chicken because of the hardcoded egg laying logic in Chicken#aiStep
+	private static final EntityDimensions BABY_DIMENSIONS = EntityType.CHICKEN.getDimensions().scale(0.5F).withEyeHeight(0.2975F);
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.CHICKEN, Items.FEATHER);
 	private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(ZombifiedChicken.class, EntityDataSerializers.BOOLEAN);
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
@@ -72,9 +72,9 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		entityData.define(DATA_CONVERTING_ID, false);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_CONVERTING_ID, false);
 	}
 
 	@Override
@@ -92,8 +92,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	protected float getStandingEyeHeight(Pose pose, EntityDimensions size) {
-		return isBaby() ? size.height * 0.85F : size.height * 0.92F;
+	public EntityDimensions getDefaultDimensions(Pose pose) {
+		return isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -234,11 +234,6 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	public void positionRider(Entity passenger, MoveFunction moveFunction) {
 		super.positionRider(passenger);
 
-		float f = Mth.sin(yBodyRot * ((float) Math.PI / 180F));
-		float f1 = Mth.cos(yBodyRot * ((float) Math.PI / 180F));
-
-		moveFunction.accept(passenger, getX() + 0.1F * f, getY(0.5D) + passenger.getMyRidingOffset(this) + 0.0D, getZ() - 0.1F * f1);
-
 		if (passenger instanceof LivingEntity entity)
 			entity.yBodyRot = yBodyRot;
 	}
@@ -249,11 +244,6 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	public void setChickenJockey(boolean jockey) {
 		isChickenJockey = jockey;
-	}
-
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEAD;
 	}
 
 	@Override

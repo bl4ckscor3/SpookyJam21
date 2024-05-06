@@ -22,6 +22,7 @@ public interface ZombifiedAnimal {
 
 	EntityType<? extends Animal> getNormalVariant();
 
+	//TODO: see if readFromVanilla/writeToVanilla can be merged into a single method
 	default void readFromVanilla(Animal animal) {}
 
 	default void writeToVanilla(Animal animal) {}
@@ -48,7 +49,7 @@ public interface ZombifiedAnimal {
 		Animal zombifiedAnimal = (Animal) this;
 		Animal vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
 
-		vanillaAnimal.finalizeSpawn(level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+		EventHooks.onFinalizeSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 		writeToVanilla(vanillaAnimal);
 		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 

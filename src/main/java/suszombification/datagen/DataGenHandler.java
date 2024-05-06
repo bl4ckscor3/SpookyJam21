@@ -19,8 +19,8 @@ import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import suszombification.SuspiciousZombification;
@@ -45,8 +45,12 @@ public class DataGenHandler {
 		generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(output));
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTableGenerator::new, LootContextParamSets.CHEST), new SubProviderEntry(EntityLootTableGenerator::new, LootContextParamSets.ENTITY), new SubProviderEntry(GiftLootTableGenerator::new, LootContextParamSets.GIFT))));
 		//@formatter:off
+		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(
+				new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK),
+				new SubProviderEntry(ChestLootTableGenerator::new, LootContextParamSets.CHEST),
+				new SubProviderEntry(EntityLootTableGenerator::new, LootContextParamSets.ENTITY),
+				new SubProviderEntry(GiftLootTableGenerator::new, LootContextParamSets.GIFT)), lookupProvider));
 		generator.addProvider(true, new PackMetadataGenerator(output)
                 .add(PackMetadataSection.TYPE, new PackMetadataSection(Component.literal("Suspicious Zombification resources & data"),
                         DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),

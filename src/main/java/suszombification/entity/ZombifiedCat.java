@@ -18,7 +18,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -85,9 +84,9 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		entityData.define(DATA_CONVERTING_ID, false);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_CONVERTING_ID, false);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -146,11 +145,6 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public MobType getMobType() {
-		return MobType.UNDEAD;
-	}
-
-	@Override
 	protected void reassessTameGoals() {}
 
 	@Override
@@ -187,7 +181,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	public void readFromVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
 			setVariant(getVariant());
-			setTame(cat.isTame());
+			setTame(cat.isTame(), true);
 			setCollarColor(cat.getCollarColor());
 			setOwnerUUID(cat.getOwnerUUID());
 		}
@@ -197,7 +191,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 	public void writeToVanilla(Animal animal) {
 		if (animal instanceof Cat cat) {
 			cat.setVariant(getVariant());
-			cat.setTame(isTame());
+			cat.setTame(isTame(), true);
 			cat.setCollarColor(getCollarColor());
 			cat.setOwnerUUID(getOwnerUUID());
 		}
@@ -232,7 +226,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		public void giveMorningGift() {
 			RandomSource random = cat.getRandom();
 			BlockPos.MutableBlockPos catPos = new BlockPos.MutableBlockPos();
-			LootTable lootTable = cat.level().getServer().getLootData().getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
+			LootTable lootTable = cat.level().getServer().reloadableRegistries().getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT);
 			//@formatter:off
 			LootParams lootParams = new LootParams.Builder((ServerLevel) cat.level())
 					.withParameter(LootContextParams.ORIGIN, cat.position())

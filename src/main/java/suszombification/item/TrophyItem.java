@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import suszombification.block.entity.TrophyBlockEntity;
 import suszombification.registration.SZEffects;
 
+// TODO: Curse Given component
 public class TrophyItem extends BlockItem {
 	public TrophyItem(Block block, Properties properties) {
 		super(block, properties);

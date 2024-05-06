@@ -15,7 +15,7 @@ public class ZombifiedCatRenderer extends CatRenderer {
 
 	@Override
 	public ResourceLocation getTextureLocation(Cat entity) {
-		return entity.getResourceLocation();
+		return entity.getTextureId();
 	}
 
 	@Override

@@ -2,14 +2,15 @@ package suszombification.registration;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.FoodOnAStickItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import suszombification.SuspiciousZombification;
+import suszombification.entity.ZombifiedPig;
 import suszombification.item.CandyItem;
-import suszombification.item.PorkchopOnAStickItem;
 import suszombification.item.RottenEggItem;
 import suszombification.item.SpoiledMilkBucketItem;
 import suszombification.item.SuspiciousPumpkinPieItem;
@@ -31,7 +32,7 @@ public class SZItems {
 	//other items
 	public static final DeferredItem<SpoiledMilkBucketItem> SPOILED_MILK_BUCKET = ITEMS.register("spoiled_milk_bucket", () -> new SpoiledMilkBucketItem(new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
 	public static final DeferredItem<RottenEggItem> ROTTEN_EGG = ITEMS.register("rotten_egg", () -> new RottenEggItem(new Item.Properties().stacksTo(16)));
-	public static final DeferredItem<PorkchopOnAStickItem> PORKCHOP_ON_A_STICK = ITEMS.register("porkchop_on_a_stick", () -> new PorkchopOnAStickItem(new Item.Properties().durability(50)));
+	public static final DeferredItem<FoodOnAStickItem<ZombifiedPig>> PORKCHOP_ON_A_STICK = ITEMS.register("porkchop_on_a_stick", () -> new FoodOnAStickItem<>(new Item.Properties().durability(50), SZEntityTypes.ZOMBIFIED_PIG.get(), 7));
 	//spawn eggs
 	public static final DeferredItem<DeferredSpawnEggItem> ZOMBIFIED_CAT_SPAWN_EGG = ITEMS.register("zombified_cat_spawn_egg", () -> new DeferredSpawnEggItem(SZEntityTypes.ZOMBIFIED_CAT, 0xEFC88E, 0x799C65, new Item.Properties()));
 	public static final DeferredItem<DeferredSpawnEggItem> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.register("zombified_chicken_spawn_egg", () -> new DeferredSpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN, 0xA1A1A1, 0x799C65, new Item.Properties()));

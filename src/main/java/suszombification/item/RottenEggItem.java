@@ -1,15 +1,11 @@
 package suszombification.item;
 
-import net.minecraft.Util;
-import net.minecraft.core.Position;
-import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -20,12 +16,7 @@ public class RottenEggItem extends Item {
 	public RottenEggItem(Properties properties) {
 		super(properties);
 
-		DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
-			@Override
-			protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-				return Util.make(new ThrownRottenEgg(level, pos.x(), pos.y(), pos.z()), egg -> egg.setItem(stack));
-			}
-		});
+		DispenserBlock.registerProjectileBehavior(this);
 	}
 
 	@Override

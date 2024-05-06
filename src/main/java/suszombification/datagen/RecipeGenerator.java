@@ -1,5 +1,8 @@
 package suszombification.datagen;
 
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -17,8 +20,8 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(PackOutput output) {
-		super(output);
+	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(output, lookupProvider);
 	}
 
 	@Override
@@ -34,6 +37,7 @@ public class RecipeGenerator extends RecipeProvider {
 		.save(recipeOutput);
 		//@formatter:on
 
+		//TODO: Allow any color for recoloring
 		addColoredWoolRecipe(recipeOutput, Tags.Items.DYES_BLACK, SZBlocks.BLACK_ROTTEN_WOOL.get());
 		addColoredWoolRecipe(recipeOutput, Tags.Items.DYES_BLUE, SZBlocks.BLUE_ROTTEN_WOOL.get());
 		addColoredWoolRecipe(recipeOutput, Tags.Items.DYES_BROWN, SZBlocks.BROWN_ROTTEN_WOOL.get());

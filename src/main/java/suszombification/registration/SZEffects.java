@@ -19,7 +19,7 @@ public class SZEffects {
 	public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, SuspiciousZombification.MODID);
 	public static final DeferredHolder<MobEffect, AmplifyingEffect> AMPLIFYING = EFFECTS.register("amplifying", () -> new AmplifyingEffect(MobEffectCategory.BENEFICIAL, 0xEBE294));
 	public static final DeferredHolder<MobEffect, MobEffect> CUSHION = EFFECTS.register("cushion", () -> new MobEffect(MobEffectCategory.BENEFICIAL, 0xEDEDED));
-	public static final DeferredHolder<MobEffect, DecomposingEffect> DECOMPOSING = EFFECTS.register("decomposing", () -> new DecomposingEffect(MobEffectCategory.HARMFUL, 0x799C65).addAttributeModifier(Attributes.MOVEMENT_SPEED, "71c0aa55-a4ea-410d-8a42-99e9daa37ef5", -0.2D, Operation.MULTIPLY_TOTAL));
+	public static final DeferredHolder<MobEffect, DecomposingEffect> DECOMPOSING = EFFECTS.register("decomposing", () -> new DecomposingEffect(MobEffectCategory.HARMFUL, 0x799C65).addAttributeModifier(Attributes.MOVEMENT_SPEED, "71c0aa55-a4ea-410d-8a42-99e9daa37ef5", -0.2D, Operation.ADD_MULTIPLIED_TOTAL));
 	//@formatter:off
 	public static final DeferredHolder<MobEffect,VicinityAffectingEffect> STENCH = EFFECTS.register("stench", () -> new VicinityAffectingEffect(MobEffectCategory.BENEFICIAL, 0xCACC52,
 			amplifier -> Math.max((amplifier + 1) * 3, 10),

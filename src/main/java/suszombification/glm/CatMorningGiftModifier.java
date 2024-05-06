@@ -1,9 +1,6 @@
 package suszombification.glm;
 
-import java.util.function.Supplier;
-
-import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -15,7 +12,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import suszombification.registration.SZLoot;
 
 public class CatMorningGiftModifier extends LootModifier {
-	public static final Supplier<Codec<CatMorningGiftModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(instance -> codecStart(instance).apply(instance, CatMorningGiftModifier::new)));
+	public static final MapCodec<CatMorningGiftModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance).apply(instance, CatMorningGiftModifier::new));
 
 	public CatMorningGiftModifier(LootItemCondition[] conditions) {
 		super(conditions);
@@ -23,11 +20,11 @@ public class CatMorningGiftModifier extends LootModifier {
 
 	@Override
 	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		return context.getLevel().getServer().getLootData().getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context);
+		return context.getLevel().getServer().reloadableRegistries().getLootTable(SZLoot.ZOMBIFIED_CAT_MORNING_GIFT).getRandomItems(context);
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
-		return CODEC.get();
+	public MapCodec<? extends IGlobalLootModifier> codec() {
+		return CODEC;
 	}
 }

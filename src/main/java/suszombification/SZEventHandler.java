@@ -21,7 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -76,8 +76,8 @@ public class SZEventHandler {
 		if (entity instanceof Animal animal && ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.containsKey(animal.getType())) {
 			ItemStack stack = player.getItemInHand(event.getHand());
 
-			if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING.get())) {
-				animal.addEffect(new MobEffectInstance(SZEffects.DECOMPOSING.get(), TimeUtil.rangeOfSeconds(50, 70).sample(animal.getRandom())));
+			if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && SuspiciousPumpkinPieItem.hasIngredient(stack, Items.ROTTEN_FLESH) && !animal.hasEffect(SZEffects.DECOMPOSING)) {
+				animal.addEffect(new MobEffectInstance(SZEffects.DECOMPOSING, TimeUtil.rangeOfSeconds(50, 70).sample(animal.getRandom())));
 
 				if (!player.getAbilities().instabuild)
 					stack.shrink(1);
@@ -104,7 +104,7 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onLivingSetAttackTarget(LivingChangeTargetEvent event) {
-		if (event.getNewTarget() != null && event.getNewTarget().hasEffect(SZEffects.ZOMBIES_GRACE.get()) && event.getEntity().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
+		if (event.getNewTarget() != null && event.getNewTarget().hasEffect(SZEffects.ZOMBIES_GRACE) && event.getEntity().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
 			event.setCanceled(true);
 	}
 
@@ -123,7 +123,7 @@ public class SZEventHandler {
 
 				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
-				convertedAnimal.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+				EventHooks.onFinalizeSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 				((ZombifiedAnimal) convertedAnimal).readFromVanilla(killedEntity);
 				EventHooks.onLivingConvert(livingEntity, convertedAnimal);
 
@@ -135,14 +135,14 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onPlayerClone(PlayerEvent.Clone event) {
-		if (event.getOriginal().hasEffect(SZEffects.ZOMBIES_CURSE.get()))
-			event.getEntity().addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE.get(), Integer.MAX_VALUE));
+		if (event.getOriginal().hasEffect(SZEffects.ZOMBIES_CURSE))
+			event.getEntity().addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE, Integer.MAX_VALUE));
 	}
 
 	@SubscribeEvent
 	public static void onLivingFall(LivingFallEvent event) {
-		if (event.getEntity().hasEffect(SZEffects.CUSHION.get()) && event.getDistance() > 3.0F) {
-			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION.get());
+		if (event.getEntity().hasEffect(SZEffects.CUSHION) && event.getDistance() > 3.0F) {
+			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION);
 
 			event.setDamageMultiplier(Math.max(event.getDamageMultiplier() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
 			event.getEntity().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
@@ -151,8 +151,8 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onKnockback(LivingKnockBackEvent event) {
-		if (event.getEntity().hasEffect(SZEffects.CUSHION.get())) {
-			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION.get());
+		if (event.getEntity().hasEffect(SZEffects.CUSHION)) {
+			MobEffectInstance cushionEffect = event.getEntity().getEffect(SZEffects.CUSHION);
 
 			event.setStrength(Math.max(event.getOriginalStrength() * (0.3F - cushionEffect.getAmplifier() * 0.2F), 0));
 			event.getEntity().playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.5F);
