@@ -1,7 +1,8 @@
 package suszombification.item;
 
+import com.mojang.datafixers.util.Unit;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
@@ -12,11 +13,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import suszombification.block.entity.TrophyBlockEntity;
+import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZEffects;
 
-// TODO: Curse Given component
 public class TrophyItem extends BlockItem {
 	public TrophyItem(Block block, Properties properties) {
 		super(block, properties);
@@ -27,8 +26,8 @@ public class TrophyItem extends BlockItem {
 		if (level.getDifficulty() != Difficulty.PEACEFUL) {
 			Player player = (Player) entity;
 
-			if (!player.getAbilities().instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE) && !stack.getOrCreateTag().getBoolean("CurseGiven")) {
-				stack.getTag().putBoolean("CurseGiven", true);
+			if (!player.getAbilities().instabuild && !player.isSpectator() && !player.hasEffect(SZEffects.ZOMBIES_CURSE) && !stack.has(SZDataComponents.CURSE_GIVEN)) {
+				stack.set(SZDataComponents.CURSE_GIVEN, Unit.INSTANCE);
 				player.playSound(SoundEvents.WITHER_SPAWN, 1.0F, 0.9F);
 				player.playSound(SoundEvents.ZOMBIE_AMBIENT, 0.5F, 0.8F);
 				player.addEffect(new MobEffectInstance(SZEffects.ZOMBIES_CURSE, -1));
@@ -37,13 +36,5 @@ public class TrophyItem extends BlockItem {
 					player.sendSystemMessage(Component.translatable("message.suszombification.curse.warning").withStyle(ChatFormatting.RED));
 			}
 		}
-	}
-
-	@Override
-	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
-		if (level.getBlockEntity(pos) instanceof TrophyBlockEntity trophy)
-			trophy.setCurseGiven(stack.getOrCreateTag().getBoolean("CurseGiven"));
-
-		return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
 	}
 }

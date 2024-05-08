@@ -10,12 +10,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.block.TrophyBlock;
-import suszombification.misc.CurseGivenFunction;
 import suszombification.registration.SZBlocks;
+import suszombification.registration.SZDataComponents;
 
 public class BlockLootTableGenerator extends BlockLootSubProvider {
 	protected BlockLootTableGenerator() {
@@ -35,13 +36,13 @@ public class BlockLootTableGenerator extends BlockLootSubProvider {
 	}
 
 	private LootTable.Builder createTrophyLootTable(ItemLike drop) {
-		//TODO: Curse Given component
 		//@formatter:off
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(drop)
-								.apply(CurseGivenFunction.create()))
+								.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+										.include(SZDataComponents.CURSE_GIVEN.get())))
 						.when(ExplosionCondition.survivesExplosion()));
 		//@formatter:on
 	}

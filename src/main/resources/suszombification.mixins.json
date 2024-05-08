@@ -7,6 +7,7 @@
 		"UndeadHorseRendererMixin"
 	],
 	"mixins": [
+		"datafix.ItemStackComponentizationFixMixin",
 		"LeadItemMixin",
 		"ZombieHorseMixin"
 	],
