@@ -16,6 +16,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.item.ItemStackComponent;
 import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZItems;
@@ -74,9 +75,9 @@ public class AnimalUtil {
 
 	public static boolean isFood(ItemStack stack, Ingredient foodItems, Predicate<ItemStack> extraTest) {
 		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())) {
-			ItemStack ingredient = stack.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY);
+			ItemStackComponent ingredient = stack.get(SZDataComponents.INGREDIENT);
 
-			return !ingredient.isEmpty() && foodItems.test(ingredient) || extraTest.test(ingredient);
+			return ingredient != null && foodItems.test(ingredient.stack()) || extraTest.test(ingredient.stack());
 		}
 
 		return false;

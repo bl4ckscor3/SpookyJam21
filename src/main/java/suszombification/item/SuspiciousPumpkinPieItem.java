@@ -52,11 +52,13 @@ public class SuspiciousPumpkinPieItem extends Item {
 		if (ingredient.getItem() instanceof CandyItem candy)
 			suspiciousPumpkinPie.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, candy.getEffects());
 
-		suspiciousPumpkinPie.set(SZDataComponents.INGREDIENT, ingredient.copyWithCount(1));
+		suspiciousPumpkinPie.set(SZDataComponents.INGREDIENT, new ItemStackComponent(ingredient.copyWithCount(1)));
 	}
 
 	public static boolean hasIngredient(ItemStack pie, Item test) {
-		return pie.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY).is(test);
+		ItemStackComponent ingredient = pie.get(SZDataComponents.INGREDIENT);
+
+		return ingredient != null && ingredient.is(test);
 	}
 
 	public static List<Item> getAllDifferentIngredients() {
@@ -102,9 +104,10 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 		stack.getOrDefault(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY).effects().forEach(entry -> effectApplier.accept(entry.createEffectInstance()));
 
-		ItemStack ingredient = stack.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY);
+		ItemStackComponent ingredientComponent = stack.get(SZDataComponents.INGREDIENT);
 
-		if (!ingredient.isEmpty()) {
+		if (ingredientComponent != null) {
+			ItemStack ingredient = ingredientComponent.stack();
 			boolean foundEffect = false;
 
 			messageSuffix = BuiltInRegistries.ITEM.getKey(ingredient.getItem()).getPath();

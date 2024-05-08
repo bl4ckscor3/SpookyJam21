@@ -22,6 +22,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import suszombification.item.ItemStackComponent;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZItems;
@@ -54,7 +55,7 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(SetComponentsFunction.setComponent(SZDataComponents.INGREDIENT.get(), new ItemStack(Items.ROTTEN_FLESH))))));
+								.apply(SetComponentsFunction.setComponent(SZDataComponents.INGREDIENT.get(), new ItemStackComponent(new ItemStack(Items.ROTTEN_FLESH)))))));
 		lootTables.put(SZLoot.RITUAL_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))

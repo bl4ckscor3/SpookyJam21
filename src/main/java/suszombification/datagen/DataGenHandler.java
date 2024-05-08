@@ -42,7 +42,7 @@ public class DataGenHandler {
 		generator.addProvider(event.includeServer(), blockTagGenerator);
 		generator.addProvider(event.includeServer(), new DamageTypeTagGenerator(output, lookupProvider, existingFileHelper));
 		generator.addProvider(event.includeServer(), new EntityTypeTagGenerator(output, lookupProvider, existingFileHelper));
-		generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(output));
+		generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(output, lookupProvider));
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 		//@formatter:off
@@ -56,6 +56,6 @@ public class DataGenHandler {
                         DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
                         Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));
 		//@formatter:on
-		generator.addProvider(event.includeServer(), new RecipeGenerator(output));
+		generator.addProvider(event.includeServer(), new RecipeGenerator(output, lookupProvider));
 	}
 }

@@ -32,7 +32,7 @@ public class ItemStackComponentizationFixMixin {
 
 		if (itemStackData.is("suszombification:suspicious_pumpkin_pie")) {
 			itemStackData.moveTagToComponent("effects", "minecraft:suspicious_stew_effects");
-			itemStackData.moveTagToComponent("Ingredient", "suszombification:ingredient");
+			itemStackData.removeTag("Ingredient").result().ifPresent(ingredient -> itemStackData.setComponent("suszombification:ingredient", dynamic.emptyMap().set("stack", ingredient)));
 		}
 	}
 }
