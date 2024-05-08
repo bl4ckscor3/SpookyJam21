@@ -77,7 +77,7 @@ public class AnimalUtil {
 		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())) {
 			ItemStackComponent ingredient = stack.get(SZDataComponents.INGREDIENT);
 
-			return ingredient != null && foodItems.test(ingredient.stack()) || extraTest.test(ingredient.stack());
+			return ingredient != null && (foodItems.test(ingredient.stack()) || extraTest.test(ingredient.stack()));
 		}
 
 		return false;
