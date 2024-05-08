@@ -73,7 +73,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	}
 
 	@Inject(method = "createAttributes", at = @At("HEAD"), cancellable = true)
-	private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> callback) {
+	private static void suszombification$createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> callback) {
 		callback.setReturnValue(createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 15.0D).add(Attributes.MOVEMENT_SPEED, 0.2F).add(Attributes.ATTACK_DAMAGE, 2.0F));
 	}
 
@@ -91,7 +91,7 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	}
 
 	@Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-	private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> callback) {
+	private void suszombification$mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> callback) {
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
 
 		if (returnValue != InteractionResult.PASS)
