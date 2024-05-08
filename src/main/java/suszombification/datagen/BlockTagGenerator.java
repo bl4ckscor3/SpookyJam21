@@ -21,7 +21,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
 	protected void addTags(HolderLookup.Provider provider) {
 		//@formatter:off
 		tag(SZTags.Blocks.ROTTEN_WOOL).add(
-				SZBlocks.WHITE_ROTTEN_WOOl.get(),
+				SZBlocks.WHITE_ROTTEN_WOOL.get(),
 				SZBlocks.ORANGE_ROTTEN_WOOL.get(),
 				SZBlocks.MAGENTA_ROTTEN_WOOL.get(),
 				SZBlocks.LIGHT_BLUE_ROTTEN_WOOL.get(),

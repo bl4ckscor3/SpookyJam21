@@ -12,7 +12,7 @@ import suszombification.block.TrophyBlock.TrophyType;
 
 public class SZBlocks {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SuspiciousZombification.MODID);
-	public static final DeferredBlock<RottenWoolBlock> WHITE_ROTTEN_WOOl = BLOCKS.register("white_rotten_wool", () -> new RottenWoolBlock(rottenWool(MapColor.SNOW)));
+	public static final DeferredBlock<RottenWoolBlock> WHITE_ROTTEN_WOOL = BLOCKS.register("white_rotten_wool", () -> new RottenWoolBlock(rottenWool(MapColor.SNOW)));
 	public static final DeferredBlock<RottenWoolBlock> ORANGE_ROTTEN_WOOL = BLOCKS.register("orange_rotten_wool", () -> new RottenWoolBlock(rottenWool(MapColor.COLOR_ORANGE)));
 	public static final DeferredBlock<RottenWoolBlock> MAGENTA_ROTTEN_WOOL = BLOCKS.register("magenta_rotten_wool", () -> new RottenWoolBlock(rottenWool(MapColor.COLOR_MAGENTA)));
 	public static final DeferredBlock<RottenWoolBlock> LIGHT_BLUE_ROTTEN_WOOL = BLOCKS.register("light_blue_rotten_wool", () -> new RottenWoolBlock(rottenWool(MapColor.COLOR_LIGHT_BLUE)));

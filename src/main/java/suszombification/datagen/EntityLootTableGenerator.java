@@ -65,7 +65,7 @@ public class EntityLootTableGenerator implements LootTableSubProvider {
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_PINK, createSheepTable(SZBlocks.PINK_ROTTEN_WOOL.get()));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_PURPLE, createSheepTable(SZBlocks.PURPLE_ROTTEN_WOOL.get()));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_RED, createSheepTable(SZBlocks.RED_ROTTEN_WOOL.get()));
-		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_WHITE, createSheepTable(SZBlocks.WHITE_ROTTEN_WOOl.get()));
+		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_WHITE, createSheepTable(SZBlocks.WHITE_ROTTEN_WOOL.get()));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_YELLOW, createSheepTable(SZBlocks.YELLOW_ROTTEN_WOOL.get()));
 
 		lootTables.forEach((path, loot) -> consumer.accept(path, loot.setParamSet(LootContextParamSets.ENTITY)));

@@ -59,7 +59,7 @@ import suszombification.registration.SZLoot;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
 	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
-		map.put(DyeColor.WHITE, SZBlocks.WHITE_ROTTEN_WOOl.get());
+		map.put(DyeColor.WHITE, SZBlocks.WHITE_ROTTEN_WOOL.get());
 		map.put(DyeColor.ORANGE, SZBlocks.ORANGE_ROTTEN_WOOL.get());
 		map.put(DyeColor.MAGENTA, SZBlocks.MAGENTA_ROTTEN_WOOL.get());
 		map.put(DyeColor.LIGHT_BLUE, SZBlocks.LIGHT_BLUE_ROTTEN_WOOL.get());

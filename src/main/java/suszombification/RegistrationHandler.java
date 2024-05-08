@@ -64,7 +64,7 @@ public class RegistrationHandler {
 	public static void onCreativeModeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
 		if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
 			event.acceptAll(List.of( //@formatter:off
-					new ItemStack(SZBlocks.WHITE_ROTTEN_WOOl.get()),
+					new ItemStack(SZBlocks.WHITE_ROTTEN_WOOL.get()),
 					new ItemStack(SZBlocks.LIGHT_GRAY_ROTTEN_WOOL.get()),
 					new ItemStack(SZBlocks.GRAY_ROTTEN_WOOL.get()),
 					new ItemStack(SZBlocks.BLACK_ROTTEN_WOOL.get()),

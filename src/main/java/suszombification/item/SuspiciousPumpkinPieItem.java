@@ -73,7 +73,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 
 		ingredients.add(SZItems.SPOILED_MILK_BUCKET.get());
 		ingredients.add(SZItems.ROTTEN_EGG.get());
-		ingredients.add(SZBlocks.WHITE_ROTTEN_WOOl.get().asItem());
+		ingredients.add(SZBlocks.WHITE_ROTTEN_WOOL.get().asItem());
 		ingredients.add(Items.GOLDEN_APPLE);
 		ingredients.add(Items.ROTTEN_FLESH);
 		ingredients.add(Items.CHICKEN); //vanilla mob drops
