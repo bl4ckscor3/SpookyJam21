@@ -101,8 +101,14 @@
               "function": "minecraft:set_count"
             },
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{Ingredient:{Count:1b,id:\"minecraft:rotten_flesh\"}}"
+              "components": {
+                "suszombification:ingredient": {
+                  "stack": {
+                    "id": "minecraft:rotten_flesh"
+                  }
+                }
+              },
+              "function": "minecraft:set_components"
             }
           ],
           "name": "suszombification:suspicious_pumpkin_pie"

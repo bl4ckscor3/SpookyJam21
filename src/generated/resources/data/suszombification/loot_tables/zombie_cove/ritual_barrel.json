@@ -81,8 +81,12 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{Potion:\"minecraft:weakness\"}"
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:weakness"
+                }
+              },
+              "function": "minecraft:set_components"
             }
           ],
           "name": "minecraft:potion"

@@ -13,7 +13,11 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "suszombification:curse_given"
+              "function": "minecraft:copy_components",
+              "include": [
+                "suszombification:curse_given"
+              ],
+              "source": "block_entity"
             }
           ],
           "name": "suszombification:carrot_trophy"

@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "suszombification:white_rotten_wool"
-            ]
+            "items": "suszombification:white_rotten_wool"
           }
         ]
       },

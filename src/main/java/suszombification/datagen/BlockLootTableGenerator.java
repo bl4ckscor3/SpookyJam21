@@ -46,4 +46,9 @@ public class BlockLootTableGenerator extends BlockLootSubProvider {
 						.when(ExplosionCondition.survivesExplosion()));
 		//@formatter:on
 	}
+
+	@Override
+	protected Iterable<Block> getKnownBlocks() {
+		return (Iterable<Block>) SZBlocks.BLOCKS.getEntries().stream().map(DeferredHolder::get).toList();
+	}
 }

@@ -4,13 +4,14 @@
   "group": "suszombification:rotten_wool",
   "ingredients": [
     {
-      "tag": "forge:dyes/pink"
+      "tag": "c:dyes/pink"
     },
     {
       "item": "suszombification:white_rotten_wool"
     }
   ],
   "result": {
-    "item": "suszombification:pink_rotten_wool"
+    "count": 1,
+    "id": "suszombification:pink_rotten_wool"
   }
 }
