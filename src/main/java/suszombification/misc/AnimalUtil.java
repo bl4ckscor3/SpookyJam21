@@ -2,7 +2,6 @@ package suszombification.misc;
 
 import java.util.function.Predicate;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import suszombification.entity.ZombifiedAnimal;
 import suszombification.item.SuspiciousPumpkinPieItem;
+import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZItems;
 
 public class AnimalUtil {
@@ -73,11 +73,10 @@ public class AnimalUtil {
 	}
 
 	public static boolean isFood(ItemStack stack, Ingredient foodItems, Predicate<ItemStack> extraTest) {
-		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get()) && stack.hasTag() && stack.getTag().contains("Ingredient")) {
-			CompoundTag ingredientTag = stack.getTag().getCompound("Ingredient");
-			ItemStack ingredient = ItemStack.of(ingredientTag);
+		if (stack.is(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())) {
+			ItemStack ingredient = stack.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY);
 
-			return foodItems.test(ingredient) || extraTest.test(ingredient);
+			return !ingredient.isEmpty() && foodItems.test(ingredient) || extraTest.test(ingredient);
 		}
 
 		return false;

@@ -4,36 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
+import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import suszombification.registration.SZBlocks;
+import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
 
 public class ChestLootTableGenerator implements LootTableSubProvider {
 	@Override
-	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-		Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
-		CompoundTag rottenFleshSppTag = new CompoundTag();
+	public void generate(HolderLookup.Provider provider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
 		CompoundTag weaknessPotionTag = new CompoundTag();
 
 		//@formatter:off
-		rottenFleshSppTag.put("Ingredient", new ItemStack(Items.ROTTEN_FLESH).save(new CompoundTag()));
 		weaknessPotionTag.putString("Potion", BuiltInRegistries.POTION.getKey(Potions.WEAKNESS).toString());
 		lootTables.put(SZLoot.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
@@ -56,7 +56,7 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(SZItems.SUSPICIOUS_PUMPKIN_PIE.get())
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(SetNbtFunction.setTag(rottenFleshSppTag)))));
+								.apply(SetComponentsFunction.setComponent(SZDataComponents.INGREDIENT.get(), new ItemStack(Items.ROTTEN_FLESH))))));
 		lootTables.put(SZLoot.RITUAL_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))

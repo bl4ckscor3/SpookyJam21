@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.serialization.Dynamic;
-import com.mojang.serialization.OptionalDynamic;
 
 import net.minecraft.util.datafix.fixes.ItemStackComponentizationFix;
 
@@ -23,11 +22,12 @@ public class ItemStackComponentizationFixMixin {
 
 	@Inject(method = "fixItemStack", at = @At("TAIL"))
 	private static void suszombification$fixItemStacks(ItemStackComponentizationFix.ItemStackData itemStackData, Dynamic<?> dynamic, CallbackInfo ci) {
-		if (itemStackData.is(TROPHIES)) {
-			OptionalDynamic<?> curseGiven = itemStackData.removeTag("CurseGiven");
+		if (itemStackData.is(TROPHIES))
+			itemStackData.moveTagToComponent("CurseGiven", "suszombification:curse_given");
 
-			if (curseGiven.get().isSuccess())
-				itemStackData.setComponent("suszombification:curse_given", dynamic.emptyMap());
+		if (itemStackData.is("suszombification:suspicious_pumpkin_pie")) {
+			itemStackData.moveTagToComponent("effects", "minecraft:suspicious_stew_effects");
+			itemStackData.moveTagToComponent("Ingredient", "suszombification:ingredient");
 		}
 	}
 }

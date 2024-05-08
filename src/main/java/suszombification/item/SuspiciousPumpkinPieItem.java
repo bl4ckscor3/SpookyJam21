@@ -7,9 +7,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,17 +17,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
-import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.SZDamageSources;
 import suszombification.SZTags;
 import suszombification.misc.SuspiciousRitual;
 import suszombification.registration.SZBlocks;
+import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZEffects;
 import suszombification.registration.SZItems;
 
@@ -50,18 +49,14 @@ public class SuspiciousPumpkinPieItem extends Item {
 	}
 
 	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
-		CompoundTag ingredientTag = new CompoundTag();
-
 		if (ingredient.getItem() instanceof CandyItem candy)
-			SuspiciousStewItem.saveMobEffects(suspiciousPumpkinPie, candy.getEffects());
+			suspiciousPumpkinPie.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, candy.getEffects());
 
-		ingredient.setCount(1);
-		ingredient.save(ingredientTag);
-		suspiciousPumpkinPie.getOrCreateTag().put("Ingredient", ingredientTag);
+		suspiciousPumpkinPie.set(SZDataComponents.INGREDIENT, ingredient.copyWithCount(1));
 	}
 
 	public static boolean hasIngredient(ItemStack pie, Item test) {
-		return pie.hasTag() && pie.getTag().contains("Ingredient") && ItemStack.of(pie.getTag().getCompound("Ingredient")).is(test);
+		return pie.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY).is(test);
 	}
 
 	public static List<Item> getAllDifferentIngredients() {
@@ -84,48 +79,32 @@ public class SuspiciousPumpkinPieItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
-		super.appendHoverText(stack, level, tooltip, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+		super.appendHoverText(stack, ctx, tooltip, flag);
 
 		if (flag.isCreative()) {
 			List<MobEffectInstance> effects = new ArrayList<>();
 
-			listPotionEffects(stack, effects::add, null);
-			PotionUtils.addPotionTooltip(effects, tooltip, 1.0F, level == null ? 20.0F : level.tickRateManager().tickrate());
+			addPotionEffects(stack, effects::add, null);
+			PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, ctx.tickRate());
 		}
 	}
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
-		listPotionEffects(stack, entity::addEffect, entity);
+		addPotionEffects(stack, entity::addEffect, entity);
 		return super.finishUsingItem(stack, level, entity);
 	}
 
-	private static void listPotionEffects(ItemStack stack, Consumer<MobEffectInstance> consumer, LivingEntity entity) {
-		CompoundTag tag = stack.getTag();
+	private static void addPotionEffects(ItemStack stack, Consumer<MobEffectInstance> effectApplier, LivingEntity entity) {
 		String messageSuffix = "air";
 		ChatFormatting color = ChatFormatting.GRAY;
 
-		if (tag != null && tag.contains("Effects", 9) && tag.contains("Ingredient", 10)) { //old effect data, needs to be upgraded
-			ItemStack ingredientStack = ItemStack.of(tag.getCompound("Ingredient"));
+		stack.getOrDefault(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY).effects().forEach(entry -> effectApplier.accept(entry.createEffectInstance()));
 
-			if (!ingredientStack.isEmpty()) {
-				saveIngredient(stack, ingredientStack);
-				tag.remove("Effects");
-			}
-		}
+		ItemStack ingredient = stack.getOrDefault(SZDataComponents.INGREDIENT, ItemStack.EMPTY);
 
-		if (tag != null && tag.contains("effects", 9)) {
-			//@formatter:off
-			SuspiciousEffectHolder.EffectEntry.LIST_CODEC
-					.parse(NbtOps.INSTANCE, tag.getList("effects", 10))
-					.result()
-					.ifPresent(effectEntryList -> effectEntryList.forEach(entry -> consumer.accept(entry.createEffectInstance())));
-			//@formatter:on
-		}
-
-		if (tag != null && tag.contains("Ingredient")) {
-			ItemStack ingredient = ItemStack.of(tag.getCompound("Ingredient"));
+		if (!ingredient.isEmpty()) {
 			boolean foundEffect = false;
 
 			messageSuffix = BuiltInRegistries.ITEM.getKey(ingredient.getItem()).getPath();
@@ -137,10 +116,10 @@ public class SuspiciousPumpkinPieItem extends Item {
 					MobEffectInstance extraEffect = pieEffect.extraEffect.get();
 
 					if (mainEffect != null)
-						consumer.accept(mainEffect);
+						effectApplier.accept(mainEffect);
 
 					if (extraEffect != null)
-						consumer.accept(extraEffect);
+						effectApplier.accept(extraEffect);
 
 					if (!pieEffect.messageSuffix.isEmpty())
 						messageSuffix = pieEffect.messageSuffix;
@@ -156,7 +135,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 						entity.level().explode(null, SZDamageSources.sppExplosion(entity.level().registryAccess()), null, entity.getX(), entity.getY(), entity.getZ(), 3, false, ExplosionInteraction.MOB);
 				}
 				else { //vanilla mob drop
-					consumer.accept(new MobEffectInstance(MobEffects.POISON, 300));
+					effectApplier.accept(new MobEffectInstance(MobEffects.POISON, 300));
 					messageSuffix = "mob_drop";
 					color = ChatFormatting.DARK_GREEN;
 				}
