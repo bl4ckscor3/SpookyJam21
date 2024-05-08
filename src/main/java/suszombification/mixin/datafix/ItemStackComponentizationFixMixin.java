@@ -31,6 +31,14 @@ public class ItemStackComponentizationFixMixin {
 		}
 
 		if (itemStackData.is("suszombification:suspicious_pumpkin_pie")) {
+			//@formatter:off
+			itemStackData.removeTag("Effects").result().ifPresent(effects -> itemStackData.setComponent("minecraft:suspicious_stew_effects",
+					dynamic.createList(effects.asList(entry ->
+							dynamic.emptyMap()
+							.set("duration", dynamic.createInt(entry.get("EffectDuration").asInt(0)))
+							.set("id", dynamic.createString(entry.get("forge:effect_id").asString("minecraft:speed"))))
+							.stream())));
+			//@formatter:on
 			itemStackData.moveTagToComponent("effects", "minecraft:suspicious_stew_effects");
 			itemStackData.removeTag("Ingredient").result().ifPresent(ingredient -> itemStackData.setComponent("suszombification:ingredient", dynamic.emptyMap().set("stack", ingredient)));
 		}
