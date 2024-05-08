@@ -4,15 +4,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import suszombification.SuspiciousZombification;
-import suszombification.misc.CurseGivenFunction;
 
 public class SZLoot {
-	public static final DeferredRegister<LootItemFunctionType<?>> LOOT_ITEM_FUNCTION_TYPES = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, SuspiciousZombification.MODID);
-	public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<CurseGivenFunction>> CURSE_GIVEN_LOOT_FUNCTION = LOOT_ITEM_FUNCTION_TYPES.register("curse_given", () -> new LootItemFunctionType<>(CurseGivenFunction.CODEC));
 	//gameplay
 	public static final ResourceKey<LootTable> DEATH_BY_DECOMPOSING = create("gameplay/death_by_decomposing");
 	public static final ResourceKey<LootTable> ZOMBIFIED_CAT_MORNING_GIFT = create("gameplay/zombified_cat_morning_gift");

@@ -29,7 +29,7 @@ public class GlobalLootModifierGenerator extends GlobalLootModifierProvider {
 				//@formatter:on
 		}));
 		add("no_decomposing_drops", new NoDecomposingDropsModifier(new LootItemCondition[] {
-				InvertedLootItemCondition.invert(LootTableIdCondition.builder(SZLoot.DEATH_BY_DECOMPOSING)).build()
+				InvertedLootItemCondition.invert(LootTableIdCondition.builder(SZLoot.DEATH_BY_DECOMPOSING.location())).build()
 		}));
 	}
 }

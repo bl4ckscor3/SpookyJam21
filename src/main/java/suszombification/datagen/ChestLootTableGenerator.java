@@ -31,10 +31,8 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 	@Override
 	public void generate(HolderLookup.Provider provider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
 		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
-		CompoundTag weaknessPotionTag = new CompoundTag();
 
 		//@formatter:off
-		weaknessPotionTag.putString("Potion", BuiltInRegistries.POTION.getKey(Potions.WEAKNESS).toString());
 		lootTables.put(SZLoot.PEN_BARREL, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
@@ -76,7 +74,7 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.POTION)
-								.apply(SetNbtFunction.setTag(weaknessPotionTag))))
+								.apply(SetComponentsFunction.setComponent(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WEAKNESS)))))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(4.0F))
 						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)

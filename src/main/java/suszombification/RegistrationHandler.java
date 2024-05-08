@@ -55,8 +55,8 @@ public class RegistrationHandler {
 			}
 		});
 		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
-			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "cat_morning_gift"), CatMorningGiftModifier.CODEC.get());
-			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "no_decomposing_drops"), NoDecomposingDropsModifier.CODEC.get());
+			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "cat_morning_gift"), CatMorningGiftModifier.CODEC);
+			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "no_decomposing_drops"), NoDecomposingDropsModifier.CODEC);
 		});
 	}
 
