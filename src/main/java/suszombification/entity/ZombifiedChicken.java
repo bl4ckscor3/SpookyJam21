@@ -121,9 +121,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 		Vec3 deltaMovement = getDeltaMovement();
 
-		if (!onGround() && deltaMovement.y < 0.0D) {
+		if (!onGround() && deltaMovement.y < 0.0D)
 			setDeltaMovement(deltaMovement.multiply(1.0D, 0.6D, 1.0D));
-		}
 
 		flap += flapping * 2.0F;
 

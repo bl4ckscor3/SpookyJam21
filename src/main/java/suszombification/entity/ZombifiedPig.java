@@ -87,16 +87,11 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public LivingEntity getControllingPassenger() {
-		Entity entity = getFirstPassenger();
-
-		return entity instanceof LivingEntity firstPassenger && canBeControlledBy(firstPassenger) ? firstPassenger : null;
+		return getFirstPassenger() instanceof LivingEntity firstPassenger && canBeControlledBy(firstPassenger) ? firstPassenger : null;
 	}
 
 	public boolean canBeControlledBy(Entity entity) {
-		if (entity instanceof Player player)
-			return player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
-		else
-			return false;
+		return entity instanceof Player player && player.isHolding(SZItems.PORKCHOP_ON_A_STICK.get());
 	}
 
 	@Override
