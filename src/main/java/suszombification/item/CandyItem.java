@@ -2,23 +2,24 @@ package suszombification.item;
 
 import java.util.List;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.SuspiciousEffectHolder;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
 
 public class CandyItem extends Item {
-	private final List<SuspiciousEffectHolder.EffectEntry> suspiciousPumpkinPieEffect;
+	private final SuspiciousStewEffects suspiciousPumpkinPieEffects;
 
-	public CandyItem(MobEffect effect, int effectDuration, Properties properties) {
+	public CandyItem(Holder<MobEffect> effect, int effectDuration, Properties properties) {
 		super(properties);
 
-		if (!effect.isInstantenous())
-			effectDuration = effectDuration * 20;
+		if (!effect.value().isInstantenous())
+			effectDuration *= 20;
 
-		this.suspiciousPumpkinPieEffect = List.of(new SuspiciousEffectHolder.EffectEntry(effect, effectDuration));
+		suspiciousPumpkinPieEffects = new SuspiciousStewEffects(List.of(new SuspiciousStewEffects.Entry(effect, effectDuration)));
 	}
 
-	public List<SuspiciousEffectHolder.EffectEntry> getEffect() {
-		return suspiciousPumpkinPieEffect;
+	public SuspiciousStewEffects getEffects() {
+		return suspiciousPumpkinPieEffects;
 	}
 }
