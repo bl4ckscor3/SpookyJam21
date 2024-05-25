@@ -36,7 +36,7 @@ public class DecomposingEffect extends MobEffect {
 				if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
 					Mob convertedAnimal = animal.convertTo(conversionType, false);
 
-					EventHooks.onFinalizeSpawn(convertedAnimal, (ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
+					EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
 					EventHooks.onLivingConvert(animal, convertedAnimal);
 

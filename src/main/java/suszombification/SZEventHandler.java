@@ -123,7 +123,7 @@ public class SZEventHandler {
 
 				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
-				EventHooks.onFinalizeSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
+				EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 				((ZombifiedAnimal) convertedAnimal).readFromVanilla(killedEntity);
 				EventHooks.onLivingConvert(livingEntity, convertedAnimal);
 

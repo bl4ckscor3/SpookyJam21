@@ -49,7 +49,7 @@ public interface ZombifiedAnimal {
 		Animal zombifiedAnimal = (Animal) this;
 		Animal vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
 
-		EventHooks.onFinalizeSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
+		EventHooks.finalizeMobSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
 		writeToVanilla(vanillaAnimal);
 		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 

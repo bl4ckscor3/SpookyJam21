@@ -17,7 +17,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 [[dependencies.suszombification]]
 	modId="neoforge"
 	type="required"
-	versionRange="[20.6,)"
+	versionRange="[20.6.50-beta,)"
 	ordering="NONE"
 	side="BOTH"
 
