@@ -2,7 +2,6 @@ package suszombification.datagen;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -55,13 +54,13 @@ public class ItemModelGenerator extends ItemModelProvider {
 	private ItemModelBuilder flatItem(Item item) {
 		String name = BuiltInRegistries.ITEM.getKey(item).getPath();
 
-		return getBuilder(name).parent(new UncheckedModelFile("item/generated")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
+		return getBuilder(name).parent(new UncheckedModelFile("item/generated")).texture("layer0", SuspiciousZombification.resLoc("item/" + name));
 	}
 
 	private void handheldRodItem(Item item) {
 		String name = BuiltInRegistries.ITEM.getKey(item).getPath();
 
-		getBuilder(name).parent(new UncheckedModelFile("item/handheld_rod")).texture("layer0", new ResourceLocation(SuspiciousZombification.MODID, "item/" + name));
+		getBuilder(name).parent(new UncheckedModelFile("item/handheld_rod")).texture("layer0", SuspiciousZombification.resLoc("item/" + name));
 	}
 
 	private void spawnEgg(Item item) {

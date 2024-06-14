@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -22,9 +22,9 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZLoot;
 
-public class EntityLootTableGenerator implements LootTableSubProvider {
+public record EntityLootTableGenerator(HolderLookup.Provider lookupProvider) implements LootTableSubProvider {
 	@Override
-	public void generate(HolderLookup.Provider lookupProvider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+	public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
 		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
 
 		//@formatter:off
@@ -41,13 +41,13 @@ public class EntityLootTableGenerator implements LootTableSubProvider {
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.FEATHER)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+								.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))))));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_COW.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.LEATHER)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-								.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+								.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))))));
 		//@formatter:on
 		lootTables.put(SZEntityTypes.ZOMBIFIED_PIG.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
 		lootTables.put(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
@@ -89,7 +89,7 @@ public class EntityLootTableGenerator implements LootTableSubProvider {
 				.setRolls(ConstantValue.exactly(1.0F))
 				.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 						.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, max)))
-						.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))));
+						.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))));
 		//@formatter:on
 	}
 }

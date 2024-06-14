@@ -70,7 +70,7 @@ public class ZombifiedCat extends Cat implements NeutralMob, ZombifiedAnimal {
 		goalSelector.addGoal(2, new ZombifiedCatRelaxOnOwnerGoal(this));
 		goalSelector.addGoal(3, new ZombifiedCatTemptGoal(this, 0.6D, TEMPT_INGREDIENT, true));
 		goalSelector.addGoal(5, new CatLieOnBedGoal(this, 1.1D, 8));
-		goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 5.0F, false));
+		goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 5.0F));
 		goalSelector.addGoal(7, new CatSitOnBlockGoal(this, 0.8D));
 		goalSelector.addGoal(9, new OcelotAttackGoal(this));
 		goalSelector.addGoal(10, new BreedGoal(this, 0.8D));

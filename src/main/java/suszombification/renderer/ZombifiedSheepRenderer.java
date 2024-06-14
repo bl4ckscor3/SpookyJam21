@@ -11,7 +11,7 @@ import suszombification.entity.ZombifiedSheep;
 import suszombification.renderer.layers.ZombifiedSheepFurLayer;
 
 public class ZombifiedSheepRenderer extends MobRenderer<Sheep, SheepModel<Sheep>> {
-	private static final ResourceLocation SHEEP_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_sheep/zombified_sheep.png");
+	private static final ResourceLocation SHEEP_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_sheep/zombified_sheep.png");
 
 	public ZombifiedSheepRenderer(Context ctx) {
 		super(ctx, new SheepModel<>(ctx.bakeLayer(ModelLayers.SHEEP)), 0.7F);

@@ -1,5 +1,6 @@
 package suszombification;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import suszombification.registration.SZBlockEntityTypes;
@@ -23,5 +24,9 @@ public class SuspiciousZombification {
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);
 		SZRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
+	}
+
+	public static ResourceLocation resLoc(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MODID, path);
 	}
 }

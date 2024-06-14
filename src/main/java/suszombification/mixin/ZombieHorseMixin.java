@@ -105,8 +105,8 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	}
 
 	@Override
-	public int getExperienceReward() {
-		return super.getExperienceReward() + 5;
+	public int getBaseExperienceReward() {
+		return super.getBaseExperienceReward() + 5;
 	}
 
 	@Override

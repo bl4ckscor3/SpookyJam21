@@ -8,7 +8,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.entity.ZombifiedCow;
 
 public class ZombifiedCowRenderer extends CowRenderer {
-	private static final ResourceLocation COW_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cow.png");
+	private static final ResourceLocation COW_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_cow.png");
 
 	public ZombifiedCowRenderer(Context ctx) {
 		super(ctx);

@@ -2,7 +2,6 @@ package suszombification.registration;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
 import suszombification.SuspiciousZombification;
 
@@ -35,6 +34,6 @@ public class SZLoot {
 	private SZLoot() {}
 
 	private static ResourceKey<LootTable> create(String name) {
-		return ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(SuspiciousZombification.MODID, name));
+		return ResourceKey.create(Registries.LOOT_TABLE, SuspiciousZombification.resLoc(name));
 	}
 }

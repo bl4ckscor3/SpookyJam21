@@ -1,6 +1,7 @@
 package suszombification.effect;
 
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -78,8 +79,8 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	@Override
-	public DecomposingEffect addAttributeModifier(Holder<Attribute> attribute, String uuid, double value, Operation operation) {
-		super.addAttributeModifier(attribute, uuid, value, operation);
+	public DecomposingEffect addAttributeModifier(Holder<Attribute> attribute, ResourceLocation id, double value, Operation operation) {
+		super.addAttributeModifier(attribute, id, value, operation);
 		return this;
 	}
 }

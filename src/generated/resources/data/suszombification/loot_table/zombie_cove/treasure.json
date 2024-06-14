@@ -103,7 +103,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_sword"
@@ -118,7 +119,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_axe"
@@ -133,7 +135,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_hoe"
@@ -148,7 +151,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_shovel"
@@ -163,7 +167,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_pickaxe"
@@ -178,7 +183,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_boots"
@@ -193,7 +199,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_chestplate"
@@ -208,7 +215,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_helmet"
@@ -223,7 +231,8 @@
                   "condition": "minecraft:random_chance"
                 }
               ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
             }
           ],
           "name": "minecraft:iron_leggings"

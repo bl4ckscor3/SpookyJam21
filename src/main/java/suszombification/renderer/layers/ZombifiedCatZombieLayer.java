@@ -13,7 +13,7 @@ import suszombification.SZClientHandler;
 import suszombification.SuspiciousZombification;
 
 public class ZombifiedCatZombieLayer<T extends Cat> extends RenderLayer<T, CatModel<T>> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_cat_zombie_layer.png");
+	private static final ResourceLocation TEXTURE = SuspiciousZombification.resLoc("textures/entity/zombified_cat_zombie_layer.png");
 	private final CatModel<T> model;
 
 	public ZombifiedCatZombieLayer(RenderLayerParent<T, CatModel<T>> parentRenderer, EntityModelSet modelSet) {
@@ -23,6 +23,6 @@ public class ZombifiedCatZombieLayer<T extends Cat> extends RenderLayer<T, CatMo
 
 	@Override
 	public void render(PoseStack pose, MultiBufferSource buffer, int packedLight, T cat, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		coloredCutoutModelCopyLayerRender(getParentModel(), model, TEXTURE, pose, buffer, packedLight, cat, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 1.0F, 1.0F, 1.0F);
+		coloredCutoutModelCopyLayerRender(getParentModel(), model, TEXTURE, pose, buffer, packedLight, cat, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 0xFFFFFFFF);
 	}
 }

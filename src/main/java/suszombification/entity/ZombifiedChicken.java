@@ -195,8 +195,8 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 	}
 
 	@Override
-	public int getExperienceReward() {
-		return (isChickenJockey() ? 10 : super.getExperienceReward()) + 5;
+	public int getBaseExperienceReward() {
+		return (isChickenJockey() ? 10 : super.getBaseExperienceReward()) + 5;
 	}
 
 	@Override

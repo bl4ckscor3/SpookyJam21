@@ -14,12 +14,13 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.DyeColor;
 import suszombification.SuspiciousZombification;
 
 public class ZombifiedSheepFurLayer extends SheepFurLayer {
-	private static final ResourceLocation SHEEP_FUR_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_sheep/zombified_sheep_fur.png");
+	private static final ResourceLocation SHEEP_FUR_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_sheep/zombified_sheep_fur.png");
 	private final SheepFurModel<Sheep> model;
 
 	public ZombifiedSheepFurLayer(RenderLayerParent<Sheep, SheepModel<Sheep>> renderer, EntityModelSet modelSet) {
@@ -40,36 +41,28 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 					getParentModel().copyPropertiesTo(model);
 					model.prepareMobModel(sheep, limbSwing, limbSwingAmount, partialTicks);
 					model.setupAnim(sheep, limbSwing, limbSwingAmount, age, headYaw, headPitch);
-					model.renderToBuffer(pose, vertexConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(sheep, 0.0F), 0.0F, 0.0F, 0.0F, 1.0F);
+					model.renderToBuffer(pose, vertexConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(sheep, 0.0F), 0xFF000000);
 				}
 			}
 			else {
-				float red;
-				float green;
-				float blue;
+				int colorToUse;
 
 				if (sheep.hasCustomName() && "jeb_".equals(sheep.getName().getString())) {
-					int i = sheep.tickCount / 25 + sheep.getId();
+					int speed = 25;
+					int colorTick = sheep.tickCount / speed + sheep.getId();
 					int colorCount = DyeColor.values().length;
-					int firstColorId = i % colorCount;
-					int secondColorId = (i + 1) % colorCount;
-					float interp = (sheep.tickCount % 25 + partialTicks) / 25.0F;
-					float[] colorRgbOne = Sheep.getColorArray(DyeColor.byId(firstColorId));
-					float[] colorRgbTwo = Sheep.getColorArray(DyeColor.byId(secondColorId));
+					int currentColorIndex = colorTick % colorCount;
+					int nextColorIndex = (colorTick + 1) % colorCount;
+					float interp = (sheep.tickCount % speed + partialTicks) / speed;
+					int currentColor = Sheep.getColor(DyeColor.byId(currentColorIndex));
+					int nextColor = Sheep.getColor(DyeColor.byId(nextColorIndex));
 
-					red = colorRgbOne[0] * (1.0F - interp) + colorRgbTwo[0] * interp;
-					green = colorRgbOne[1] * (1.0F - interp) + colorRgbTwo[1] * interp;
-					blue = colorRgbOne[2] * (1.0F - interp) + colorRgbTwo[2] * interp;
+					colorToUse = FastColor.ARGB32.lerp(interp, currentColor, nextColor);
 				}
-				else {
-					float[] colorRgb = Sheep.getColorArray(sheep.getColor());
+				else
+					colorToUse = Sheep.getColor(sheep.getColor());
 
-					red = colorRgb[0];
-					green = colorRgb[1];
-					blue = colorRgb[2];
-				}
-
-				coloredCutoutModelCopyLayerRender(getParentModel(), model, SHEEP_FUR_LOCATION, pose, buffer, packedLight, sheep, limbSwing, limbSwingAmount, age, headYaw, headPitch, partialTicks, red, green, blue);
+				coloredCutoutModelCopyLayerRender(getParentModel(), model, SHEEP_FUR_LOCATION, pose, buffer, packedLight, sheep, limbSwing, limbSwingAmount, age, headYaw, headPitch, partialTicks, colorToUse);
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.entity.ZombifiedPig;
 
 public class ZombifiedPigRenderer extends PigRenderer {
-	private static final ResourceLocation PIG_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_pig.png");
+	private static final ResourceLocation PIG_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_pig.png");
 
 	public ZombifiedPigRenderer(Context ctx) {
 		super(ctx);

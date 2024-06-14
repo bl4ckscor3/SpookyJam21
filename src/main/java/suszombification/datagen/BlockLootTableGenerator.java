@@ -2,6 +2,7 @@ package suszombification.datagen;
 
 import java.util.Set;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.BlockItem;
@@ -19,8 +20,8 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZDataComponents;
 
 public class BlockLootTableGenerator extends BlockLootSubProvider {
-	protected BlockLootTableGenerator() {
-		super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+	protected BlockLootTableGenerator(HolderLookup.Provider lookupProvider) {
+		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), lookupProvider);
 	}
 
 	@Override

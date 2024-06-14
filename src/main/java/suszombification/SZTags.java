@@ -1,7 +1,6 @@
 package suszombification;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -20,7 +19,7 @@ public class SZTags {
 		private Blocks() {}
 
 		private static TagKey<Block> tag(String name) {
-			return BlockTags.create(new ResourceLocation(SuspiciousZombification.MODID, name));
+			return BlockTags.create(SuspiciousZombification.resLoc(name));
 		}
 	}
 
@@ -31,7 +30,7 @@ public class SZTags {
 		private Biomes() {}
 
 		private static TagKey<Biome> tag(String name) {
-			return TagKey.create(Registries.BIOME, new ResourceLocation(SuspiciousZombification.MODID, name));
+			return TagKey.create(Registries.BIOME, SuspiciousZombification.resLoc(name));
 		}
 	}
 
@@ -41,7 +40,7 @@ public class SZTags {
 		private Items() {}
 
 		private static TagKey<Item> tag(String name) {
-			return ItemTags.create(new ResourceLocation(SuspiciousZombification.MODID, name));
+			return ItemTags.create(SuspiciousZombification.resLoc(name));
 		}
 	}
 
@@ -51,7 +50,7 @@ public class SZTags {
 		private EntityTypes() {}
 
 		private static TagKey<EntityType<?>> tag(String name) {
-			return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(SuspiciousZombification.MODID, name));
+			return TagKey.create(Registries.ENTITY_TYPE, SuspiciousZombification.resLoc(name));
 		}
 	}
 }

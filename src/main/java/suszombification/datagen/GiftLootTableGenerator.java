@@ -15,9 +15,9 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
 
-public class GiftLootTableGenerator implements LootTableSubProvider {
+public record GiftLootTableGenerator(HolderLookup.Provider lookupProvider) implements LootTableSubProvider {
 	@Override
-	public void generate(HolderLookup.Provider lookupProvider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+	public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
 		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
 
 		//@formatter:off

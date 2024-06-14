@@ -3,7 +3,6 @@ package suszombification;
 import java.util.List;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -55,8 +54,8 @@ public class RegistrationHandler {
 			}
 		});
 		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
-			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "cat_morning_gift"), CatMorningGiftModifier.CODEC);
-			helper.register(new ResourceLocation(SuspiciousZombification.MODID, "no_decomposing_drops"), NoDecomposingDropsModifier.CODEC);
+			helper.register(SuspiciousZombification.resLoc("cat_morning_gift"), CatMorningGiftModifier.CODEC);
+			helper.register(SuspiciousZombification.resLoc("no_decomposing_drops"), NoDecomposingDropsModifier.CODEC);
 		});
 	}
 

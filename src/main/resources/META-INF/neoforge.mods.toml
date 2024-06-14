@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[1,)"
-license="MIT License https://github.com/bl4ckscor3/SuspiciousZombification/blob/1.20.6/LICENSE"
+license="MIT License https://github.com/bl4ckscor3/SuspiciousZombification/blob/1.21/LICENSE"
 issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 
 [[mods]]
@@ -17,13 +17,13 @@ issueTrackerURL="https://github.com/bl4ckscor3/SuspiciousZombification/issues"
 [[dependencies.suszombification]]
 	modId="neoforge"
 	type="required"
-	versionRange="[20.6.50-beta,)"
+	versionRange="[21,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.suszombification]]
 	modId="minecraft"
 	type="required"
-	versionRange="[1.20.6,1.21)"
+	versionRange="[1.21,1.22)"
 	ordering="NONE"
 	side="BOTH"

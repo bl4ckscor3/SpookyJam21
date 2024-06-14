@@ -28,9 +28,9 @@ import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZItems;
 import suszombification.registration.SZLoot;
 
-public class ChestLootTableGenerator implements LootTableSubProvider {
+public record ChestLootTableGenerator(HolderLookup.Provider lookupProvider) implements LootTableSubProvider {
 	@Override
-	public void generate(HolderLookup.Provider provider, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+	public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
 		Map<ResourceKey<LootTable>, LootTable.Builder> lootTables = new HashMap<>();
 
 		//@formatter:off
@@ -102,31 +102,31 @@ public class ChestLootTableGenerator implements LootTableSubProvider {
 						.setRolls(ConstantValue.exactly(1.0F))
 						.when(LootItemRandomChanceCondition.randomChance(0.1F))
 						.add(LootItem.lootTableItem(Items.IRON_SWORD)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_AXE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_HOE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_SHOVEL)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_PICKAXE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_BOOTS)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_CHESTPLATE)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_HELMET)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F))))
 						.add(LootItem.lootTableItem(Items.IRON_LEGGINGS)
-								.apply(EnchantRandomlyFunction.randomApplicableEnchantment()
+								.apply(EnchantRandomlyFunction.randomApplicableEnchantment(lookupProvider)
 										.when(LootItemRandomChanceCondition.randomChance(0.25F)))))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))

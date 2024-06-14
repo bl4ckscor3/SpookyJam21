@@ -121,8 +121,8 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 	}
 
 	@Override
-	public int getExperienceReward() {
-		return super.getExperienceReward() + 5;
+	public int getBaseExperienceReward() {
+		return super.getBaseExperienceReward() + 5;
 	}
 
 	@Override

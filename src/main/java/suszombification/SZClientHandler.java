@@ -22,7 +22,7 @@ import suszombification.renderer.ZombifiedSheepRenderer;
 
 @EventBusSubscriber(modid = SuspiciousZombification.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public class SZClientHandler {
-	public static final ModelLayerLocation ZOMBIFIED_CAT_ZOMBIE_LAYER = new ModelLayerLocation(new ResourceLocation("cat"), "zombie");
+	public static final ModelLayerLocation ZOMBIFIED_CAT_ZOMBIE_LAYER = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("cat"), "zombie");
 
 	private SZClientHandler() {}
 

@@ -191,7 +191,7 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos) {
 		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
 
 		if (!level.isClientSide) {
@@ -211,8 +211,8 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public int getExperienceReward() {
-		return super.getExperienceReward() + 5;
+	public int getBaseExperienceReward() {
+		return super.getBaseExperienceReward() + 5;
 	}
 
 	@Override

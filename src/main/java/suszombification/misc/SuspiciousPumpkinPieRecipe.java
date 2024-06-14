@@ -2,10 +2,10 @@ package suszombification.misc;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -39,13 +39,13 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingContainer inv, Level level) {
+	public boolean matches(CraftingInput inv, Level level) {
 		boolean hasSpecialIngredient = false;
 		boolean hasEgg = false;
 		boolean hasSugar = false;
 		boolean hasPumpkin = false;
 
-		for (int i = 0; i < inv.getContainerSize(); ++i) {
+		for (int i = 0; i < inv.size(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
 			if (!stack.isEmpty()) {
@@ -68,11 +68,11 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer inv, HolderLookup.Provider lookupProvider) {
+	public ItemStack assemble(CraftingInput inv, HolderLookup.Provider lookupProvider) {
 		ItemStack ingredient = ItemStack.EMPTY;
 		ItemStack suspiciousPumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get(), 1);
 
-		for (int i = 0; i < inv.getContainerSize(); ++i) {
+		for (int i = 0; i < inv.size(); ++i) {
 			ItemStack stack = inv.getItem(i);
 
 			if (!stack.isEmpty() && isIngredient(stack)) {

@@ -10,7 +10,7 @@ import suszombification.SuspiciousZombification;
 import suszombification.entity.ZombifiedChicken;
 
 public class ZombifiedChickenRenderer extends MobRenderer<ZombifiedChicken, ChickenModel<ZombifiedChicken>> {
-	private static final ResourceLocation CHICKEN_LOCATION = new ResourceLocation(SuspiciousZombification.MODID, "textures/entity/zombified_chicken.png");
+	private static final ResourceLocation CHICKEN_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_chicken.png");
 
 	public ZombifiedChickenRenderer(Context ctx) {
 		super(ctx, new ChickenModel<>(ctx.bakeLayer(ModelLayers.CHICKEN)), 0.3F);
