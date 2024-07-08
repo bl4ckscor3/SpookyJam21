@@ -104,7 +104,9 @@ public class SZEventHandler {
 
 	@SubscribeEvent
 	public static void onLivingSetAttackTarget(LivingChangeTargetEvent event) {
-		if (event.getNewTarget() != null && event.getNewTarget().hasEffect(SZEffects.ZOMBIES_GRACE) && event.getEntity().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
+		LivingEntity newAboutToBeSetTarget = event.getNewAboutToBeSetTarget();
+
+		if (newAboutToBeSetTarget != null && newAboutToBeSetTarget.hasEffect(SZEffects.ZOMBIES_GRACE) && event.getEntity().getType().is(SZTags.EntityTypes.AFFECTED_BY_ZOMBIES_GRACE))
 			event.setCanceled(true);
 	}
 
