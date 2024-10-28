@@ -2,6 +2,7 @@ package suszombification.entity;
 
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -20,12 +22,12 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 		super(type, level);
 	}
 
-	public ThrownRottenEgg(Level level, LivingEntity owner) {
-		super(SZEntityTypes.ROTTEN_EGG.get(), owner, level);
+	public ThrownRottenEgg(Level level, LivingEntity owner, ItemStack stack) {
+		super(SZEntityTypes.ROTTEN_EGG.get(), owner, level, stack);
 	}
 
-	public ThrownRottenEgg(Level level, double x, double y, double z) {
-		super(SZEntityTypes.ROTTEN_EGG.get(), x, y, z, level);
+	public ThrownRottenEgg(Level level, double x, double y, double z, ItemStack stack) {
+		super(SZEntityTypes.ROTTEN_EGG.get(), x, y, z, level, stack);
 	}
 
 	@Override
@@ -43,7 +45,8 @@ public class ThrownRottenEgg extends ThrowableItemProjectile {
 
 		Entity entity = result.getEntity();
 
-		result.getEntity().hurt(damageSources().thrown(this, getOwner()), 0.0F);
+		if (level() instanceof ServerLevel serverLevel)
+			result.getEntity().hurtServer(serverLevel, damageSources().thrown(this, getOwner()), 0.0F);
 
 		if (entity instanceof LivingEntity livingEntity && random.nextInt(8) == 0)
 			livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200));

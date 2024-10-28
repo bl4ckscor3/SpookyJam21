@@ -7,10 +7,10 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -125,7 +125,7 @@ public class SZEventHandler {
 
 				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
 
-				EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
+				EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
 				((ZombifiedAnimal) convertedAnimal).readFromVanilla(killedEntity);
 				EventHooks.onLivingConvert(livingEntity, convertedAnimal);
 

@@ -10,10 +10,10 @@ import suszombification.block.entity.TrophyBlockEntity;
 public class SZBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, SuspiciousZombification.MODID);
 	//@formatter:off
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TrophyBlockEntity>> TROPHY = BLOCK_ENTITY_TYPES.register("trophy", () -> BlockEntityType.Builder.of(TrophyBlockEntity::new,
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TrophyBlockEntity>> TROPHY = BLOCK_ENTITY_TYPES.register("trophy", () -> new BlockEntityType<>(TrophyBlockEntity::new,
 			SZBlocks.CARROT_TROPHY.get(),
 			SZBlocks.POTATO_TROPHY.get(),
-			SZBlocks.IRON_INGOT_TROPHY.get()).build(null));
+			SZBlocks.IRON_INGOT_TROPHY.get()));
 	//@formatter:on
 
 	private SZBlockEntityTypes() {}

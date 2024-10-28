@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -117,12 +118,12 @@ public class ZombifiedPig extends Pig implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {
-		return SZEntityTypes.ZOMBIFIED_PIG.get().create(level);
+		return SZEntityTypes.ZOMBIFIED_PIG.get().create(level, EntitySpawnReason.BREEDING);
 	}
 
 	@Override
-	public int getBaseExperienceReward() {
-		return super.getBaseExperienceReward() + 5;
+	public int getBaseExperienceReward(ServerLevel level) {
+		return super.getBaseExperienceReward(level) + 5;
 	}
 
 	@Override

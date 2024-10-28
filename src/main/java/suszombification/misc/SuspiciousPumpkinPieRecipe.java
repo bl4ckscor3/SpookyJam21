@@ -95,7 +95,7 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<? extends CustomRecipe> getSerializer() {
 		return SZRecipeSerializers.SUSPICIOUS_PUMPKIN_PIE.get();
 	}
 }

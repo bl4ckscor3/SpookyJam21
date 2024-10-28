@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -35,22 +37,22 @@ public record EntityLootTableGenerator(HolderLookup.Provider lookupProvider) imp
 						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
 		//entity drops
-		lootTables.put(SZEntityTypes.ZOMBIFIED_CAT.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(2.0F)));
-		lootTables.put(SZEntityTypes.ZOMBIFIED_CHICKEN.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(1.0F))
+		lootTables.put(lootTableOf(SZEntityTypes.ZOMBIFIED_CAT), LootTable.lootTable().withPool(rottenFleshDrop(2.0F)));
+		lootTables.put(lootTableOf(SZEntityTypes.ZOMBIFIED_CHICKEN), LootTable.lootTable().withPool(rottenFleshDrop(1.0F))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.FEATHER)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
 								.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))))));
-		lootTables.put(SZEntityTypes.ZOMBIFIED_COW.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F))
+		lootTables.put(lootTableOf(SZEntityTypes.ZOMBIFIED_COW), LootTable.lootTable().withPool(rottenFleshDrop(3.0F))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
 						.add(LootItem.lootTableItem(Items.LEATHER)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
 								.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))))));
 		//@formatter:on
-		lootTables.put(SZEntityTypes.ZOMBIFIED_PIG.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
-		lootTables.put(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable(), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
+		lootTables.put(lootTableOf(SZEntityTypes.ZOMBIFIED_PIG), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
+		lootTables.put(lootTableOf(SZEntityTypes.ZOMBIFIED_SHEEP), LootTable.lootTable().withPool(rottenFleshDrop(3.0F)));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_BLACK, createSheepTable(SZBlocks.BLACK_ROTTEN_WOOL.get()));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_BLUE, createSheepTable(SZBlocks.BLUE_ROTTEN_WOOL.get()));
 		lootTables.put(SZLoot.ZOMBIFIED_SHEEP_BROWN, createSheepTable(SZBlocks.BROWN_ROTTEN_WOOL.get()));
@@ -79,7 +81,7 @@ public record EntityLootTableGenerator(HolderLookup.Provider lookupProvider) imp
 						.add(LootItem.lootTableItem(wool)))
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1.0F))
-						.add(NestedLootTable.lootTableReference(SZEntityTypes.ZOMBIFIED_SHEEP.get().getDefaultLootTable())));
+						.add(NestedLootTable.lootTableReference(lootTableOf(SZEntityTypes.ZOMBIFIED_SHEEP))));
 		//@formatter:on
 	}
 
@@ -91,5 +93,11 @@ public record EntityLootTableGenerator(HolderLookup.Provider lookupProvider) imp
 						.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, max)))
 						.apply(EnchantedCountIncreaseFunction.lootingMultiplier(lookupProvider, UniformGenerator.between(0.0F, 1.0F))));
 		//@formatter:on
+	}
+
+	protected ResourceKey<LootTable> lootTableOf(Holder<EntityType<?>> entityTypeHolder) {
+		EntityType<?> entityType = entityTypeHolder.value();
+
+		return entityType.getDefaultLootTable().orElseThrow(() -> new IllegalStateException("Entity " + entityType + " has no loot table"));
 	}
 }

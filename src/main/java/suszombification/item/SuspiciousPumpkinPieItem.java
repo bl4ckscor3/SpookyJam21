@@ -151,7 +151,7 @@ public class SuspiciousPumpkinPieItem extends Item {
 			}
 		}
 
-		if (entity != null && !entity.level().isClientSide)
-			entity.sendSystemMessage(Component.translatable("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color));
+		if (entity instanceof Player player && !entity.level().isClientSide)
+			player.displayClientMessage(Component.translatable("message.suszombification.suspicious_pumpkin_pie." + messageSuffix).withStyle(color), false);
 	}
 }

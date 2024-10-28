@@ -25,6 +25,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.NeutralMob;
@@ -166,15 +167,16 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 			super.handleEntityEvent(id);
 	}
 
+	//TODO: (1.21.3) Shearing loot tables
 	@Override
-	public void shear(SoundSource category) {
+	public void shear(ServerLevel level, SoundSource category, ItemStack stack) {
 		level().playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
 		setSheared(true);
 
 		int amount = 1 + random.nextInt(3);
 
 		for (int i = 0; i < amount; ++i) {
-			ItemEntity item = spawnAtLocation(ITEM_BY_DYE.get(getColor()), 1);
+			ItemEntity item = spawnAtLocation(level, ITEM_BY_DYE.get(getColor()), 1);
 
 			if (item != null)
 				item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
@@ -184,9 +186,9 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	@Override
 	public Sheep getBreedOffspring(ServerLevel level, AgeableMob mob) {
 		Sheep sheep = (Sheep) mob;
-		Sheep newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level);
+		Sheep newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level, EntitySpawnReason.BREEDING);
 
-		newSheep.setColor(getOffspringColor(this, sheep));
+		newSheep.setColor(getOffspringColor(level, this, sheep));
 		return newSheep;
 	}
 
@@ -211,8 +213,8 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public int getBaseExperienceReward() {
-		return super.getBaseExperienceReward() + 5;
+	public int getBaseExperienceReward(ServerLevel level) {
+		return super.getBaseExperienceReward(level) + 5;
 	}
 
 	@Override

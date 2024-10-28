@@ -1,5 +1,6 @@
 package suszombification.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,7 +13,7 @@ public class AmplifyingEffect extends MobEffect {
 	}
 
 	@Override
-	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+	public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
 		for (MobEffectInstance effect : entity.getActiveEffects()) {
 			if (effect.getEffect() != SZEffects.AMPLIFYING.get() && effect.amplifier <= 63)
 				effect.update(new MobEffectInstance(effect.getEffect(), effect.getDuration(), ((effect.amplifier + 1) * (amplifier + 2)) - 1));

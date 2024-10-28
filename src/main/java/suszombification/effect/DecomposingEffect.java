@@ -5,10 +5,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.animal.Animal;
@@ -29,32 +29,30 @@ public class DecomposingEffect extends MobEffect {
 	}
 
 	@Override
-	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-		if (!entity.level().isClientSide) {
-			if (entity instanceof Animal animal) {
-				EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
+	public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+		if (entity instanceof Animal animal) {
+			EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
-				if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
-					Mob convertedAnimal = animal.convertTo(conversionType, false);
+			if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
+				Mob convertedAnimal = animal.convertTo(conversionType, false);
 
-					EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) animal.level(), animal.level().getCurrentDifficultyAt(convertedAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
-					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
-					EventHooks.onLivingConvert(animal, convertedAnimal);
+				EventHooks.finalizeMobSpawn(convertedAnimal, level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
+				((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
+				EventHooks.onLivingConvert(animal, convertedAnimal);
 
-					if (!animal.isSilent())
-						animal.level().levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
-				}
-				else {
-					entity.hurt(SZDamageSources.decomposing(entity.level().registryAccess()), Float.MAX_VALUE);
-
-					if (entity.isDeadOrDying())
-						spawnDecomposingDrops(entity);
-				}
+				if (!animal.isSilent())
+					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
 			}
-			else if (entity instanceof Player player && !player.getAbilities().instabuild) {
-				entity.hurt(SZDamageSources.decomposing(entity.level().registryAccess()), Float.MAX_VALUE);
-				spawnDecomposingDrops(entity);
+			else {
+				entity.hurtServer(level, SZDamageSources.decomposing(level.registryAccess()), Float.MAX_VALUE);
+
+				if (entity.isDeadOrDying())
+					spawnDecomposingDrops(entity);
 			}
+		}
+		else if (entity instanceof Player player && !player.getAbilities().instabuild) {
+			entity.hurtServer(level, SZDamageSources.decomposing(level.registryAccess()), Float.MAX_VALUE);
+			spawnDecomposingDrops(entity);
 		}
 
 		return true;

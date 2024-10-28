@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.DyeColor;
 import suszombification.SuspiciousZombification;
@@ -57,7 +57,7 @@ public class ZombifiedSheepFurLayer extends SheepFurLayer {
 					int currentColor = Sheep.getColor(DyeColor.byId(currentColorIndex));
 					int nextColor = Sheep.getColor(DyeColor.byId(nextColorIndex));
 
-					colorToUse = FastColor.ARGB32.lerp(interp, currentColor, nextColor);
+					colorToUse = ARGB.lerp(interp, currentColor, nextColor);
 				}
 				else
 					colorToUse = Sheep.getColor(sheep.getColor());

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,8 +27,8 @@ public class VicinityAffectingEffect extends MobEffect {
 	}
 
 	@Override
-	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-		List<Entity> nearbyEntities = entity.level().getEntities(entity, entity.getBoundingBox().inflate(areaSize.apply(amplifier)), e -> e instanceof LivingEntity target && filter.test(target));
+	public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+		List<Entity> nearbyEntities = level.getEntities(entity, entity.getBoundingBox().inflate(areaSize.apply(amplifier)), e -> e instanceof LivingEntity target && filter.test(target));
 
 		for (Entity nearbyEntity : nearbyEntities) {
 			LivingEntity nearby = (LivingEntity) nearbyEntity; //the filter parameter in getEntities makes sure this is true

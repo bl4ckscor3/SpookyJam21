@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -105,8 +106,8 @@ public class ZombieHorseMixin extends AbstractHorse implements ZombifiedAnimal, 
 	}
 
 	@Override
-	public int getBaseExperienceReward() {
-		return super.getBaseExperienceReward() + 5;
+	public int getBaseExperienceReward(ServerLevel level) {
+		return super.getBaseExperienceReward(level) + 5;
 	}
 
 	@Override

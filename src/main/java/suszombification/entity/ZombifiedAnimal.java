@@ -9,8 +9,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
@@ -49,7 +49,7 @@ public interface ZombifiedAnimal {
 		Animal zombifiedAnimal = (Animal) this;
 		Animal vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
 
-		EventHooks.finalizeMobSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), MobSpawnType.CONVERSION, null);
+		EventHooks.finalizeMobSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
 		writeToVanilla(vanillaAnimal);
 		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 

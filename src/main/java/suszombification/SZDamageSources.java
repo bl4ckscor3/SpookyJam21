@@ -15,14 +15,14 @@ public class SZDamageSources {
 	private SZDamageSources() {}
 
 	public static DamageSource decomposing(RegistryAccess registryAccess) {
-		return new DamageSource(registryAccess.registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DECOMPOSING));
+		return new DamageSource(registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DECOMPOSING));
 	}
 
 	public static DamageSource ritualSacrifice(Player player, RegistryAccess registryAccess) {
-		return new DamageSource(registryAccess.registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(RITUAL_SACRIFICE), player);
+		return new DamageSource(registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(RITUAL_SACRIFICE), player);
 	}
 
 	public static DamageSource sppExplosion(RegistryAccess registryAccess) {
-		return new DamageSource(registryAccess.registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SPP_EXPLOSION));
+		return new DamageSource(registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(SPP_EXPLOSION));
 	}
 }

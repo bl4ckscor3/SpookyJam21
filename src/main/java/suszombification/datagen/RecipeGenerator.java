@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -14,7 +16,6 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -25,21 +26,24 @@ import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(output, lookupProvider);
+	private final HolderGetter<Item> items;
+
+	public RecipeGenerator(HolderLookup.Provider lookupProvider, RecipeOutput output) {
+		super(lookupProvider, output);
+		items = lookupProvider.lookupOrThrow(Registries.ITEM);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput recipeOutput) {
-		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe::new).save(recipeOutput, "suspicious_pumpkin_pie");
+	protected void buildRecipes() {
+		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe::new).save(output, "suspicious_pumpkin_pie");
 		//@formatter:off
-		ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
+		ShapedRecipeBuilder.shaped(items, RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
 		.pattern("R ")
 		.pattern(" P")
 		.define('R', Items.FISHING_ROD)
 		.define('P', Items.PORKCHOP)
 		.unlockedBy("has_porkchop", has(Items.PORKCHOP))
-		.save(recipeOutput);
+		.save(output);
 
 		List<TagKey<Item>> dyes = List.of(
 				Tags.Items.DYES_BLACK,
@@ -83,13 +87,29 @@ public class RecipeGenerator extends RecipeProvider {
 			Item wool = woolBlocks.get(i).asItem();
 
 			//@formatter:off
-			ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, wool)
+			ShapelessRecipeBuilder.shapeless(items, RecipeCategory.BUILDING_BLOCKS, wool)
 			.group("suszombification:rotten_wool")
 			.requires(dye)
-			.requires(Ingredient.of(woolBlocks.stream().filter(check -> !check.equals(wool)).map(ItemStack::new)))
+			.requires(Ingredient.of(woolBlocks.stream().filter(check -> !check.equals(wool))))
 			.unlockedBy("has_needed_dye", has(dye))
-			.save(recipeOutput, "dye_" + getItemName(wool));
+			.save(output, "dye_" + getItemName(wool));
    			//@formatter:on
+		}
+	}
+
+	public static final class Runner extends RecipeProvider.Runner {
+		public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+			super(output, lookupProvider);
+		}
+
+		@Override
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider lookupProvider, RecipeOutput output) {
+			return new RecipeGenerator(lookupProvider, output);
+		}
+
+		@Override
+		public String getName() {
+			return "Suspicious Zombification recipes";
 		}
 	}
 }

@@ -14,6 +14,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.NeutralMob;
@@ -97,7 +98,7 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 
 			player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 			player.setItemInHand(hand, filledBucket);
-			return InteractionResult.sidedSuccess(level().isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 
 		InteractionResult returnValue = AnimalUtil.mobInteract(this, player, hand);
@@ -116,12 +117,12 @@ public class ZombifiedCow extends Cow implements NeutralMob, ZombifiedAnimal {
 
 	@Override
 	public ZombifiedCow getBreedOffspring(ServerLevel level, AgeableMob parent) {
-		return SZEntityTypes.ZOMBIFIED_COW.get().create(level);
+		return SZEntityTypes.ZOMBIFIED_COW.get().create(level, EntitySpawnReason.BREEDING);
 	}
 
 	@Override
-	public int getBaseExperienceReward() {
-		return super.getBaseExperienceReward() + 5;
+	public int getBaseExperienceReward(ServerLevel level) {
+		return super.getBaseExperienceReward(level) + 5;
 	}
 
 	@Override

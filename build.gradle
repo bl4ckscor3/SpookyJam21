@@ -9,7 +9,7 @@ version = '1.2.6'
 group = 'suszombification'
 
 base {
-	archivesName = 'suszombification-1.21'
+	archivesName = 'suszombification-1.21.3'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -38,17 +38,17 @@ runs {
 
     server {
         workingDirectory project.file('run/server')
-        programArgument '-nogui'
+        argument '-nogui'
     }
 	
 	data {
 		workingDirectory project.file('run/data')
-		programArguments.addAll '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+		arguments.addAll '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.0.76-beta'
+	implementation 'net.neoforged:neoforge:21.3.4-beta'
 }
 
 tasks.named('jar', Jar).configure {

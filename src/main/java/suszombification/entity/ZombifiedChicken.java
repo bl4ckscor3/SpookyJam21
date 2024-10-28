@@ -20,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -126,9 +127,9 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 		flap += flapping * 2.0F;
 
-		if (!level().isClientSide && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
+		if (level() instanceof ServerLevel serverLevel && isAlive() && !isBaby() && !isChickenJockey() && --eggTime <= 0) {
 			playSound(SoundEvents.CHICKEN_EGG, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-			spawnAtLocation(SZItems.ROTTEN_EGG.get());
+			spawnAtLocation(serverLevel, SZItems.ROTTEN_EGG.get());
 			eggTime = random.nextInt(6000) + 6000;
 		}
 	}
@@ -191,12 +192,12 @@ public class ZombifiedChicken extends Animal implements NeutralMob, ZombifiedAni
 
 	@Override
 	public ZombifiedChicken getBreedOffspring(ServerLevel level, AgeableMob parent) {
-		return SZEntityTypes.ZOMBIFIED_CHICKEN.get().create(level);
+		return SZEntityTypes.ZOMBIFIED_CHICKEN.get().create(level, EntitySpawnReason.BREEDING);
 	}
 
 	@Override
-	public int getBaseExperienceReward() {
-		return (isChickenJockey() ? 10 : super.getBaseExperienceReward()) + 5;
+	public int getBaseExperienceReward(ServerLevel level) {
+		return (isChickenJockey() ? 10 : super.getBaseExperienceReward(level)) + 5;
 	}
 
 	@Override
