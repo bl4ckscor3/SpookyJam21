@@ -40,6 +40,9 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 
 	@Override
 	public boolean matches(CraftingInput inv, Level level) {
+		if (inv.width() * inv.height() < 4)
+			return false;
+
 		boolean hasSpecialIngredient = false;
 		boolean hasEgg = false;
 		boolean hasSugar = false;
@@ -87,11 +90,6 @@ public class SuspiciousPumpkinPieRecipe extends CustomRecipe {
 
 	private boolean isIngredient(ItemStack stack) {
 		return stack.getItem() instanceof CandyItem || INGREDIENTS.test(stack) || stack.is(ItemTags.WOOL) || stack.is(SZTags.Items.ROTTEN_WOOL);
-	}
-
-	@Override
-	public boolean canCraftInDimensions(int width, int height) {
-		return width >= 2 && height >= 2;
 	}
 
 	@Override

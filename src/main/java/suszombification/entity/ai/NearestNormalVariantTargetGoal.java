@@ -29,6 +29,6 @@ public class NearestNormalVariantTargetGoal extends NearestAttackableTargetGoal<
 
 	@Override
 	protected void findTarget() {
-		target = mob.level().getNearestEntity(mob.level().getEntities(animalTargetType, getTargetSearchArea(getFollowDistance()), e -> true), targetConditions, mob, mob.getX(), mob.getEyeY(), mob.getZ());
+		target = getServerLevel(mob).getNearestEntity(mob.level().getEntities(animalTargetType, getTargetSearchArea(getFollowDistance()), e -> true), targetConditions, mob, mob.getX(), mob.getEyeY(), mob.getZ());
 	}
 }

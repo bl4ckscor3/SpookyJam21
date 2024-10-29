@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -47,16 +48,17 @@ public interface ZombifiedAnimal {
 
 	default void finishConversion(ServerLevel level) {
 		Animal zombifiedAnimal = (Animal) this;
-		Animal vanillaAnimal = zombifiedAnimal.convertTo(getNormalVariant(), false);
 
-		EventHooks.finalizeMobSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
-		writeToVanilla(vanillaAnimal);
-		vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
+		zombifiedAnimal.convertTo(getNormalVariant(), ConversionParams.single(zombifiedAnimal, true, true), vanillaAnimal -> {
+			EventHooks.finalizeMobSpawn(vanillaAnimal, level, level.getCurrentDifficultyAt(vanillaAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
+			writeToVanilla(vanillaAnimal);
+			vanillaAnimal.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 
-		if (!zombifiedAnimal.isSilent())
-			level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, zombifiedAnimal.blockPosition(), 0);
+			if (!zombifiedAnimal.isSilent())
+				level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, zombifiedAnimal.blockPosition(), 0);
 
-		EventHooks.onLivingConvert(zombifiedAnimal, vanillaAnimal);
+			EventHooks.onLivingConvert(zombifiedAnimal, vanillaAnimal);
+		});
 	}
 
 	default int getConversionProgress() {

@@ -5,10 +5,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.animal.Animal;
@@ -34,14 +34,14 @@ public class DecomposingEffect extends MobEffect {
 			EntityType<? extends Animal> conversionType = ZombifiedAnimal.VANILLA_TO_ZOMBIFIED.get(animal.getType());
 
 			if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
-				Mob convertedAnimal = animal.convertTo(conversionType, false);
+				animal.convertTo(conversionType, ConversionParams.single(animal, true, true), convertedAnimal -> {
+					EventHooks.finalizeMobSpawn(convertedAnimal, level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
+					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
+					EventHooks.onLivingConvert(animal, convertedAnimal);
 
-				EventHooks.finalizeMobSpawn(convertedAnimal, level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
-				((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
-				EventHooks.onLivingConvert(animal, convertedAnimal);
-
-				if (!animal.isSilent())
-					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
+					if (!animal.isSilent())
+						level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, animal.blockPosition(), 0);
+				});
 			}
 			else {
 				entity.hurtServer(level, SZDamageSources.decomposing(level.registryAccess()), Float.MAX_VALUE);
@@ -68,7 +68,8 @@ public class DecomposingEffect extends MobEffect {
 				.create(LootContextParamSets.ENTITY);
 		//@formatter:on
 
-		lootTable.getRandomItems(lootParams).forEach(entity::spawnAtLocation);
+		if (entity.level() instanceof ServerLevel serverLevel)
+			lootTable.getRandomItems(lootParams).forEach(item -> entity.spawnAtLocation(serverLevel, item));
 	}
 
 	@Override

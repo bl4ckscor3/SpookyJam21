@@ -6,6 +6,7 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -123,14 +124,14 @@ public class SZEventHandler {
 				if (level.getDifficulty() != Difficulty.HARD && level.random.nextBoolean())
 					return;
 
-				Mob convertedAnimal = killedEntity.convertTo(conversionType, false);
+				killedEntity.convertTo(conversionType, ConversionParams.single(killedEntity, true, true), convertedAnimal -> {
+					EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
+					((ZombifiedAnimal) convertedAnimal).readFromVanilla(killedEntity);
+					EventHooks.onLivingConvert(livingEntity, convertedAnimal);
 
-				EventHooks.finalizeMobSpawn(convertedAnimal, (ServerLevel) level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
-				((ZombifiedAnimal) convertedAnimal).readFromVanilla(killedEntity);
-				EventHooks.onLivingConvert(livingEntity, convertedAnimal);
-
-				if (!killer.isSilent())
-					level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
+					if (!killer.isSilent())
+						level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_INFECTED, killer.blockPosition(), 0);
+				});
 			}
 		}
 	}
