@@ -2,7 +2,7 @@ package suszombification.renderer;
 
 import net.minecraft.client.renderer.entity.CatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.CatRenderState;
 import net.minecraft.world.entity.animal.Cat;
 import suszombification.entity.ZombifiedCat;
 import suszombification.renderer.layers.ZombifiedCatZombieLayer;
@@ -10,16 +10,22 @@ import suszombification.renderer.layers.ZombifiedCatZombieLayer;
 public class ZombifiedCatRenderer extends CatRenderer {
 	public ZombifiedCatRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx);
-		addLayer(new ZombifiedCatZombieLayer<>(this, ctx.getModelSet()));
+		addLayer(new ZombifiedCatZombieLayer(this, ctx.getModelSet()));
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(Cat entity) {
-		return entity.getTextureId();
+	public CatRenderState createRenderState() {
+		return new ZombifiedRenderState.Cat();
 	}
 
 	@Override
-	protected boolean isShaking(Cat cat) {
-		return super.isShaking(cat) || ((ZombifiedCat) cat).isConverting();
+	public void extractRenderState(Cat cat, CatRenderState renderState, float partialTicks) {
+		super.extractRenderState(cat, renderState, partialTicks);
+		((ZombifiedRenderState.Cat) renderState).isConverting = ((ZombifiedCat) cat).isConverting();
+	}
+
+	@Override
+	protected boolean isShaking(CatRenderState renderState) {
+		return super.isShaking(renderState) || ((ZombifiedRenderState.Cat) renderState).isConverting;
 	}
 }
