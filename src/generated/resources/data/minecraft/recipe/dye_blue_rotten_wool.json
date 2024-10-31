@@ -3,55 +3,23 @@
   "category": "building",
   "group": "suszombification:rotten_wool",
   "ingredients": [
-    {
-      "tag": "c:dyes/blue"
-    },
+    "#c:dyes/blue",
     [
-      {
-        "item": "suszombification:black_rotten_wool"
-      },
-      {
-        "item": "suszombification:brown_rotten_wool"
-      },
-      {
-        "item": "suszombification:cyan_rotten_wool"
-      },
-      {
-        "item": "suszombification:gray_rotten_wool"
-      },
-      {
-        "item": "suszombification:green_rotten_wool"
-      },
-      {
-        "item": "suszombification:light_blue_rotten_wool"
-      },
-      {
-        "item": "suszombification:light_gray_rotten_wool"
-      },
-      {
-        "item": "suszombification:lime_rotten_wool"
-      },
-      {
-        "item": "suszombification:magenta_rotten_wool"
-      },
-      {
-        "item": "suszombification:orange_rotten_wool"
-      },
-      {
-        "item": "suszombification:pink_rotten_wool"
-      },
-      {
-        "item": "suszombification:purple_rotten_wool"
-      },
-      {
-        "item": "suszombification:red_rotten_wool"
-      },
-      {
-        "item": "suszombification:yellow_rotten_wool"
-      },
-      {
-        "item": "suszombification:white_rotten_wool"
-      }
+      "suszombification:black_rotten_wool",
+      "suszombification:brown_rotten_wool",
+      "suszombification:cyan_rotten_wool",
+      "suszombification:gray_rotten_wool",
+      "suszombification:green_rotten_wool",
+      "suszombification:light_blue_rotten_wool",
+      "suszombification:light_gray_rotten_wool",
+      "suszombification:lime_rotten_wool",
+      "suszombification:magenta_rotten_wool",
+      "suszombification:orange_rotten_wool",
+      "suszombification:pink_rotten_wool",
+      "suszombification:purple_rotten_wool",
+      "suszombification:red_rotten_wool",
+      "suszombification:yellow_rotten_wool",
+      "suszombification:white_rotten_wool"
     ]
   ],
   "result": {
