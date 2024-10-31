@@ -21,9 +21,10 @@ public class NoDecomposingDropsModifier extends LootModifier {
 
 	@Override
 	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		var damageSource = context.getParameter(LootContextParams.DAMAGE_SOURCE);
+		if (context.hasParameter(LootContextParams.DAMAGE_SOURCE) && context.getParameter(LootContextParams.DAMAGE_SOURCE).is(SZDamageSources.DECOMPOSING))
+			return new ObjectArrayList<>();
 
-		return damageSource != null && damageSource.is(SZDamageSources.DECOMPOSING) ? new ObjectArrayList<>() : generatedLoot;
+		return generatedLoot;
 	}
 
 	@Override
