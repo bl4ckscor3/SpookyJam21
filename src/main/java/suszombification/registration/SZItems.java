@@ -24,7 +24,7 @@ import suszombification.item.TrophyItem;
 
 public class SZItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SuspiciousZombification.MODID);
-	public static final DeferredItem<SuspiciousPumpkinPieItem> SUSPICIOUS_PUMPKIN_PIE = ITEMS.register("suspicious_pumpkin_pie", () -> new SuspiciousPumpkinPieItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.3F).alwaysEdible().build()).component(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY)));
+	public static final DeferredItem<SuspiciousPumpkinPieItem> SUSPICIOUS_PUMPKIN_PIE = ITEMS.registerItem("suspicious_pumpkin_pie", SuspiciousPumpkinPieItem::new, new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.3F).alwaysEdible().build()).component(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY));
 	//candies
 	public static final DeferredItem<CandyItem> CARAMEL_CANDY = ITEMS.registerItem("caramel_candy", p -> new CandyItem(MobEffects.SLOW_FALLING, 20, p));
 	public static final DeferredItem<CandyItem> CHOCOLATE_CREAM_CANDY = ITEMS.registerItem("chocolate_cream_candy", p -> new CandyItem(MobEffects.DIG_SLOWDOWN, 20, p));
@@ -58,9 +58,9 @@ public class SZItems {
 	public static final DeferredItem<DeferredSpawnEggItem> ZOMBIFIED_PIG_SPAWN_EGG = ITEMS.registerItem("zombified_pig_spawn_egg", p -> new DeferredSpawnEggItem(SZEntityTypes.ZOMBIFIED_PIG, 0xF0A5A2, 0x799C65, p));
 	public static final DeferredItem<DeferredSpawnEggItem> ZOMBIFIED_SHEEP_SPAWN_EGG = ITEMS.registerItem("zombified_sheep_spawn_egg", p -> new DeferredSpawnEggItem(SZEntityTypes.ZOMBIFIED_SHEEP, 0xE7E7E7, 0x799C65, p));
 	//trophies
-	public static final DeferredItem<TrophyItem> CARROT_TROPHY = ITEMS.registerItem("carrot_trophy", p -> new TrophyItem(SZBlocks.CARROT_TROPHY.get(), p), new Item.Properties().stacksTo(1));
-	public static final DeferredItem<TrophyItem> POTATO_TROPHY = ITEMS.registerItem("potato_trophy", p -> new TrophyItem(SZBlocks.POTATO_TROPHY.get(), p), new Item.Properties().stacksTo(1));
-	public static final DeferredItem<TrophyItem> IRON_INGOT_TROPHY = ITEMS.registerItem("iron_ingot_trophy", p -> new TrophyItem(SZBlocks.IRON_INGOT_TROPHY.get(), p), new Item.Properties().stacksTo(1));
+	public static final DeferredItem<TrophyItem> CARROT_TROPHY = ITEMS.registerItem("carrot_trophy", p -> new TrophyItem(SZBlocks.CARROT_TROPHY.get(), p), new Item.Properties().stacksTo(1).useBlockDescriptionPrefix());
+	public static final DeferredItem<TrophyItem> POTATO_TROPHY = ITEMS.registerItem("potato_trophy", p -> new TrophyItem(SZBlocks.POTATO_TROPHY.get(), p), new Item.Properties().stacksTo(1).useBlockDescriptionPrefix());
+	public static final DeferredItem<TrophyItem> IRON_INGOT_TROPHY = ITEMS.registerItem("iron_ingot_trophy", p -> new TrophyItem(SZBlocks.IRON_INGOT_TROPHY.get(), p), new Item.Properties().stacksTo(1).useBlockDescriptionPrefix());
 
 	private SZItems() {}
 }

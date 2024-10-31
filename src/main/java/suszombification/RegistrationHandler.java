@@ -3,6 +3,7 @@ package suszombification;
 import java.util.List;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -50,7 +51,7 @@ public class RegistrationHandler {
 				Block block = holder.get();
 
 				if (!(block instanceof TrophyBlock))
-					helper.register(holder.getId(), new BlockItem(block, new Item.Properties()));
+					helper.register(holder.getId(), new BlockItem(block, new Item.Properties().useBlockDescriptionPrefix().setId(ResourceKey.create(Registries.ITEM, holder.getId()))));
 			}
 		});
 		event.register(Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
