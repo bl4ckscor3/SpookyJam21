@@ -14,7 +14,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import net.minecraft.world.entity.player.Player;
@@ -141,7 +141,7 @@ public final class SuspiciousRitual {
 		return isStructurePresent(animal.level(), leashKnot.blockPosition(), true);
 	}
 
-	public static void maybeSendInfoMessages(Mob leashedMob, Level level, BlockPos pos, Player player) {
+	public static void maybeSendInfoMessages(Leashable leashedMob, Level level, BlockPos pos, Player player) {
 		if (!level.isClientSide && (leashedMob != null || !level.isNight())) {
 			BlockState state = level.getBlockState(pos);
 
