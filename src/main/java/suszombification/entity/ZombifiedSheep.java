@@ -1,21 +1,16 @@
 package suszombification.entity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -50,7 +45,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootTable;
 import suszombification.entity.ai.NearestNormalVariantTargetGoal;
 import suszombification.entity.ai.SPPTemptGoal;
 import suszombification.misc.AnimalUtil;
@@ -59,7 +53,7 @@ import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZLoot;
 
 public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal {
-	private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
+	public static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), map -> {
 		map.put(DyeColor.WHITE, SZBlocks.WHITE_ROTTEN_WOOL.get());
 		map.put(DyeColor.ORANGE, SZBlocks.ORANGE_ROTTEN_WOOL.get());
 		map.put(DyeColor.MAGENTA, SZBlocks.MAGENTA_ROTTEN_WOOL.get());
@@ -121,32 +115,6 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 	}
 
 	@Override
-	public ResourceKey<LootTable> getDefaultLootTable() {
-		if (isSheared())
-			return getType().getDefaultLootTable();
-		else {
-			return switch (getColor()) {
-				case WHITE -> SZLoot.ZOMBIFIED_SHEEP_WHITE;
-				case ORANGE -> SZLoot.ZOMBIFIED_SHEEP_ORANGE;
-				case MAGENTA -> SZLoot.ZOMBIFIED_SHEEP_MAGENTA;
-				case LIGHT_BLUE -> SZLoot.ZOMBIFIED_SHEEP_LIGHT_BLUE;
-				case YELLOW -> SZLoot.ZOMBIFIED_SHEEP_YELLOW;
-				case LIME -> SZLoot.ZOMBIFIED_SHEEP_LIME;
-				case PINK -> SZLoot.ZOMBIFIED_SHEEP_PINK;
-				case GRAY -> SZLoot.ZOMBIFIED_SHEEP_GRAY;
-				case LIGHT_GRAY -> SZLoot.ZOMBIFIED_SHEEP_LIGHT_GRAY;
-				case CYAN -> SZLoot.ZOMBIFIED_SHEEP_CYAN;
-				case PURPLE -> SZLoot.ZOMBIFIED_SHEEP_PURPLE;
-				case BLUE -> SZLoot.ZOMBIFIED_SHEEP_BLUE;
-				case BROWN -> SZLoot.ZOMBIFIED_SHEEP_BROWN;
-				case GREEN -> SZLoot.ZOMBIFIED_SHEEP_GREEN;
-				case RED -> SZLoot.ZOMBIFIED_SHEEP_RED;
-				case BLACK -> SZLoot.ZOMBIFIED_SHEEP_BLACK;
-			};
-		}
-	}
-
-	@Override
 	public float getVoicePitch() {
 		return isBaby() ? (random.nextFloat() - random.nextFloat()) * 0.2F + 0.5F : (random.nextFloat() - random.nextFloat()) * 0.2F;
 	}
@@ -167,20 +135,18 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 			super.handleEntityEvent(id);
 	}
 
-	//TODO: (1.21.3) Shearing loot tables
 	@Override
 	public void shear(ServerLevel level, SoundSource category, ItemStack stack) {
 		level().playSound(null, this, SoundEvents.SHEEP_SHEAR, category, 1.0F, 1.0F);
+		dropFromShearingLootTable(level, SZLoot.SHEAR_ZOMBIFIED_SHEEP, stack, (sameLevel, woolStack) -> {
+			for (int i = 0; i < woolStack.getCount(); ++i) {
+				ItemEntity item = spawnAtLocation(level, woolStack.copyWithCount(1), 1);
+
+				if (item != null)
+					item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
+			}
+		});
 		setSheared(true);
-
-		int amount = 1 + random.nextInt(3);
-
-		for (int i = 0; i < amount; ++i) {
-			ItemEntity item = spawnAtLocation(level, ITEM_BY_DYE.get(getColor()), 1);
-
-			if (item != null)
-				item.setDeltaMovement(item.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
-		}
 	}
 
 	@Override
@@ -190,26 +156,6 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 		newSheep.setColor(getOffspringColor(level, this, sheep));
 		return newSheep;
-	}
-
-	@Override
-	public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos) {
-		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
-
-		if (!level.isClientSide) {
-			setSheared(true);
-
-			int amount = 1 + random.nextInt(3);
-			List<ItemStack> items = new ArrayList<>();
-
-			for (int i = 0; i < amount; ++i) {
-				items.add(new ItemStack(ITEM_BY_DYE.get(getColor())));
-			}
-
-			return items;
-		}
-
-		return Collections.emptyList();
 	}
 
 	@Override
