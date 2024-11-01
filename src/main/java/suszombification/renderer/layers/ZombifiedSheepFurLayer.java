@@ -3,6 +3,7 @@ package suszombification.renderer.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.SheepFurModel;
 import net.minecraft.client.model.SheepModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -11,7 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.SheepWoolLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.SheepRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
@@ -20,18 +21,22 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.DyeColor;
 import suszombification.SuspiciousZombification;
 
-public class ZombifiedSheepFurLayer extends SheepWoolLayer {
+public class ZombifiedSheepFurLayer extends RenderLayer<SheepRenderState, SheepModel> {
 	private static final ResourceLocation SHEEP_FUR_LOCATION = SuspiciousZombification.resLoc("textures/entity/zombified_sheep/zombified_sheep_fur.png");
-	private final SheepFurModel model;
+	private final EntityModel<SheepRenderState> adultModel;
+	private final EntityModel<SheepRenderState> babyModel;
 
-	public ZombifiedSheepFurLayer(RenderLayerParent<SheepRenderState, SheepModel> renderer, EntityModelSet modelSet) {
-		super(renderer, modelSet);
-		model = new SheepFurModel(modelSet.bakeLayer(ModelLayers.SHEEP_WOOL));
+	public ZombifiedSheepFurLayer(RenderLayerParent<SheepRenderState, SheepModel> parent, EntityModelSet modelSet) {
+		super(parent);
+		this.adultModel = new SheepFurModel(modelSet.bakeLayer(ModelLayers.SHEEP_WOOL));
+		this.babyModel = new SheepFurModel(modelSet.bakeLayer(ModelLayers.SHEEP_BABY_WOOL));
 	}
 
 	@Override
 	public void render(PoseStack pose, MultiBufferSource buffer, int packedLight, SheepRenderState renderState, float headYaw, float headPitch) {
 		if (!renderState.isSheared) {
+			EntityModel<SheepRenderState> model = renderState.isBaby ? babyModel : adultModel;
+
 			if (renderState.isInvisible) {
 				if (renderState.appearsGlowing) {
 					VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.outline(SHEEP_FUR_LOCATION));
