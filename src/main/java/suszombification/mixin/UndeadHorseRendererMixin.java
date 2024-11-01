@@ -1,6 +1,9 @@
 package suszombification.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -18,9 +21,9 @@ public abstract class UndeadHorseRendererMixin extends AbstractHorseRenderer<Abs
 		super(ctx, null, null, 1.0F);
 	}
 
-	@Override
-	public EquineRenderState createRenderState() {
-		return new ZombifiedRenderState.Horse();
+	@Inject(method = "createRenderState", at = @At("HEAD"), cancellable = true)
+	private void suszombification$overrideRenderState(CallbackInfoReturnable<EquineRenderState> cir) {
+		cir.setReturnValue(new ZombifiedRenderState.Horse());
 	}
 
 	@Override
