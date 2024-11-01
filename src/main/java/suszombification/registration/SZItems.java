@@ -10,7 +10,6 @@ import net.minecraft.world.item.FoodOnAStickItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumables;
-import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -24,7 +23,7 @@ import suszombification.item.TrophyItem;
 
 public class SZItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SuspiciousZombification.MODID);
-	public static final DeferredItem<SuspiciousPumpkinPieItem> SUSPICIOUS_PUMPKIN_PIE = ITEMS.registerItem("suspicious_pumpkin_pie", SuspiciousPumpkinPieItem::new, new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.3F).alwaysEdible().build()).component(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY));
+	public static final DeferredItem<SuspiciousPumpkinPieItem> SUSPICIOUS_PUMPKIN_PIE = ITEMS.registerItem("suspicious_pumpkin_pie", SuspiciousPumpkinPieItem::new, new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.3F).alwaysEdible().build()));
 	//candies
 	public static final DeferredItem<CandyItem> CARAMEL_CANDY = ITEMS.registerItem("caramel_candy", p -> new CandyItem(MobEffects.SLOW_FALLING, 20, p));
 	public static final DeferredItem<CandyItem> CHOCOLATE_CREAM_CANDY = ITEMS.registerItem("chocolate_cream_candy", p -> new CandyItem(MobEffects.DIG_SLOWDOWN, 20, p));

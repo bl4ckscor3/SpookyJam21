@@ -87,22 +87,25 @@ public class SuspiciousPumpkinPieItem extends Item {
 		if (flag.isCreative()) {
 			List<MobEffectInstance> effects = new ArrayList<>();
 
-			addPotionEffects(stack, effects::add, null);
-			PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, ctx.tickRate());
+			addPotionEffects(stack, effects::add, null, false);
+
+			if (!effects.isEmpty())
+				PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, ctx.tickRate());
 		}
 	}
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
-		addPotionEffects(stack, entity::addEffect, entity);
+		addPotionEffects(stack, entity::addEffect, entity, true);
 		return super.finishUsingItem(stack, level, entity);
 	}
 
-	private static void addPotionEffects(ItemStack stack, Consumer<MobEffectInstance> effectApplier, LivingEntity entity) {
+	private static void addPotionEffects(ItemStack stack, Consumer<MobEffectInstance> effectApplier, LivingEntity entity, boolean includeSuspiciousStewEffects) {
 		String messageSuffix = "air";
 		ChatFormatting color = ChatFormatting.GRAY;
 
-		stack.getOrDefault(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY).effects().forEach(entry -> effectApplier.accept(entry.createEffectInstance()));
+		if (includeSuspiciousStewEffects)
+			stack.getOrDefault(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY).effects().forEach(entry -> effectApplier.accept(entry.createEffectInstance()));
 
 		ItemStackComponent ingredientComponent = stack.get(SZDataComponents.INGREDIENT);
 
