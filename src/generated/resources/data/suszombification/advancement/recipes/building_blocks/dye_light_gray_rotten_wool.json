@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:dyes/magenta"
+            "items": "#c:dyes/light_gray"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:dye_magenta_rotten_wool"
+        "recipe": "suszombification:dye_light_gray_rotten_wool"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:dye_magenta_rotten_wool"
+      "suszombification:dye_light_gray_rotten_wool"
     ]
   }
 }

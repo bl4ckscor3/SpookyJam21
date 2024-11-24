@@ -125,7 +125,7 @@ public class RecipeGenerator extends RecipeProvider {
 			.requires(dye)
 			.requires(Ingredient.of(rottenWoolBlocks.stream().filter(check -> !check.equals(wool))))
 			.unlockedBy("has_needed_dye", has(dye))
-			.save(output, "dye_" + getItemName(wool));
+			.save(output, "suszombification:dye_" + getItemName(wool));
    			//@formatter:on
 		}
 	}
