@@ -39,7 +39,7 @@ public class SZCreativeModeTabs {
 				for (Item ingredient : ingredients) {
 					ItemStack pumpkinPie = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get());
 
-					SuspiciousPumpkinPieItem.saveIngredient(pumpkinPie, new ItemStack(ingredient));
+					SuspiciousPumpkinPieItem.saveIngredient(pumpkinPie, ingredient);
 					differentPumpkinPies.add(pumpkinPie);
 				}
 

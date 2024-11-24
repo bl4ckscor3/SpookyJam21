@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suszombification:suspicious_pumpkin_pie_from_vanilla_cream_candy"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vanilla_cream_candy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "suszombification:vanilla_cream_candy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_vanilla_cream_candy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suszombification:suspicious_pumpkin_pie_from_vanilla_cream_candy"
+    ]
+  }
+}

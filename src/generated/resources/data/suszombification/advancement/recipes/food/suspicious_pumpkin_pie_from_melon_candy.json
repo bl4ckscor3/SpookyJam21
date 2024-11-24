@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_melon_candy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "suszombification:melon_candy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suszombification:suspicious_pumpkin_pie_from_melon_candy"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_melon_candy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suszombification:suspicious_pumpkin_pie_from_melon_candy"
+    ]
+  }
+}

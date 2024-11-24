@@ -9,7 +9,6 @@ import suszombification.registration.SZDataComponents;
 import suszombification.registration.SZEffects;
 import suszombification.registration.SZEntityTypes;
 import suszombification.registration.SZItems;
-import suszombification.registration.SZRecipeSerializers;
 
 @Mod(SuspiciousZombification.MODID)
 public class SuspiciousZombification {
@@ -23,7 +22,6 @@ public class SuspiciousZombification {
 		SZEffects.EFFECTS.register(modEventBus);
 		SZEntityTypes.ENTITY_TYPES.register(modEventBus);
 		SZItems.ITEMS.register(modEventBus);
-		SZRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
 	}
 
 	public static ResourceLocation resLoc(String path) {

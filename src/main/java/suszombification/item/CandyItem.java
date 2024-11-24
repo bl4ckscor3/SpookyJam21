@@ -8,7 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.SuspiciousStewEffects;
 
 public class CandyItem extends Item {
-	private final SuspiciousStewEffects suspiciousPumpkinPieEffects;
+	private final Holder<MobEffect> effect;
+	private final int effectDuration;
 
 	public CandyItem(Holder<MobEffect> effect, int effectDuration, Properties properties) {
 		super(properties);
@@ -16,10 +17,11 @@ public class CandyItem extends Item {
 		if (!effect.value().isInstantenous())
 			effectDuration *= 20;
 
-		suspiciousPumpkinPieEffects = new SuspiciousStewEffects(List.of(new SuspiciousStewEffects.Entry(effect, effectDuration)));
+		this.effect = effect;
+		this.effectDuration = effectDuration;
 	}
 
 	public SuspiciousStewEffects getEffects() {
-		return suspiciousPumpkinPieEffects;
+		return new SuspiciousStewEffects(List.of(new SuspiciousStewEffects.Entry(effect, effectDuration)));
 	}
 }

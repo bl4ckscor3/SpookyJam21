@@ -13,15 +13,16 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import suszombification.misc.SuspiciousPumpkinPieRecipe;
+import suszombification.item.CandyItem;
+import suszombification.item.SuspiciousPumpkinPieItem;
 import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
@@ -35,16 +36,7 @@ public class RecipeGenerator extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes() {
-		SpecialRecipeBuilder.special(SuspiciousPumpkinPieRecipe::new).save(output, "suspicious_pumpkin_pie");
 		//@formatter:off
-		ShapedRecipeBuilder.shaped(items, RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
-		.pattern("R ")
-		.pattern(" P")
-		.define('R', Items.FISHING_ROD)
-		.define('P', Items.PORKCHOP)
-		.unlockedBy("has_porkchop", has(Items.PORKCHOP))
-		.save(output);
-
 		List<TagKey<Item>> dyes = List.of(
 				Tags.Items.DYES_BLACK,
 				Tags.Items.DYES_BLUE,
@@ -62,7 +54,25 @@ public class RecipeGenerator extends RecipeProvider {
 				Tags.Items.DYES_RED,
 				Tags.Items.DYES_YELLOW,
 				Tags.Items.DYES_WHITE);
-		List<Item> woolBlocks = Stream.of(
+		List<Item> woolBlocks = List.of(
+				Items.BLACK_WOOL,
+				Items.BLUE_WOOL,
+				Items.BROWN_WOOL,
+				Items.CYAN_WOOL,
+				Items.GRAY_WOOL,
+				Items.GREEN_WOOL,
+				Items.LIGHT_BLUE_WOOL,
+				Items.LIGHT_GRAY_WOOL,
+				Items.LIME_WOOL,
+				Items.MAGENTA_WOOL,
+				Items.ORANGE_WOOL,
+				Items.PINK_WOOL,
+				Items.PURPLE_WOOL,
+				Items.RED_WOOL,
+				Items.YELLOW_WOOL,
+				Items.WHITE_WOOL
+		);
+		List<Item> rottenWoolBlocks = Stream.of(
 				SZBlocks.BLACK_ROTTEN_WOOL,
 				SZBlocks.BLUE_ROTTEN_WOOL,
 				SZBlocks.BROWN_ROTTEN_WOOL,
@@ -81,20 +91,59 @@ public class RecipeGenerator extends RecipeProvider {
 				SZBlocks.WHITE_ROTTEN_WOOL
 		).map(DeferredHolder::get).map(ItemLike::asItem).toList();
 		//@formatter:on
+		SZItems.ITEMS.getEntries().stream().map(DeferredHolder::get).filter(CandyItem.class::isInstance).map(CandyItem.class::cast).forEach(this::addSusPieRecipe);
+		woolBlocks.forEach(this::addSusPieRecipe);
+		rottenWoolBlocks.forEach(this::addSusPieRecipe);
+		addSusPieRecipe(Items.GOLDEN_APPLE);
+		addSusPieRecipe(Items.ROTTEN_FLESH);
+		addSusPieRecipe(Items.CHICKEN);
+		addSusPieRecipe(Items.FEATHER);
+		addSusPieRecipe(Items.BEEF);
+		addSusPieRecipe(Items.LEATHER);
+		addSusPieRecipe(Items.PORKCHOP);
+		addSusPieRecipe(Items.MUTTON);
+		addSusPieRecipe(Items.STRING);
+		addSusPieRecipe(Items.GUNPOWDER);
+		addSusPieRecipe(SZItems.SPOILED_MILK_BUCKET.get());
+		addSusPieRecipe(SZItems.ROTTEN_EGG.get());
+		//@formatter:off
+		ShapedRecipeBuilder.shaped(items, RecipeCategory.TRANSPORTATION, SZItems.PORKCHOP_ON_A_STICK.get())
+		.pattern("R ")
+		.pattern(" P")
+		.define('R', Items.FISHING_ROD)
+		.define('P', Items.PORKCHOP)
+		.unlockedBy("has_porkchop", has(Items.PORKCHOP))
+		.save(output);
 
 		for (int i = 0; i < dyes.size(); i++) {
 			TagKey<Item> dye = dyes.get(i);
-			Item wool = woolBlocks.get(i).asItem();
+			Item wool = rottenWoolBlocks.get(i).asItem();
 
 			//@formatter:off
 			ShapelessRecipeBuilder.shapeless(items, RecipeCategory.BUILDING_BLOCKS, wool)
 			.group("suszombification:rotten_wool")
 			.requires(dye)
-			.requires(Ingredient.of(woolBlocks.stream().filter(check -> !check.equals(wool))))
+			.requires(Ingredient.of(rottenWoolBlocks.stream().filter(check -> !check.equals(wool))))
 			.unlockedBy("has_needed_dye", has(dye))
 			.save(output, "dye_" + getItemName(wool));
    			//@formatter:on
 		}
+	}
+
+	private void addSusPieRecipe(Item ingredient) {
+		ItemStack result = new ItemStack(SZItems.SUSPICIOUS_PUMPKIN_PIE.get());
+
+		SuspiciousPumpkinPieItem.saveIngredient(result, ingredient);
+		//@formatter:off
+		ShapelessRecipeBuilder.shapeless(items, RecipeCategory.FOOD, result)
+		.group("suszombification:suspicious_pumpkin_pie")
+		.requires(Items.SUGAR)
+		.requires(Items.EGG)
+		.requires(Items.PUMPKIN)
+		.requires(ingredient)
+		.unlockedBy(getHasName(ingredient), has(ingredient))
+		.save(output, "suszombification:suspicious_pumpkin_pie_from_" + getItemName(ingredient));
+		//@formatter:on
 	}
 
 	public static final class Runner extends RecipeProvider.Runner {

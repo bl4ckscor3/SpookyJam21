@@ -48,11 +48,11 @@ public class SuspiciousPumpkinPieItem extends Item {
 		super(properties);
 	}
 
-	public static void saveIngredient(ItemStack suspiciousPumpkinPie, ItemStack ingredient) {
-		if (ingredient.getItem() instanceof CandyItem candy)
+	public static void saveIngredient(ItemStack suspiciousPumpkinPie, Item ingredient) {
+		if (ingredient instanceof CandyItem candy)
 			suspiciousPumpkinPie.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, candy.getEffects());
 
-		suspiciousPumpkinPie.set(SZDataComponents.INGREDIENT, new ItemStackComponent(ingredient.copyWithCount(1)));
+		suspiciousPumpkinPie.set(SZDataComponents.INGREDIENT, new ItemStackComponent(new ItemStack(ingredient)));
 	}
 
 	public static boolean hasIngredient(ItemStack pie, Item test) {

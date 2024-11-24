@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_spoiled_milk_bucket": {
+      "conditions": {
+        "items": [
+          {
+            "items": "suszombification:spoiled_milk_bucket"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suszombification:suspicious_pumpkin_pie_from_spoiled_milk_bucket"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_spoiled_milk_bucket"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suszombification:suspicious_pumpkin_pie_from_spoiled_milk_bucket"
+    ]
+  }
+}
