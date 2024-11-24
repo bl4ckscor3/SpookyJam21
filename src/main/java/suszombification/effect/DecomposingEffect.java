@@ -21,6 +21,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.event.EventHooks;
 import suszombification.SZDamageSources;
 import suszombification.entity.ZombifiedAnimal;
+import suszombification.registration.SZEffects;
 import suszombification.registration.SZLoot;
 
 public class DecomposingEffect extends MobEffect {
@@ -35,6 +36,7 @@ public class DecomposingEffect extends MobEffect {
 
 			if (conversionType != null && EventHooks.canLivingConvert(animal, conversionType, timer -> {})) {
 				animal.convertTo(conversionType, ConversionParams.single(animal, true, true), convertedAnimal -> {
+					convertedAnimal.removeEffect(SZEffects.DECOMPOSING); //The decomposing effect from the original animal gets assigned to the zombified animal automatically, and the latter would die to Decomposing on the next tick
 					EventHooks.finalizeMobSpawn(convertedAnimal, level, level.getCurrentDifficultyAt(convertedAnimal.blockPosition()), EntitySpawnReason.CONVERSION, null);
 					((ZombifiedAnimal) convertedAnimal).readFromVanilla(animal);
 					EventHooks.onLivingConvert(animal, convertedAnimal);
