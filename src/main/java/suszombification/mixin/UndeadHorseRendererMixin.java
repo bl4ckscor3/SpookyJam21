@@ -18,7 +18,7 @@ import suszombification.renderer.ZombifiedRenderState;
 @Mixin(UndeadHorseRenderer.class)
 public abstract class UndeadHorseRendererMixin extends AbstractHorseRenderer<AbstractHorse, EquineRenderState, HorseModel> {
 	public UndeadHorseRendererMixin(EntityRendererProvider.Context ctx, ModelLayerLocation layer, ModelLayerLocation babyLayer, boolean isSkeletonHorse) {
-		super(ctx, null, null, 1.0F);
+		super(ctx, null, null);
 	}
 
 	@Inject(method = "createRenderState", at = @At("HEAD"), cancellable = true)

@@ -2,18 +2,15 @@ package suszombification.datagen;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import suszombification.SuspiciousZombification;
-import suszombification.registration.SZBlocks;
 import suszombification.registration.SZItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
@@ -23,13 +20,6 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (DeferredHolder<Block, ? extends Block> holder : SZBlocks.BLOCKS.getEntries()) {
-			Block block = holder.get();
-
-			if (block.asItem() instanceof BlockItem)
-				simpleParent(block);
-		}
-
 		for (DeferredHolder<Item, ? extends Item> holder : SZItems.ITEMS.getEntries()) {
 			Item item = holder.get();
 
@@ -65,11 +55,5 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	private void spawnEgg(Item item) {
 		getBuilder(BuiltInRegistries.ITEM.getKey(item).getPath()).parent(new UncheckedModelFile("item/template_spawn_egg"));
-	}
-
-	public void simpleParent(Block block) {
-		String name = BuiltInRegistries.BLOCK.getKey(block).getPath();
-
-		getBuilder(name).parent(new UncheckedModelFile(modLoc(BLOCK_FOLDER + "/" + name)));
 	}
 }

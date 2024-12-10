@@ -150,10 +150,15 @@ public class ZombifiedSheep extends Sheep implements NeutralMob, ZombifiedAnimal
 
 	@Override
 	public Sheep getBreedOffspring(ServerLevel level, AgeableMob mob) {
-		Sheep sheep = (Sheep) mob;
 		Sheep newSheep = SZEntityTypes.ZOMBIFIED_SHEEP.get().create(level, EntitySpawnReason.BREEDING);
 
-		newSheep.setColor(getOffspringColor(level, this, sheep));
+		if (newSheep != null) {
+			DyeColor myColor = getColor();
+			DyeColor partnerColor = ((Sheep) mob).getColor();
+
+			newSheep.setColor(DyeColor.getMixedColor(level, myColor, partnerColor));
+		}
+
 		return newSheep;
 	}
 

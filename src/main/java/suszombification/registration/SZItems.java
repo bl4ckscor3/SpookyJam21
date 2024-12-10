@@ -51,11 +51,11 @@ public class SZItems {
 	public static final DeferredItem<RottenEggItem> ROTTEN_EGG = ITEMS.registerItem("rotten_egg", RottenEggItem::new, new Item.Properties().stacksTo(16));
 	public static final DeferredItem<FoodOnAStickItem<ZombifiedPig>> PORKCHOP_ON_A_STICK = ITEMS.registerItem("porkchop_on_a_stick", p -> new FoodOnAStickItem<>(SZEntityTypes.ZOMBIFIED_PIG.get(), 7, p), new Item.Properties().durability(50));
 	//spawn eggs
-	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_CAT_SPAWN_EGG = ITEMS.registerItem("zombified_cat_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CAT.get(), 0xEFC88E, 0x799C65, p));
-	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.registerItem("zombified_chicken_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), 0xA1A1A1, 0x799C65, p));
-	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.registerItem("zombified_cow_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_COW.get(), 0x443626, 0x799C65, p));
-	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_PIG_SPAWN_EGG = ITEMS.registerItem("zombified_pig_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_PIG.get(), 0xF0A5A2, 0x799C65, p));
-	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_SHEEP_SPAWN_EGG = ITEMS.registerItem("zombified_sheep_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_SHEEP.get(), 0xE7E7E7, 0x799C65, p));
+	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_CAT_SPAWN_EGG = ITEMS.registerItem("zombified_cat_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CAT.get(), p));
+	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_CHICKEN_SPAWN_EGG = ITEMS.registerItem("zombified_chicken_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_CHICKEN.get(), p));
+	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_COW_SPAWN_EGG = ITEMS.registerItem("zombified_cow_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_COW.get(), p));
+	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_PIG_SPAWN_EGG = ITEMS.registerItem("zombified_pig_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_PIG.get(), p));
+	public static final DeferredItem<SpawnEggItem> ZOMBIFIED_SHEEP_SPAWN_EGG = ITEMS.registerItem("zombified_sheep_spawn_egg", p -> new SpawnEggItem(SZEntityTypes.ZOMBIFIED_SHEEP.get(), p));
 	//trophies
 	public static final DeferredItem<TrophyItem> CARROT_TROPHY = ITEMS.registerItem("carrot_trophy", p -> new TrophyItem(SZBlocks.CARROT_TROPHY.get(), p), new Item.Properties().stacksTo(1).useBlockDescriptionPrefix());
 	public static final DeferredItem<TrophyItem> POTATO_TROPHY = ITEMS.registerItem("potato_trophy", p -> new TrophyItem(SZBlocks.POTATO_TROPHY.get(), p), new Item.Properties().stacksTo(1).useBlockDescriptionPrefix());

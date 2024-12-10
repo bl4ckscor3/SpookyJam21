@@ -2,14 +2,14 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.neoforged.gradle.userdev' version '7.0.165'
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
 }
 
 version = '1.2.6'
 group = 'suszombification'
 
 base {
-	archivesName = 'suszombification-1.21.3'
+	archivesName = 'suszombification-1.21.4'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -41,14 +41,14 @@ runs {
         argument '-nogui'
     }
 	
-	data {
+	clientData {
 		workingDirectory project.file('run/data')
 		arguments.addAll '--mod', 'suszombification', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.3.38-beta'
+	implementation 'net.neoforged:neoforge:21.4.12-beta'
 }
 
 tasks.named('jar', Jar).configure {
