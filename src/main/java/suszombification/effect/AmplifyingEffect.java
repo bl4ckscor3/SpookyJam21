@@ -14,7 +14,7 @@ public class AmplifyingEffect extends MobEffect {
 	@Override
 	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
 		for (MobEffectInstance effect : entity.getActiveEffects()) {
-			if (effect.getEffect() != SZEffects.AMPLIFYING.get() && effect.amplifier <= 63)
+			if (effect.getEffect().value() != SZEffects.AMPLIFYING.get() && effect.amplifier <= 63)
 				effect.update(new MobEffectInstance(effect.getEffect(), effect.getDuration(), ((effect.amplifier + 1) * (amplifier + 2)) - 1));
 		}
 
